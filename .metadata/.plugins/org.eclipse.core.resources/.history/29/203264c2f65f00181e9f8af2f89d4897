@@ -1,0 +1,18 @@
+package Com.IFI.InternalTool;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+
+@SpringBootApplication
+@ComponentScan({ "Com.IFI.InternalTool.Config","Com.IFI.InternalTool.Controller","Com.IFI.InternalTool.Service"})
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
+		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+public class InternalToolApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(InternalToolApplication.class, args);
+	}
+}

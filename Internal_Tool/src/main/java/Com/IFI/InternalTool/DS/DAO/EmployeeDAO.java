@@ -1,20 +1,27 @@
 package Com.IFI.InternalTool.DS.DAO;
 
-import javax.persistence.Query;
+import java.util.List;
+import java.util.Optional;
 
-
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import Com.IFI.InternalTool.DS.Model.Employee;
+
 @Repository
-@Transactional(rollbackFor = Exception.class)
-public class EmployeeDAO{
-	
-	
+
+public interface EmployeeDAO extends JpaRepository<Employee,Long> {
+
+	Optional<Employee> findByEmail(String email);
+
+	Optional<Employee> findByUsernameOrEmail(String username, String email);
+
+	// List<Employee> findByIdIn(List<Long> userIds);
+
+	Optional<Employee> findByUsername(String username);
+
+	Boolean existsByUsername(String username);
+
+	Boolean existsByEmail(String email);
 
 }

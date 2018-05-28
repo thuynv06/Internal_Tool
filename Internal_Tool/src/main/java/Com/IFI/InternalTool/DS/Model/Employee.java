@@ -1,19 +1,32 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
+import Com.IFI.InternalTool.DS.Model.audit.DateAudit;
+
 @Entity
-@Table(name="employee")
-public class Employee {
+@Table(name="employee",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+            })
+})
+public class Employee  {
+	
+	
 	@Id
-	@Column(name = "employee_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long employee_id;
+	@NotBlank
+    @Size(max = 15)
 	@Column(name = "username")
+	
 	private String username;
 	@Column(name = "password")
 	private String password;
@@ -31,25 +44,40 @@ public class Employee {
 	@Column(name="age")
 	private int age;
 	@Column(name="email")
+	@Email
 	private String email;
 	@Column(name = "phone")
 	private String phone;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles= new HashSet<>();
 	
+	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	public void setEmployee_id(long employee_id) {
+		this.employee_id = employee_id;
+	}
 	public Employee() {
 		
 	}
-
+	 public Employee(String name, String username, String email, String password) {
+	        this.fullname = name;
+	        this.username = username;
+	        this.email = email;
+	        this.password = password;
+	    }
 	//setter getter
 	public long getEmployee_id() {
 		return employee_id;
 	}
-
-
-	public void setEmployee_id(int employee_id) {
-		this.employee_id = employee_id;
-	}
-
 
 	public String getUsername() {
 		return username;

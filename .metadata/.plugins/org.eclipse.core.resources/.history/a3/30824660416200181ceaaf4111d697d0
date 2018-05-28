@@ -1,0 +1,5 @@
+package Com.IFI.InternalTool.Config;
+
+public class SecurityConfig {
+
+}

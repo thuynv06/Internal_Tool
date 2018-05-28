@@ -1,7 +1,5 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
-import Com.IFI.InternalTool.DS.Model.Employee;
-
 public class EmployeeDAOImpl {
 	
 }

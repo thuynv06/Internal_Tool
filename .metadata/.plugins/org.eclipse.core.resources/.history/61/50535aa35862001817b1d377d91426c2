@@ -1,0 +1,32 @@
+package Com.IFI.InternalTool;
+
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+@SpringBootApplication
+@EntityScan(basePackageClasses = { 
+		InternalToolApplication.class,
+		Jsr310JpaConverters.class 
+})
+@ComponentScan({ "Com.IFI.InternalTool.Config","Com.IFI.InternalTool.Controller","Com.IFI.InternalTool.Service","Com.IFI.InternalTool.Security"})
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class,
+		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+public class InternalToolApplication {
+	@PostConstruct
+	void init() {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	}
+	public static void main(String[] args) {
+		SpringApplication.run(InternalToolApplication.class, args);
+	}
+}

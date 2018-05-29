@@ -5,5 +5,16 @@
 <fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.Model.audit.DateAudit"/>
 <fullyQualifiedTypeName name="java.util.Optional"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.Seciruty.UserPrincipal"/>
+<fullyQualifiedTypeName name="javax.persistence.EnumType"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.Seciruty.JwtTokenProvider"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.DAO.RoleDAO"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.DAO.EmployeeDAO"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.Payloads.ApiResponse"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.Model.RoleName"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.Exception.AppException"/>
 <fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.Model.Role"/>
+<fullyQualifiedTypeName name="javax.annotation.PostConstruct"/>
+<fullyQualifiedTypeName name="org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters"/>
 </qualifiedTypeNameHistroy>

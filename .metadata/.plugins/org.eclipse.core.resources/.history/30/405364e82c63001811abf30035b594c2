@@ -1,0 +1,12 @@
+package Com.IFI.InternalTool.BS.Service.Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import Com.IFI.InternalTool.BS.Service.AllocationService;
+@Service("AllocationService")
+public class AllocationServiceImpl implements AllocationService{
+	
+	@Autowired
+
+}

@@ -13,12 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-//@SpringBootApplication
-//@Configuration
-//@EntityScan("Com.IFI.InternalTool.DS.Model")
-//@ComponentScan({ "Com.IFI.InternalTool.Security","Com.IFI.InternalTool.BS.Service","Com.IFI.InternalTool.BS.Controller"})
-//@EnableJpaRepositories("Com.IFI.InternalTool.DS.DAO")
-//@EnableAutoConfiguration
+
 @SpringBootApplication
 @EntityScan(basePackageClasses = {
 		InternalToolApplication.class,

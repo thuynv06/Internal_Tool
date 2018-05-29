@@ -1,0 +1,14 @@
+package Com.IFI.InternalTool.DS.DAO;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import Com.IFI.InternalTool.DS.Model.Group_ifi;
+
+@Repository
+public class GroupDAO {
+	
+	List<Group_ifi> getAllGroup();
+
+}

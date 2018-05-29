@@ -1,6 +1,6 @@
 package Com.IFI.InternalTool.DS.Model;
 
 public enum  RoleName {
-    ROLE_Employee,
+    ROLE_USER,
     ROLE_ADMIN
 }

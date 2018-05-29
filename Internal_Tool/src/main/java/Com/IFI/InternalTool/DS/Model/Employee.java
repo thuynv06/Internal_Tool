@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
-import Com.IFI.InternalTool.DS.Model.audit.DateAudit;
 
 @Entity
 @Table(name="employee",uniqueConstraints = {
@@ -20,14 +19,15 @@ import Com.IFI.InternalTool.DS.Model.audit.DateAudit;
 public class Employee  {
 	
 	
-	@Id
+	 @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long employee_id;
+	private Long employee_id;
+	
 	@NotBlank
     @Size(max = 15)
 	@Column(name = "username")
-	
 	private String username;
+	
 	@Column(name = "password")
 	private String password;
 	
@@ -62,9 +62,7 @@ public class Employee  {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	public void setEmployee_id(long employee_id) {
-		this.employee_id = employee_id;
-	}
+	
 	public Employee() {
 		
 	}
@@ -75,15 +73,19 @@ public class Employee  {
 	        this.password = password;
 	    }
 	//setter getter
-	public long getEmployee_id() {
-		return employee_id;
-	}
+	
 
 	public String getUsername() {
 		return username;
 	}
 
 
+	public Long getEmployee_id() {
+		return employee_id;
+	}
+	public void setEmployee_id(Long employee_id) {
+		this.employee_id = employee_id;
+	}
 	public void setUsername(String username) {
 		this.username = username;
 	}

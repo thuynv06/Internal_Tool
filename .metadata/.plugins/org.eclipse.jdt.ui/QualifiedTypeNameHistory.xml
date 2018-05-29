@@ -17,4 +17,9 @@
 <fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.Model.Role"/>
 <fullyQualifiedTypeName name="javax.annotation.PostConstruct"/>
 <fullyQualifiedTypeName name="org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.Model.Allocation"/>
+<fullyQualifiedTypeName name="Com.IFI.InternalTool.DS.DAO.AllocationDAO"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.Logger"/>
+<fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
+<fullyQualifiedTypeName name="org.apache.coyote.http2.ConnectionException"/>
 </qualifiedTypeNameHistroy>

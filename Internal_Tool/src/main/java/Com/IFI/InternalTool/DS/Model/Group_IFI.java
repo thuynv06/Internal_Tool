@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="group_ifi")
-public class Group_IFI implements Serializable  {
+public class Group_IFI   {
 	@Id
 	@Column(name = "group_id")
 	private String group_id;

@@ -1,5 +1,0 @@
-package Com.IFI.InternalTool.DS.Security;
-
-public class JwtAuthenticationEntryPoint {
-
-}

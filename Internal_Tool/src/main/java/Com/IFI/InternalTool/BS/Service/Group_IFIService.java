@@ -11,9 +11,9 @@ public interface Group_IFIService {
 	//public void saveOrUpdate(Group_IFI group);
 	public Group_IFI createGroupIFI(GroupRequest group);
 	
-	public void deleteGroupById(String id);
+	public void deleteGroupById(String group_id);
 	
-	public Group_IFI getGroupById(String id);
+	public Group_IFI getGroupById(String group_id);
 	
 	public PagedResponse<Group_IFI>  getAllGroup();
 	

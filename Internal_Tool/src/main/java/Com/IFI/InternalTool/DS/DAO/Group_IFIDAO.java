@@ -15,12 +15,12 @@ public interface Group_IFIDAO  extends JpaRepository<Group_IFI, Long>{
 	
 	 List<Group_IFI> findByname(String group_name);
 	
-	@Query("SELECT g FROM group_ifi g where g.group.id = :groupId")
-    Group_IFI findByGroupId(@Param("groupId") String groupId);
+	@Query("SELECT g FROM Group_IFI g where g.group_id = :group_id")
+    Group_IFI findByGroupId(@Param("group_id") String groupId);
 	
 	
-	@Query("Delete g FROM group_ifi g where g.group.id = :groupId")
-    Group_IFI deleteGroupById(@Param("groupId") String groupId);
+	@Query("Delete FROM Group_IFI g where g.group_id = :group_id")
+    Group_IFI deleteGroupById(@Param("group_id") String groupId);
 	
 	
 	

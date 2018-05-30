@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 public class Employee  {
 	
 	
-	 @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long employee_id;
 	

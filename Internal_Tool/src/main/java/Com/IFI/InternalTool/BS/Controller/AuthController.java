@@ -85,7 +85,7 @@ public class AuthController {
 //
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //
-//        Role userRole = roleDAO.findByName(RoleName.ROLE_Employee)
+//        Role userRole = roleDAO.findByName(RoleName.ROLE_USER)
 //                .orElseThrow(() -> new AppException("User Role not set."));
 //
 //        user.setRoles(Collections.singleton(userRole));

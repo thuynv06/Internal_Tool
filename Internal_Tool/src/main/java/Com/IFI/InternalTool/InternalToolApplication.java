@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		InternalToolApplication.class,
 		Jsr310JpaConverters.class
 })
+
 public class InternalToolApplication {
 	@PostConstruct
 	void init() {

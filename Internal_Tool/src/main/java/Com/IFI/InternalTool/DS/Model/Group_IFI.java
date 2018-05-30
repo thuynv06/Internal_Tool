@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="group")
+@Table(name="group_ifi")
 public class Group_IFI implements Serializable  {
 	@Id
 	@Column(name = "group_id")

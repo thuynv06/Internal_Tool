@@ -7,7 +7,10 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Map;
+import java.util.Optional;
 
 import Com.IFI.InternalTool.BS.Service.Group_IFIService;
 import Com.IFI.InternalTool.DS.DAO.Group_IFIDAO;
@@ -23,11 +26,11 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	@Autowired
 	private Group_IFIDAO groupDAO;
 
-//	@Override
-//	public Group_IFI getGroupById(String id) {
-//		return groupDAO.findById(id).get();
-//	}
-
+	@Override
+	public Group_IFI getGroupById(String group_id) {
+		return groupDAO.findByGroupId(group_id);
+	}
+	
 	@Override
 	public Group_IFI createGroupIFI(GroupRequest groupRequest) {
 		Group_IFI group=new Group_IFI();
@@ -35,18 +38,12 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 		group.setGroup_id(groupRequest.getGroup_id());
 		return groupDAO.save(group);
 	}
-//
-//	@Override
-//	public void deleteGroup(long id) {
-//		groupDAO.deleteById(id);
-//
-//	}
 
-//	@Override
-//	public List<Group_IFI> findAll() {
-//		return groupDAO.findAll();
-//		
-//	}
+	@Override
+	public void deleteGroupById(String group_id) {
+		groupDAO.deleteGroupById(group_id);
+
+	}
 
 	@Override
 	public PagedResponse<Group_IFI> getAllGroup() {
@@ -57,6 +54,15 @@ public class Group_IFIServiceImpl implements Group_IFIService {
         }
 		return new PagedResponse<>(groups,true);
 	}
+
+	@Override
+	@Transactional
+	public PagedResponse<Group_IFI> findGroupByName(String name) {
+		
+		return new PagedResponse<>(groupDAO.findByname(name),true); 	
+	}
+
+	
 	
 	
 	

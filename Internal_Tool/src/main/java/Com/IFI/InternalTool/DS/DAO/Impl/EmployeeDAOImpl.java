@@ -1,5 +1,0 @@
-package Com.IFI.InternalTool.DS.DAO.Impl;
-
-public class EmployeeDAOImpl {
-	
-}

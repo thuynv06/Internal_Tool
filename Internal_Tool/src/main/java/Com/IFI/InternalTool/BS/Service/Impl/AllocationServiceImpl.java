@@ -10,22 +10,22 @@ import Com.IFI.InternalTool.DS.Model.Allocation;
 @Service("AllocationService")
 public class AllocationServiceImpl implements AllocationService{
 	
-	@Autowired
-	AllocationDAO allocationDAO;
-	
-	@Override
-	public boolean saveAllocation(Allocation allocation) {
-		 return allocationDAO.saveAllocation(allocation);
-	}
-	
-	@Override
-	public boolean deleteAllocation(long allocation_id) {
-		return allocationDAO.deleteAllocation(allocation_id);
-	}
-	
-	@Override
-	public Allocation getAllocationById(long allocation_id) {
-		return allocationDAO.getAllocationById(allocation_id);
-	}
+//	@Autowired
+//	AllocationDAO allocationDAO;
+//	
+//	@Override
+//	public boolean saveAllocation(Allocation allocation) {
+//		 return allocationDAO.saveAllocation(allocation);
+//	}
+//	
+//	@Override
+//	public boolean deleteAllocation(long allocation_id) {
+//		return allocationDAO.deleteAllocation(allocation_id);
+//	}
+//	
+//	@Override
+//	public Allocation getAllocationById(long allocation_id) {
+//		return allocationDAO.getAllocationById(allocation_id);
+//	}
 	
 }

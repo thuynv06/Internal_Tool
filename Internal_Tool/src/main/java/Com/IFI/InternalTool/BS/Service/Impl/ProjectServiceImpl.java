@@ -8,39 +8,78 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.ProjectService;
 import Com.IFI.InternalTool.DS.DAO.ProjectDAO;
 import Com.IFI.InternalTool.DS.Model.Project;
-import Com.IFI.InternalTool.DS.Model.ProjectManager;
+import Com.IFI.InternalTool.Payloads.PagedResponse;
+import Com.IFI.InternalTool.Payloads.ProjectRequest;
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	ProjectDAO projectDAO;
+
 	@Override
-	public List<Project> getAllProject() {
-		return projectDAO.getAllProject(); 
+	public Project createProject(ProjectRequest projectRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public boolean saveProject(Project project) {
-		return projectDAO.saveProject(project);
+	public void deleteProjectById(String group_id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public boolean deleteProject(long project_id) {
-		return projectDAO.deleteProject(project_id);
+	public Project getProjectById(String group_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Project getProjectById(long project_id) {
-		return projectDAO.getProjectById(project_id);
+	public PagedResponse<Project> getAllGroup() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id) {
-		return projectDAO.getProjectManagerByEmp(employee_id,project_id);
+	public PagedResponse<Project> findProjectByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PagedResponse<Project> findProjectsLikeName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		// TODO Auto-generated method stub
+		return super.equals(arg0);
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 	
-	@Override
-	public List<Long> getProjectByEmp(long employee_id) {
-		return projectDAO.getProjectByEmp(employee_id);
-	}
 	
 }

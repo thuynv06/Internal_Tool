@@ -21,7 +21,7 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.Role;
 import Com.IFI.InternalTool.DS.Model.RoleName;
 import Com.IFI.InternalTool.Exception.AppException;
-import Com.IFI.InternalTool.Payloads.ApiResponse;
+import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Payloads.JwtAuthenticationResponse;
 import Com.IFI.InternalTool.Payloads.LoginRequest;
 import Com.IFI.InternalTool.Payloads.SignUpRequest;

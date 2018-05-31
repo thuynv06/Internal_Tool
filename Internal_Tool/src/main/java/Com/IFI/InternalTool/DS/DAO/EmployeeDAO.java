@@ -3,7 +3,6 @@ package Com.IFI.InternalTool.DS.DAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import Com.IFI.InternalTool.DS.Model.Employee;

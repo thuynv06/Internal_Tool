@@ -22,7 +22,7 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 
 	@Override
 	public Group_IFI getGroupById(String group_id) {
-		return groupDAO.findByGroupId(group_id);
+		return groupDAO.findGroupById(group_id);
 	}
 
 	@Override
@@ -41,7 +41,6 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 
 	@Override
 	public PagedResponse<Group_IFI> getAllGroup() {
-
 		List<Group_IFI> groups = groupDAO.findAll();
 		if (groups.size() == 0) {
 			return new PagedResponse<>(Collections.emptyList(), false);
@@ -50,9 +49,17 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	}
 
 	@Override
+	public PagedResponse<Group_IFI> findGroupsLikeName(String name) {
+		List<Group_IFI> groups = groupDAO.findGroupLikeName(name);
+		if (groups.size() == 0) {
+			return new PagedResponse<>(Collections.emptyList(), false);
+		}
+		return new PagedResponse<>(groups, true);
+		
+	}
+	@Override
 	@Transactional
 	public PagedResponse<Group_IFI> findGroupByName(String name) {
-
 		return new PagedResponse<>(groupDAO.findByname(name), true);
 	}
 

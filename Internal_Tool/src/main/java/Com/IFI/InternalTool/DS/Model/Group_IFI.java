@@ -1,6 +1,8 @@
 package Com.IFI.InternalTool.DS.Model;
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="group_ifi")
-public class Group_IFI   {
+public class Group_IFI {
 	@Id
 	@Column(name = "group_id")
 	private String group_id;

@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "allocation")
-public class Allocation implements Serializable {
+public class Allocation  {
 	@Id
 	@Column(name = "allocation_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

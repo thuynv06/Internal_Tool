@@ -58,7 +58,7 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 		
 	}
 	@Override
-	@Transactional
+
 	public PagedResponse<Group_IFI> findGroupByName(String name) {
 		return new PagedResponse<>(groupDAO.findByname(name), true);
 	}

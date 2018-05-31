@@ -11,9 +11,9 @@ public interface ProjectService {
 	
 	public Project createProject(final Project project);
 	
-	public void deleteProjectById(String group_id);
+	public void deleteProjectById(long roup_id);
 	
-	public Project getProjectById(String group_id);
+	public Project getProjectById(long group_id);
 	
 	public PagedResponse<Project>  getAllGroup();
 	

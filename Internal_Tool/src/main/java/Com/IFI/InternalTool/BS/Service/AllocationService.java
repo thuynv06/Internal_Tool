@@ -1,11 +1,15 @@
 package Com.IFI.InternalTool.BS.Service;
 
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.Group_IFI;
+import Com.IFI.InternalTool.Payloads.GroupRequest;
+import Com.IFI.InternalTool.Payloads.PagedResponse;
 
 public interface AllocationService {
-//
-//	boolean saveAllocation(Allocation allocation);
-//	boolean deleteAllocation(long allocation_id);
-//	Allocation getAllocationById(long allocation_id);
-
+ 
+	public Allocation createAllocation(Allocation allocation);
+	
+	public PagedResponse<Allocation>  getAllAllocation();
+	
+	
 }

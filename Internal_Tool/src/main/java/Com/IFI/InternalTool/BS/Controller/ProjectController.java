@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,4 +49,49 @@ public class ProjectController {
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Project Successfull", true);
 		return message;
 	}
+	
+	// find Project by ID
+	
+	@PostMapping("/findProjectById")
+	// @RolesAllowed("ROLE_USER")
+	public @ResponseBody Payload findProjectById(@RequestParam("project_id") long project_id) {
+		logger.info("Get Project By Id ... ");
+		try {
+			data = projectService.getProjectById(project_id);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Project By ID Successfull",
+				true);
+		return message;
+
+	}
+	
+	
+	// 
+	@PostMapping("/findProjectLikeName")
+	// @RolesAllowed("ROLE_USER")
+	public @ResponseBody Payload findProjectLikeName(@RequestParam("projectName") String projectName) {
+		logger.info("Find Project Like Name ... ");
+
+		try {
+			data = projectService.findProjectsLikeName(projectName);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Project Like Name Successfull",
+				true);
+		return message;
+
+	}
+	
+	
+	
+	
 }

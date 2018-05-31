@@ -15,6 +15,7 @@ public interface Group_IFIDAO  extends JpaRepository<Group_IFI, Long>{
 	
 	List<Group_IFI> findByname(String group_name);
 	
+	
 	@Query("SELECT g FROM Group_IFI g where g.name LIKE %:name%")
 	List<Group_IFI> findGroupLikeName(@Param("name") String name);
 	

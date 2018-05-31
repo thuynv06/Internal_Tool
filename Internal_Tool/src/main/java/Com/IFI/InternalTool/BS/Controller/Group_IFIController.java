@@ -102,6 +102,7 @@ public class Group_IFIController {
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findGroupById(@RequestParam("group_id") String group_id) {
 		logger.info("Find Group By Id ... ");
+		
 		try {
 			data = groupService.getGroupById(group_id);
 		} catch (Exception e) {

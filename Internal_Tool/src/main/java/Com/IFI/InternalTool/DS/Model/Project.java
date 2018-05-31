@@ -1,4 +1,5 @@
 package Com.IFI.InternalTool.DS.Model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
@@ -13,6 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="project")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Project  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

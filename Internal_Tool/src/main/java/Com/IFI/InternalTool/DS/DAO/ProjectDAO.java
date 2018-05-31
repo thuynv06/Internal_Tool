@@ -8,10 +8,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.Model.Project;
+import java.util.Optional;
 
 
 @Repository
 public interface ProjectDAO extends JpaRepository<Project, Long> {
+	
+	Optional<Project> findByName(String name);
 	// find Project like Name
 	@Query("SELECT p FROM Project p where p.name LIKE %:name%")
 	List<Project> findProjectLikeName(@Param("name") String name);
@@ -27,7 +30,7 @@ public interface ProjectDAO extends JpaRepository<Project, Long> {
 	@Query("SELECT p FROM Project p where  p.year = :year")
 	List<Project> findProjectByYear(@Param("year") int year);
 	
-	//List<Project> findByIdIn(List<Long> projectIds);
+//	List<Project> findByIdIn(List<Long> projectIds);
 	
 	
 

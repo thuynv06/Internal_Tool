@@ -6,26 +6,33 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
-
-@Service("AllocationService")
+import Com.IFI.InternalTool.Payloads.PagedResponse;
+import Com.IFI.InternalTool.Utils.Business;
+@Service
 public class AllocationServiceImpl implements AllocationService{
 	
-//	@Autowired
-//	AllocationDAO allocationDAO;
-//	
-//	@Override
-//	public boolean saveAllocation(Allocation allocation) {
-//		 return allocationDAO.saveAllocation(allocation);
-//	}
-//	
-//	@Override
-//	public boolean deleteAllocation(long allocation_id) {
-//		return allocationDAO.deleteAllocation(allocation_id);
-//	}
-//	
-//	@Override
-//	public Allocation getAllocationById(long allocation_id) {
-//		return allocationDAO.getAllocationById(allocation_id);
-//	}
+	@Autowired
+	AllocationDAO allocationDAO;
+	Business business = new Business();
+	
+	
+	@Override
+	public Allocation createAllocation(Allocation allocation) {
+		
+		allocation.setMonth(business.getMonth(allocation.getStart_date()));
+		allocation.setYear(business.getYear(allocation.getStart_date()));
+		return allocationDAO.save(allocation);
+	}
+
+
+	@Override
+	public PagedResponse<Allocation> getAllAllocation() {
+		return null;
+		
+	}
+	
+	
+	
+	
 	
 }

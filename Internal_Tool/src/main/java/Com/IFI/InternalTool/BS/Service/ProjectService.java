@@ -9,7 +9,7 @@ import Com.IFI.InternalTool.Payloads.ProjectRequest;
 
 public interface ProjectService {
 	
-	public Project createProject(ProjectRequest projectRequest);
+	public Project createProject(final Project project);
 	
 	public void deleteProjectById(String group_id);
 	

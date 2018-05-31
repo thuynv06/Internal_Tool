@@ -46,7 +46,7 @@ public class Group_IFIController {
 	@GetMapping
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload getAllGroup() {
-		logger.info("Get All Groups ... ");	
+		logger.info("Get All Groups ... ");
 		try {
 			data = groupService.getAllGroup();
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class Group_IFIController {
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findGroupByName(@PathVariable String groupName) {
 		logger.info("Find Group By Name ... ");
-		
+
 		try {
 			data = groupService.findGroupByName(groupName);
 		} catch (Exception e) {
@@ -73,7 +73,8 @@ public class Group_IFIController {
 					"ERROR: Get connection error" + e, false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By Name Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By Name Successfull",
+				true);
 		return message;
 
 	}
@@ -82,7 +83,7 @@ public class Group_IFIController {
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findGroupLikeName(@RequestParam("groupName") String groupName) {
 		logger.info("Find Group Like Name ... ");
-		
+
 		try {
 			data = groupService.findGroupsLikeName(groupName);
 		} catch (Exception e) {
@@ -91,11 +92,12 @@ public class Group_IFIController {
 					"ERROR: Get connection error" + e, false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group Like Name Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group Like Name Successfull",
+				true);
 		return message;
 
 	}
-	
+
 	@PostMapping("/findGroupById")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findGroupById(@RequestParam("group_id") String group_id) {
@@ -108,7 +110,8 @@ public class Group_IFIController {
 					"ERROR: Get connection error" + e, false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By ID Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By ID Successfull",
+				true);
 		return message;
 
 	}

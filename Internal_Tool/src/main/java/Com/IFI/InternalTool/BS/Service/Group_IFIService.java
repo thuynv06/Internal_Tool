@@ -2,13 +2,12 @@ package Com.IFI.InternalTool.BS.Service;
 
 
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
-import Com.IFI.InternalTool.Payloads.GroupRequest;
 import Com.IFI.InternalTool.Payloads.PagedResponse;
 
 public interface Group_IFIService {
 
 
-	public Group_IFI createGroupIFI(GroupRequest group);
+	public Group_IFI createGroupIFI(Group_IFI  group);
 	
 	public void deleteGroupById(String group_id);
 	

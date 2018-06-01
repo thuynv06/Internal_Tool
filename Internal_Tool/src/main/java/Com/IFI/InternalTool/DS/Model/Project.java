@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="project")
@@ -23,6 +24,10 @@ public class Project  {
 	
 	@Column(name = "name") 
 	private String name;
+	
+	@Column(name = "code")
+	@Size(min = 1, max = 10)
+	private String code;
 	
 	@Column(name = "group_id")
 	private String group_id;

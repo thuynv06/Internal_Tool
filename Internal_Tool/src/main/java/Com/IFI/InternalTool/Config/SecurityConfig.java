@@ -64,36 +64,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	 http.csrf().disable();
-    	 
-         // Các trang không yêu cầu login
-         http.authorizeRequests().antMatchers("/", "/login", "/logout","/api/group/**","/api/project/**").permitAll();
-  
-         // Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
-         // Nếu chưa login, nó sẽ redirect tới trang /login.
-         http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
-  
-         // Trang chỉ dành cho ADMIN
-         http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-  
-         // Khi người dùng đã login, với vai trò XX.
-         // Nhưng truy cập vào trang yêu cầu vai trò YY,
-         // Ngoại lệ AccessDeniedException sẽ ném ra.
-         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-  
-         // Cấu hình cho Login Form.
-         http.authorizeRequests().and().formLogin()//
-                 // Submit URL của trang login
-                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                 .loginPage("/login")//
-                 .defaultSuccessUrl("/userAccountInfo")//
-                 .failureUrl("/login?error=true")//
-                 .usernameParameter("username")//
-                 .passwordParameter("password")
-                 // Cấu hình cho Logout Page.
-                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
-  
-
+    	 http
+         .cors()
+             .and()
+         .csrf()
+             .disable()
+         .exceptionHandling()
+             .authenticationEntryPoint(unauthorizedHandler)
+             .and()
+         .sessionManagement()
+             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+             .and()
+         .authorizeRequests()
+             .antMatchers("/")
+             .permitAll()
+             .antMatchers("/api/auth/**")
+                 .permitAll()
+             .antMatchers(HttpMethod.GET, "/api/group/**", "/api/users/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+             
+             .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+             
+             .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+             
+             .anyRequest()
+                 .authenticated();
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

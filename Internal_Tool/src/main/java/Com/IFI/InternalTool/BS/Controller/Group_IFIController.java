@@ -1,16 +1,14 @@
 package Com.IFI.InternalTool.BS.Controller;
 
-import java.net.URI;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import Com.IFI.InternalTool.BS.Service.Impl.Group_IFIServiceImpl;
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
 import Com.IFI.InternalTool.Payloads.Payload;
-import Com.IFI.InternalTool.Payloads.GroupRequest;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
+import Com.IFI.InternalTool.Security.CurrentUser;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
 
 @RestController
@@ -44,8 +41,12 @@ public class Group_IFIController {
 
 	// get all group
 	@GetMapping
-	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload getAllGroup() {
+	@PreAuthorize("hasRole('USER')")
+	public @ResponseBody Payload getAllGroup(@CurrentUser UserPrincipal currentUser) {
+		
+		
+		logger.info("Get All Groups ... ");
+		logger.info(currentUser.getId() + currentUser.getName() + currentUser.getUsername());
 		logger.info("Get All Groups ... ");
 		try {
 			data = groupService.getAllGroup();
@@ -120,7 +121,7 @@ public class Group_IFIController {
 	// create new Group
 	@PostMapping("/create")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload createGroup(@Valid @RequestBody GroupRequest groupRequest) {
+	public @ResponseBody Payload createGroup(@Valid @RequestBody Group_IFI groupRequest) {
 		logger.info("Create Group ... ");
 
 		try {

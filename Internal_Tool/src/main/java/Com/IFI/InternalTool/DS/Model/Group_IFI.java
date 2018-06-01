@@ -7,12 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="group_ifi")
 public class Group_IFI {
 	@Id
 	@Column(name = "group_id")
+	@Size(min = 1, max = 5)
 	private String group_id;
 	
 	@Column(name = "name")

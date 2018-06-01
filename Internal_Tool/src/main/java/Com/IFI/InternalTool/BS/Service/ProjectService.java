@@ -2,23 +2,26 @@ package Com.IFI.InternalTool.BS.Service;
 
 
 
-import Com.IFI.InternalTool.DS.Model.Project;
+import java.util.List;
 
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-import Com.IFI.InternalTool.Payloads.ProjectRequest;
+import Com.IFI.InternalTool.DS.Model.Project;
+import Com.IFI.InternalTool.DS.Model.ProjectManager;
 
 public interface ProjectService {
 	
-	public Project createProject(final Project project);
+	List<Project> getAllProject();
 	
-	public void deleteProjectById(long roup_id);
+	boolean saveProject(Project project);
 	
-	public Project getProjectById(long group_id);
+	boolean deleteProject(long project_id);
 	
-	public PagedResponse<Project>  getAllGroup();
+	Project getProjectById(long project_id);
 	
-	public PagedResponse<Project> findProjectByName(String name);
+	List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id);
 	
-	public PagedResponse<Project> findProjectsLikeName(String name);
-
+	List<Long> getProjectByEmp(long employee_id);
+	
+	List<Project> getProjectsOfGroup(String group_id);
+	
+	List<Project> findProjectLikeName(String projectName);
 }

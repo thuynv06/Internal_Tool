@@ -93,14 +93,38 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 		return list;
 	}
 	@Override
+	
 	public List<Employee> findEmployeeLikeName(String name, int page, int pageSize, String sortedColumn, Boolean desc) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "SELECT emp FROM Employee emp where emp.fullname LIKE %:name%";
+		if(sortedColumn != null && desc != null){
+			String order = "";
+			if(desc){
+				order = "desc";
+			}
+			hql +="ORDER BY "+ sortedColumn + " " +  order;
+		}
+		Query query = session.createQuery(hql);
+		query.setFirstResult((page-1)*pageSize);
+		query.setFetchSize(pageSize);
+		query.setMaxResults(pageSize);
+		List<Employee> list = query.getResultList();
+		if(list.size() > pageSize){
+			return list = list.subList(0, pageSize);
+		}
+		session.close();
+		return list;
 	}
+	
 	@Override
-	public List<Employee> findEmployeeByGroupId(String group_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee findEmployeeByGroupId(String group_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Employee where group_id=:group_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("group_id", group_id);
+		Employee emp = (Employee) query.uniqueResult();
+		session.close();
+		return emp;
 	}
 	
 

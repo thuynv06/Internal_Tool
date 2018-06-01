@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import Com.IFI.InternalTool.BS.Service.Group_IFIService;
 import Com.IFI.InternalTool.DS.DAO.Group_IFIDAO;
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
-import Com.IFI.InternalTool.Payloads.GroupRequest;
 import Com.IFI.InternalTool.Payloads.PagedResponse;
 //import Com.IFI.InternalTool.Utils.ModelMapper;
 
@@ -26,10 +25,8 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	}
 
 	@Override
-	public Group_IFI createGroupIFI(GroupRequest groupRequest) {
-		Group_IFI group = new Group_IFI();
-		group.setName(groupRequest.getName());
-		group.setGroup_id(groupRequest.getGroup_id());
+	public Group_IFI createGroupIFI(Group_IFI group) {
+		
 		return groupDAO.save(group);
 	}
 

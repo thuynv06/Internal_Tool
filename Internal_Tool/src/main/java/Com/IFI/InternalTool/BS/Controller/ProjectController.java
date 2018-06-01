@@ -39,7 +39,7 @@ public class ProjectController {
 		logger.info("Create Project ... ");
 
 		try {
-			data = projectService.createProject(projectRequest);
+			data = projectService.saveProject(projectRequest);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
@@ -48,10 +48,9 @@ public class ProjectController {
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Project Successfull", true);
 		return message;
-	}
+	}	
 	
 	// find Project by ID
-	
 	@PostMapping("/findProjectById")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findProjectById(@RequestParam("project_id") long project_id) {
@@ -78,7 +77,7 @@ public class ProjectController {
 		logger.info("Find Project Like Name ... ");
 
 		try {
-			data = projectService.findProjectsLikeName(projectName);
+			data = projectService.findProjectLikeName(projectName);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,

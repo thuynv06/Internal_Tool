@@ -1,8 +1,6 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,62 +8,54 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.ProjectService;
 import Com.IFI.InternalTool.DS.DAO.ProjectDAO;
 import Com.IFI.InternalTool.DS.Model.Project;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-
-import Com.IFI.InternalTool.Utils.Business;
-
-@Service
-public class ProjectServiceImpl implements ProjectService {
+import Com.IFI.InternalTool.DS.Model.ProjectManager;
+@Service("ProjectService")
+public class ProjectServiceImpl implements ProjectService{
 	@Autowired
-	private ProjectDAO projectDAO;
+	ProjectDAO projectDAO;
+	@Override
+	public List<Project> getAllProject() {
+		return projectDAO.getAllProject(); 
+	}
+
+	@Override
+	public boolean saveProject(Project project) {
+		
+		return projectDAO.saveProject(project);
+	}
+
+	@Override
+	public boolean deleteProject(long project_id) {
+		return projectDAO.deleteProject(project_id);
+	}
+
+	@Override
+	public Project getProjectById(long project_id) {
+		return projectDAO.getProjectById(project_id);
+	}
+
+	@Override
+	public List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id) {
+		return projectDAO.getProjectManagerByEmp(employee_id,project_id);
+	}
 	
-	Business b= new Business();
 	@Override
-	public Project createProject(final Project project) {
-		project.setStatus(true);
-		project.setMonth(b.getMonth(project.getStart_date()));
-		project.setYear(b.getYear(project.getStart_date()));
-		return projectDAO.save(project);
-
+	public List<Long> getProjectByEmp(long employee_id) {
+		return projectDAO.getProjectByEmp(employee_id);
 	}
 
 	@Override
-	public void deleteProjectById(long group_id) {
+	public List<Project> getProjectsOfGroup(String group_id) {
 		
-		projectDAO.deleteById(group_id);
-
+		return projectDAO.getProjectsOfGroup(group_id);
 	}
 
 	@Override
-	public Project getProjectById(long group_id) {
-		return projectDAO.getOne(group_id);
-	}
-
-	@Override
-	public PagedResponse<Project> getAllGroup() {
-		List<Project> listProject= projectDAO.findAll();
-		if (listProject.size() == 0) {
-			return new PagedResponse<>(Collections.emptyList(), false);
-		}
-		return new PagedResponse<>(listProject, true);
-	}
-
-	@Override
-	public PagedResponse<Project> findProjectByName(String name) {
-		Optional<Project> p= projectDAO.findByName(name);
+	public List<Project> findProjectLikeName(String projectName) {
 		
-		return null;
+		return projectDAO.findProjectLikeName(projectName);
 	}
-
-	@Override
-	public PagedResponse<Project> findProjectsLikeName(String name) {
-		List<Project> listProject= projectDAO.findProjectLikeName(name);
-		if (listProject.size() == 0) {
-			return new PagedResponse<>(Collections.emptyList(), false);
-		}
-		return new PagedResponse<>(listProject, true);
-	}
-
-
-
+	
+	
+	
 }

@@ -1,6 +1,8 @@
 package Com.IFI.InternalTool.BS.Controller;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,9 +52,10 @@ public class AuthController {
 
     @Autowired
     JwtTokenProvider tokenProvider;
-
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    	logger.info("Login ... ");
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

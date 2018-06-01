@@ -8,14 +8,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import Com.IFI.InternalTool.DS.DAO.EmployeeDAO;
+import Com.IFI.InternalTool.DS.DAO.UserDAO;
 import Com.IFI.InternalTool.DS.Model.Employee;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    EmployeeDAO userDAO;
+    UserDAO userDAO;
 
     @Override
     @Transactional

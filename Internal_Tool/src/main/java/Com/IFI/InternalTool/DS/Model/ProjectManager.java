@@ -1,6 +1,6 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import java.io.Serializable;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="project_manager")
-public class ProjectManager implements Serializable {
+public class ProjectManager  {
 	@Id
 	@Column(name = "project_manager_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

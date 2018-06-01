@@ -22,19 +22,10 @@ public class ProjectServiceImpl implements ProjectService {
 	Business b= new Business();
 	@Override
 	public Project createProject(final Project project) {
-
-		Project p = new Project();
-		
-		p.setName(project.getName());
-		p.setDescription(project.getDescription());
-		p.setGroup_id(project.getGroup_id());
-		p.setStart_date(project.getStart_date());
-	//	p.setEnd_date(project.getEnd_date());
-		p.setStatus(true);
-		p.setMonth(b.getMonth(project.getStart_date()));
-		p.setYear(b.getYear(project.getStart_date()));
-
-		return projectDAO.save(p);
+		project.setStatus(true);
+		project.setMonth(b.getMonth(project.getStart_date()));
+		project.setYear(b.getYear(project.getStart_date()));
+		return projectDAO.save(project);
 
 	}
 

@@ -1,6 +1,8 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "allocation")
@@ -29,12 +32,14 @@ public class Allocation  {
 	@Column(name = "year")
 	private int year;
 	@Column(name = "allocation_plan")
-	private float allocation_plan;
+	private double allocation_plan;
 
 	@Column(name = "start_date")
+  
 	private Date start_date;
 	
 	@Column(name = "end_date")
+ 
 	private Date end_date;
 
 	public Allocation(long project_id, long employee_id, int month, int year, float allocation_plan,
@@ -93,11 +98,11 @@ public class Allocation  {
 		this.year = year;
 	}
 
-	public float getAllocation_plan() {
+	public double getAllocation_plan() {
 		return allocation_plan;
 	}
 
-	public void setAllocation_plan(float allocation_plan) {
+	public void setAllocation_plan(double allocation_plan) {
 		this.allocation_plan = allocation_plan;
 	}
 

@@ -1,11 +1,11 @@
 package Com.IFI.InternalTool.Utils;
 
-public interface AppConstants {
-	String DEFAULT_PAGE_NUMBER = "0";
-	String DEFAULT_PAGE_SIZE = "30";
-	int MAX_PAGE_SIZE = 50;
-	String SUCCESS_CODE="SUCCESS_CODE";
-	String FAILED_CODE="FAILED_CODE";
-	String STATUS_OK="STATUS_OK";
-	String STATUS_KO="STATUS_KO";
+public class AppConstants {
+	public static final String DEFAULT_PAGE_NUMBER = "0";
+	public static final String DEFAULT_PAGE_SIZE = "30";
+	public static final int MAX_PAGE_SIZE = 50;
+	public static final String SUCCESS_CODE = "SUCCESS_CODE";
+	public static final String FAILED_CODE = "FAILED_CODE";
+	public static final String STATUS_OK = "STATUS_OK";
+	public static final String STATUS_KO = "STATUS_KO";
 }

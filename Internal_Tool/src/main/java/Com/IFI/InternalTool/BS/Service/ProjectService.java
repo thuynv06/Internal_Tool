@@ -11,17 +11,17 @@ public interface ProjectService {
 	
 	List<Project> getAllProject();
 	
-	boolean saveProject(Project project);
-	
-	boolean deleteProject(long project_id);
-	
-	Project getProjectById(long project_id);
-	
-	List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id);
-	
-	List<Long> getProjectByEmp(long employee_id);
-	
-	List<Project> getProjectsOfGroup(String group_id);
+	public void saveProject(Project project);
+//	
+//	boolean deleteProject(long project_id);
+//	
+	Project getProjectById(Long project_id);
+//	
+//	List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id);
+//	
+//	List<Long> getProjectByEmp(long employee_id);
+//	
+//	List<Project> getProjectsOfGroup(String group_id);
 	
 	List<Project> findProjectLikeName(String projectName);
 }

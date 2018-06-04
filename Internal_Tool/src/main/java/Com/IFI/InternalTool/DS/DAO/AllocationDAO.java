@@ -1,13 +1,22 @@
 package Com.IFI.InternalTool.DS.DAO;
 
+import java.sql.Date;
+import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.Project;
 
-@Repository
-public interface AllocationDAO extends JpaRepository<Allocation, Long> {
-	
+public interface AllocationDAO {
+
+	List<Project> getAllAllocation();
+
+	boolean saveAllocation(Allocation allocation);
+
+	boolean deleteAlocation(long allocation_id);
+
+	Allocation getAllocationById(long allocation_id);
+
+	Date findMaxEndDate(long employee_id);
 	
 }

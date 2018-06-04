@@ -21,10 +21,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 
 public class InternalToolApplication {
-	@PostConstruct
-	void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
+//	@PostConstruct
+//	void init() {
+//		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+//	}
 	public static void main(String[] args) {
 		SpringApplication.run(InternalToolApplication.class, args);
 	}

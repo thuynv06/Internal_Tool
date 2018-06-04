@@ -76,16 +76,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
              .and()
          .authorizeRequests()
-             .antMatchers("/")
-             .permitAll()
+             .antMatchers("/",
+                 "/favicon.ico",
+                 "/**/*.png",
+                 "/**/*.gif",
+                 "/**/*.svg",
+                 "/**/*.jpg",
+                 "/**/*.html",
+                 "/**/*.css",
+                 "/**/*.js")
+                 .permitAll()
              .antMatchers("/api/auth/**")
                  .permitAll()
-             .antMatchers(HttpMethod.GET, "/api/group/**", "/api/users/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-             
-             .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-             
-             .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-             
+             .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                 .permitAll()
+             .antMatchers(HttpMethod.GET,"/api/projects/**", "/api/group/**", "/api/users/**")
+                 .permitAll()
+             .antMatchers(HttpMethod.POST,"/api/projects/**", "/api/group/**", "/api/users/**","/api/allocations/**")
+                 .permitAll()
              .anyRequest()
                  .authenticated();
         // Add our custom JWT security filter

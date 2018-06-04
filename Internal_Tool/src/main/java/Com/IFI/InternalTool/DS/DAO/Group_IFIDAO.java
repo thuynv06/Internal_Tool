@@ -23,7 +23,7 @@ public interface Group_IFIDAO  extends JpaRepository<Group_IFI, Long>{
     Group_IFI findGroupById(@Param("group_id") String groupId);
 	
 	
-	@Query("Delete FROM Group_IFI g where g.group_id = :group_id")
+	@Query(value="Delete FROM Group_IFI g where g.group_id = :group_id",nativeQuery=true)
     Group_IFI deleteGroupById(@Param("group_id") String groupId);
 	
 	

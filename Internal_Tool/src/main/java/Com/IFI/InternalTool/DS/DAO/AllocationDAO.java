@@ -9,7 +9,7 @@ import Com.IFI.InternalTool.DS.Model.Project;
 
 public interface AllocationDAO {
 
-	List<Project> getAllAllocation();
+	List<Project> getAllAllocation(int page,int pageSize,String sortedColumn,Boolean desc);
 
 	boolean saveAllocation(Allocation allocation);
 

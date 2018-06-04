@@ -36,13 +36,28 @@ public class ProjectController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+	@GetMapping
+	public @ResponseBody Payload getAllProject(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
+			@RequestParam("sortedColumn") String sortedColumn, @RequestParam("desc") Boolean desc) {
+		try {
+			data = projectService.getAllProject(page, pageSize, sortedColumn, desc);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Projects Successfull", true);
+		return message;
+	}
+
 	@PostMapping("/create")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload createProject(@Valid @RequestBody Project projectRequest) {
 		logger.info("Create Project ... ");
 
 		try {
-			 projectService.saveProject(projectRequest);
+			projectService.saveProject(projectRequest);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
@@ -90,20 +105,6 @@ public class ProjectController {
 				"Find Project Like Name Successfull", true);
 		return message;
 
-	}
-	
-	@GetMapping
-	public @ResponseBody Payload getAllP() {
-		try {
-			data = projectService.getAllProject();
-		} catch (Exception e) {
-			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
-			return message;
-		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Projects Successfull", true);
-		return message;
 	}
 
 }

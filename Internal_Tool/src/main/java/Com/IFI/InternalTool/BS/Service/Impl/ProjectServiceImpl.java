@@ -18,8 +18,8 @@ public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	ProjectDAOImpl projectDAO;
 	@Override
-	public List<Project> getAllProject() {
-		return projectDAO.getAllProject(); 
+	public List<Project> getAllProject(int page, int pageSize,String sortedColumn,Boolean desc)  {
+		return projectDAO.getAllProject(page, pageSize, sortedColumn, desc);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public List<Project> findProjectLikeName(String projectName) {
 		
-		return projectDAO.findProjectLikeName(projectName);
+		return projectDAO.findProjectNameLike(projectName);
 	}
 	
 	

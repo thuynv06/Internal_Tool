@@ -1,17 +1,18 @@
 package Com.IFI.InternalTool.BS.Service;
+import java.util.List;
+
 import Com.IFI.InternalTool.DS.Model.Employee;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
 public interface EmployeeService {
 
+
+	List<Employee>  getAllEmployee(int page, int pageSize,String sortedColumn,Boolean desc);
 	
-	public Employee createEmployee(Employee emp);
+	Long saveEmployee(Employee employee);
 	
-	public void deleteEmployeeById(String employee_id);
+	Boolean deleteEmployee(long employee_id);
 	
-	public Employee getEmployeeById(long employee_id);
-	
-	public PagedResponse<Employee>  getAllEmployee();
-	
-	public PagedResponse<Employee>  findEmployeeLikeName(String name);
+	Employee getEmployeeById(long employee_id);
+
+	List<Long> getEmployeeByManager(long manager_id);
 	
 }

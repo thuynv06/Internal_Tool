@@ -36,7 +36,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public List<Project> getAllAllocation() {
+	public List<Project> getAllAllocation(int page,int pageSize,String sortedColumn,Boolean desc) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Alocation";
 		Query query = session.createQuery(hql);

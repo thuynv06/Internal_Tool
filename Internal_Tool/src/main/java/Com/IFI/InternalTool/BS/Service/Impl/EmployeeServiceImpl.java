@@ -1,42 +1,39 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.EmployeeService;
+import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Employee;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-
-@Service
+@Service("EmployeeService")
 public class EmployeeServiceImpl implements EmployeeService{
 
+	@Autowired
+	EmployeeDAOImpl employeeDAO;
+	
 	@Override
-	public Employee createEmployee(Employee emp) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Employee> getAllEmployee(int page, int pageSize,String sortedColumn,Boolean desc) {
+		return employeeDAO.getAllEmployee(page, pageSize, sortedColumn, desc);
 	}
-
 	@Override
-	public void deleteEmployeeById(String employee_id) {
-		// TODO Auto-generated method stub
-		
+	public Long saveEmployee(Employee employee) {
+		 return employeeDAO.saveEmployee(employee);
 	}
-
+	@Override
+	public Boolean deleteEmployee(long employee_id) {
+		return employeeDAO.deleteEmployee(employee_id);
+	}
 	@Override
 	public Employee getEmployeeById(long employee_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return employeeDAO.getEmployeeById(employee_id);
 	}
 
 	@Override
-	public PagedResponse<Employee> getAllEmployee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PagedResponse<Employee> findEmployeeLikeName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Long> getEmployeeByManager(long manager_id) {
+		return employeeDAO.getEmployeeByManager(manager_id);
 	}
 	
 	

@@ -1,17 +1,15 @@
 package Com.IFI.InternalTool.DS.DAO;
 
 
-import java.util.Date;
+
 import java.util.List;
-
-
 
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectManager;
 
 public interface ProjectDAO {
 	
-    List<Project> getAllProject();
+	List<Project> getAllProject(int page,int pageSize,String sortedColumn,Boolean desc);
 	
 	boolean saveProject(Project project);
 	
@@ -25,6 +23,6 @@ public interface ProjectDAO {
 	
 	List<Project> getProjectsOfGroup(String group_id);
 	
-	List<Project> findProjectLikeName(String projectName);
+	List<Project> findProjectNameLike(String projectName);
 	
 }

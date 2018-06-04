@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -23,12 +22,25 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private EntityManagerFactory entityManagerFactory;
 
 	@Override
-	public List<Project> getAllProject() {
+	public List<Project> getAllProject(int page,int pageSize,String sortedColumn,Boolean desc) {
 		
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project";
+		String hql = "FROM Project ";
+		if(sortedColumn != null && desc != null){
+			String order = "";
+			if(desc){
+				order = "desc";
+			}
+			hql +="ORDER BY "+ sortedColumn + " " +  order;
+		}
 		Query query = session.createQuery(hql);
+		query.setFirstResult((page-1)*pageSize);
+		query.setFetchSize(pageSize);
+		query.setMaxResults(pageSize);
 		List<Project> list = query.getResultList();
+		if(list.size() > pageSize){
+			return list = list.subList(0, pageSize);
+		}
 		session.close();
 		return list;
 	}
@@ -110,7 +122,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> findProjectLikeName(String projectName) {
+	public List<Project> findProjectNameLike(String projectName) {
 		
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Project where name Like %:projectName%";

@@ -9,7 +9,7 @@ import Com.IFI.InternalTool.DS.Model.ProjectManager;
 
 public interface ProjectService {
 	
-	List<Project> getAllProject();
+	List<Project> getAllProject(int page, int pageSize,String sortedColumn,Boolean desc);
 	
 	public void saveProject(Project project);
 //	

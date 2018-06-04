@@ -44,6 +44,7 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 		session.close();
 		return list;
 	}
+	
 	//save or update
 	@Override
 	public Long saveEmployee(Employee employee) {
@@ -55,6 +56,7 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 		session.close();
 		return employee.getEmployee_id();
 	}
+	
 	@Override
 	public Boolean deleteEmployee(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
@@ -71,6 +73,7 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 		}
 		else return true;
 	}
+	
 	@Override
 	public Employee getEmployeeById(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
@@ -94,7 +97,7 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 	}
 	@Override
 	
-	public List<Employee> findEmployeeLikeName(String name, int page, int pageSize, String sortedColumn, Boolean desc) {
+	public List<Employee> findEmployeeNameLike(String name, int page, int pageSize, String sortedColumn, Boolean desc) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT emp FROM Employee emp where emp.fullname LIKE %:name%";
 		if(sortedColumn != null && desc != null){

@@ -30,7 +30,7 @@ public class EmployeeController {
 	private static final Logger logger = LoggerFactory.getLogger(Group_IFIController.class);
 
 	@GetMapping
-	public @ResponseBody Payload getAllGroup(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
+	public @ResponseBody Payload getEmployees(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
 			@RequestParam("sortedColumn") String sortedColumn, @RequestParam("desc") Boolean desc) {
 
 		try {
@@ -45,4 +45,6 @@ public class EmployeeController {
 		return message;
 	}
 
+	
+	
 }

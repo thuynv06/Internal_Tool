@@ -41,13 +41,13 @@ public class Group_IFIController {
 
 	// get all group
 	@GetMapping
-	@PreAuthorize("hasRole('USER')")
-	public @ResponseBody Payload getAllGroup(@CurrentUser UserPrincipal currentUser) {
+	//@PreAuthorize("hasRole('USER')")
+	public @ResponseBody Payload getAllGroup() {
 		
 		
-		logger.info("Get All Groups ... ");
-		logger.info(currentUser.getId() + currentUser.getName() + currentUser.getUsername());
-		logger.info("Get All Groups ... ");
+//		logger.info("Get All Groups ... ");
+//		logger.info(currentUser.getId() + currentUser.getName() + currentUser.getUsername());
+//		logger.info("Get All Groups ... ");
 		try {
 			data = groupService.getAllGroup();
 		} catch (Exception e) {

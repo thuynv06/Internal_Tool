@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
             })
 })
 
-@JsonIgnoreProperties(value="roles")
+@JsonIgnoreProperties(value= {"roles","password"})
 public class Employee  {
 	
 	

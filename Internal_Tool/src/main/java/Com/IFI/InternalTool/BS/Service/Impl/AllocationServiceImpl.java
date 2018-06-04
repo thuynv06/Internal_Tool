@@ -1,6 +1,8 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.Payloads.AllocationResponse;
 import Com.IFI.InternalTool.Payloads.PagedResponse;
 import Com.IFI.InternalTool.Utils.Business;
 
@@ -64,10 +67,11 @@ public class AllocationServiceImpl implements AllocationService {
 
 	}
 
+	
 	@Override
-	public PagedResponse<Allocation> getAllAllocation() {
-		return null;
-
+	public PagedResponse<AllocationResponse> getAllocation(int page, int pageSize, Boolean desc) {
+		
+		return allocationDAO.getAllocation(page, pageSize, desc);
 	}
 
 }

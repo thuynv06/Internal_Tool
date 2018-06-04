@@ -52,7 +52,7 @@ public class ProjectController {
 	}
 
 	@PostMapping("/create")
-	// @RolesAllowed("ROLE_USER")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload createProject(@Valid @RequestBody Project projectRequest) {
 		logger.info("Create Project ... ");
 

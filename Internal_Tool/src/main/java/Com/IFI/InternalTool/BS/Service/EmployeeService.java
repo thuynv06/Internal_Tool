@@ -5,14 +5,19 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 public interface EmployeeService {
 
 
-	List<Employee>  getAllEmployee(int page, int pageSize,String sortedColumn,Boolean desc);
+	List<Employee>  getAllEmployees(int page, int pageSize);
 	
-	Long saveEmployee(Employee employee);
+	Boolean saveEmployee(Employee employee);
 	
 	Boolean deleteEmployee(long employee_id);
 	
 	Employee getEmployeeById(long employee_id);
+	
+	List<Employee> findEmployeeNameLike(final String name,int page, int pageSize);
+	
+	List<Employee> findEmployeeByGroupId(final String group_id,final int page,final int pageSize);
 
 	List<Long> getEmployeeByManager(long manager_id);
+	
 	
 }

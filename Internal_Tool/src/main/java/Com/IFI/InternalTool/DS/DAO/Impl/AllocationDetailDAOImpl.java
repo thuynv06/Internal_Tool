@@ -31,12 +31,8 @@ public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 		String hql = "FROM AllocationDetail ";
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page - 1) * pageSize);
-		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
 		List<AllocationDetail> list = query.getResultList();
-		if (list.size() > pageSize) {
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}

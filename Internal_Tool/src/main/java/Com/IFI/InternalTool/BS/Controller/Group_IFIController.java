@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.BS.Controller;
 
-
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
@@ -10,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
 
 @RestController
-@RequestMapping("/api/group")
+@RequestMapping("/api/groups")
 public class Group_IFIController {
 	@Autowired
 	Group_IFIServiceImpl groupService;
@@ -41,56 +42,34 @@ public class Group_IFIController {
 
 	// get all group
 	@GetMapping
-	//@PreAuthorize("hasRole('USER')")
-	public @ResponseBody Payload getAllGroup() {
-		
-		
-//		logger.info("Get All Groups ... ");
-//		logger.info(currentUser.getId() + currentUser.getName() + currentUser.getUsername());
-//		logger.info("Get All Groups ... ");
+	// @PreAuthorize("hasRole('USER')")
+	public @ResponseBody Payload getGroups(@RequestParam("page") int page,
+			@RequestParam("pageSize") int pageSize) {
+
 		try {
-			data = groupService.getAllGroup();
+			data = groupService.getGroups(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Gruops Successfull", true);
 		return message;
 	}
 
-	// find Group By Name
-	@GetMapping("/findGroupByName/{groupName}")
+	@GetMapping("/findGroupNameLike")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findGroupByName(@PathVariable String groupName) {
-		logger.info("Find Group By Name ... ");
-
-		try {
-			data = groupService.findGroupByName(groupName);
-		} catch (Exception e) {
-			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
-			return message;
-		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By Name Successfull",
-				true);
-		return message;
-
-	}
-
-	@PostMapping("/findGroupLikeName")
-	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findGroupLikeName(@RequestParam("groupName") String groupName) {
+	public @ResponseBody Payload findGroupNameLike(@RequestParam("name") String name,@RequestParam("page") int page,
+			@RequestParam("pageSize") int pageSize) {
 		logger.info("Find Group Like Name ... ");
 
 		try {
-			data = groupService.findGroupsLikeName(groupName);
+			data = groupService.findGroupNameLike(name, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group Like Name Successfull",
@@ -99,17 +78,17 @@ public class Group_IFIController {
 
 	}
 
-	@GetMapping("/findGroupById")
+	@GetMapping("/findGroupById/{group_id}")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findGroupById(@PathVariable String group_id) {
 		logger.info("Find Group By Id ... ");
-		
+
 		try {
 			data = groupService.getGroupById(group_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Group By ID Successfull",
@@ -127,9 +106,25 @@ public class Group_IFIController {
 		try {
 			data = groupService.createGroupIFI(groupRequest);
 		} catch (Exception e) {
-			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create group Successfull", true);
+		return message;
+	}
+
+	@DeleteMapping("deleteGroupById/{group_id}")
+	public @ResponseBody Payload deleteGroupById(@PathVariable String group_id) {
+		logger.info("Create Group ... ");
+
+		try {
+			data = groupService.deleteGroupById(group_id);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create group Successfull", true);

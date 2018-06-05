@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import Com.IFI.InternalTool.BS.Service.Group_IFIService;
 import Com.IFI.InternalTool.DS.DAO.Group_IFIDAO;
+import Com.IFI.InternalTool.DS.DAO.Impl.Group_IFIDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
 import Com.IFI.InternalTool.Payloads.PagedResponse;
 //import Com.IFI.InternalTool.Utils.ModelMapper;
@@ -17,47 +18,35 @@ import Com.IFI.InternalTool.Payloads.PagedResponse;
 public class Group_IFIServiceImpl implements Group_IFIService {
 
 	@Autowired
-	private Group_IFIDAO groupDAO;
+	private Group_IFIDAOImpl groupDAO;
 
 	@Override
-	public Group_IFI getGroupById(String group_id) {
+	public Group_IFI getGroupById(final String group_id) {
 		return groupDAO.findGroupById(group_id);
 	}
 
 	@Override
-	public Group_IFI createGroupIFI(Group_IFI group) {
-		
-		return groupDAO.save(group);
+	public Group_IFI createGroupIFI(final Group_IFI group) {
+
+		return groupDAO.createGroup(group);
 	}
 
 	@Override
-	public void deleteGroupById(String group_id) {
-		groupDAO.deleteGroupById(group_id);
+	public Boolean deleteGroupById(final String group_id) {
+
+		return groupDAO.deleteGroupById(group_id);
 
 	}
 
 	@Override
-	public PagedResponse<Group_IFI> getAllGroup() {
-		List<Group_IFI> groups = groupDAO.findAll();
-		if (groups.size() == 0) {
-			return new PagedResponse<>(Collections.emptyList(), false);
-		}
-		return new PagedResponse<>(groups, true);
+	public List<Group_IFI> findGroupNameLike(final String name,final int page,final int pageSize) {
+
+		return groupDAO.findGroupNameLike(name, page, pageSize);
 	}
 
 	@Override
-	public PagedResponse<Group_IFI> findGroupsLikeName(String name) {
-		List<Group_IFI> groups = groupDAO.findGroupLikeName(name);
-		if (groups.size() == 0) {
-			return new PagedResponse<>(Collections.emptyList(), false);
-		}
-		return new PagedResponse<>(groups, true);
-		
-	}
-	@Override
-
-	public PagedResponse<Group_IFI> findGroupByName(String name) {
-		return new PagedResponse<>(groupDAO.findByname(name), true);
+	public List<Group_IFI> getGroups(final int page,final int pageSize) {
+		return groupDAO.getGroups(page, pageSize);
 	}
 
 }

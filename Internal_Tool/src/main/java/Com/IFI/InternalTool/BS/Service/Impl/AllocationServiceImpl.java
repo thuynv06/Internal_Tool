@@ -97,7 +97,7 @@ public class AllocationServiceImpl implements AllocationService {
 	// }
 
 	@Override
-	public List<Allocation> getAllocations(int page, int pageSize) {
+	public  List<Allocation> getAllocations(int page, int pageSize) {
 		return allocationDAO.getAllocations(page, pageSize);
 	}
 

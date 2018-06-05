@@ -10,22 +10,20 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
 
-@Repository
-public interface Group_IFIDAO  extends JpaRepository<Group_IFI, Long>{
+
+public interface Group_IFIDAO {
+
+
 	
-	List<Group_IFI> findByname(String group_name);
+	Group_IFI createGroup(final Group_IFI group);
+
+	Group_IFI findGroupById(final String group_id);
+
+	List<Group_IFI> findGroupNameLike(final String name,final int page,final int pageSize);
 	
-	
-	@Query("SELECT g FROM Group_IFI g where g.name LIKE %:name%")
-	List<Group_IFI> findGroupLikeName(@Param("name") String name);
-	
-	@Query("SELECT g FROM Group_IFI g where g.group_id = :group_id")
-    Group_IFI findGroupById(@Param("group_id") String groupId);
-	
-	
-	@Query(value="Delete FROM Group_IFI g where g.group_id = :group_id",nativeQuery=true)
-    Group_IFI deleteGroupById(@Param("group_id") String groupId);
-	
+	List<Group_IFI> getGroups(final int page,final int pageSize);
+
+	Boolean deleteGroupById(final String groupId);
 	
 	
 	

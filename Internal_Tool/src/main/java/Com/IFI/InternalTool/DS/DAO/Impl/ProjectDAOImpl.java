@@ -35,12 +35,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		}
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page-1)*pageSize);
-		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
 		List<Project> list = query.getResultList();
-		if(list.size() > pageSize){
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}

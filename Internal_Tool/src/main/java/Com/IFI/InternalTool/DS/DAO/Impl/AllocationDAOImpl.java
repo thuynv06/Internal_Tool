@@ -35,12 +35,8 @@ public class AllocationDAOImpl implements AllocationDAO {
 		String hql = "FROM Allocation ";
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page - 1) * pageSize);
-		query.setFetchSize(pageSize);
-		query.setMaxResults(pageSize);
+		query.setMaxResults((page+1)*pageSize -1);
 		List<Allocation> list = query.getResultList();
-		if (list.size() > pageSize) {
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}
@@ -138,13 +134,9 @@ public class AllocationDAOImpl implements AllocationDAO {
 		}
 
 		query.setFirstResult((page - 1) * pageSize);
-		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
 
 		List<Allocation> list = query.getResultList();
-		if (list.size() > pageSize) {
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}
@@ -156,15 +148,9 @@ public class AllocationDAOImpl implements AllocationDAO {
 		String hql = "select a FROM Allocation a where a.employee_id = :employee_id ";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
-
 		query.setFirstResult((page - 1) * pageSize);
-		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
-
 		List<Allocation> list = query.getResultList();
-		if (list.size() > pageSize) {
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 
@@ -178,13 +164,9 @@ public class AllocationDAOImpl implements AllocationDAO {
 		query.setParameter("project_id", project_id);
 
 		query.setFirstResult((page - 1) * pageSize);
-		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
 
 		List<Allocation> list = query.getResultList();
-		if (list.size() > pageSize) {
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}

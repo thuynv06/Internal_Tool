@@ -16,64 +16,52 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 
 @Repository("EmployeeDAO")
 @Transactional
-public class EmployeeDAOImpl  implements EmployeeDAO {
-	
+public class EmployeeDAOImpl implements EmployeeDAO {
+
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
-	
-	
+
 	@Override
-	public List<Employee> getAllEmployee(int page,int pageSize,String sortedColumn,Boolean desc) {
+	public List<Employee> getAllEmployees(int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Employee ";
-		if(sortedColumn != null && desc != null){
-			String order = "";
-			if(desc){
-				order = "desc";
-			}
-			hql +="ORDER BY "+ sortedColumn + " " +  order;
-		}
 		Query query = session.createQuery(hql);
-		query.setFirstResult((page-1)*pageSize);
-		query.setFetchSize(pageSize);
+		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> list = query.getResultList();
-		if(list.size() > pageSize){
-			return list = list.subList(0, pageSize);
-		}
 		session.close();
 		return list;
 	}
-	
-	//save or update
+
+	// save or update
 	@Override
-	public Long saveEmployee(Employee employee) {
+	public Boolean saveEmployee(Employee employee) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		Transaction tx = null;
-		tx=session.beginTransaction();
+		tx = session.beginTransaction();
 		session.saveOrUpdate(employee);
 		tx.commit();
 		session.close();
-		return employee.getEmployee_id();
+		return true;
 	}
-	
+
 	@Override
 	public Boolean deleteEmployee(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		Transaction tx = null;
-		tx=session.beginTransaction();
+		tx = session.beginTransaction();
 		String hql = "Delete from Employee where employee_id=:employee_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
-		int row=query.executeUpdate();
+		int row = query.executeUpdate();
 		tx.commit();
 		session.close();
-		if(row==0) {
+		if (row == 0) {
 			return false;
-		}
-		else return true;
+		} else
+			return true;
 	}
-	
+
 	@Override
 	public Employee getEmployeeById(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
@@ -91,47 +79,37 @@ public class EmployeeDAOImpl  implements EmployeeDAO {
 		String hql = "Select distinct employee_id from Project_Manager where manager_id=:manager_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("manager_id", manager_id);
-		List<Long> list=query.list();
+		List<Long> list = query.list();
 		session.close();
 		return list;
 	}
+
 	@Override
-	
-	public List<Employee> findEmployeeNameLike(String name, int page, int pageSize, String sortedColumn, Boolean desc) {
+
+	public List<Employee> findEmployeeNameLike(String name, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM Employee emp where emp.fullname LIKE %:name%";
-		if(sortedColumn != null && desc != null){
-			String order = "";
-			if(desc){
-				order = "desc";
-			}
-			hql +="ORDER BY "+ sortedColumn + " " +  order;
-		}
+		String hql = "SELECT emp FROM Employee emp where emp.fullname LIKE CONCAT('%', :name, '%')";
 		Query query = session.createQuery(hql);
-		query.setFirstResult((page-1)*pageSize);
+		query.setFirstResult((page - 1) * pageSize);
 		query.setFetchSize(pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> list = query.getResultList();
-		if(list.size() > pageSize){
+		if (list.size() > pageSize) {
 			return list = list.subList(0, pageSize);
 		}
 		session.close();
 		return list;
 	}
-	
+
 	@Override
-	public Employee findEmployeeByGroupId(String group_id) {
+	public List<Employee> findEmployeeByGroupId(final String group_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Employee where group_id=:group_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
-		Employee emp = (Employee) query.uniqueResult();
+		List<Employee> emp = query.getResultList();
 		session.close();
 		return emp;
 	}
-	
-
-	
-	
 
 }

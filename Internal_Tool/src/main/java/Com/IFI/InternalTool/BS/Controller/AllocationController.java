@@ -95,8 +95,8 @@ public class AllocationController {
 			data = allocationService.findById(allocation_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Allocation By ID Successfull",
@@ -130,8 +130,8 @@ public class AllocationController {
 			data = allocationService.SearchAllocationWithTime(year, month, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
@@ -147,8 +147,8 @@ public class AllocationController {
 			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
@@ -164,8 +164,8 @@ public class AllocationController {
 			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,

@@ -1,7 +1,8 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
 import java.sql.Date;
-import java.util.HashSet;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,56 +11,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
+import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
-import Com.IFI.InternalTool.Payloads.AllocationResponse;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
+import Com.IFI.InternalTool.DS.Model.AllocationDetail;
 import Com.IFI.InternalTool.Utils.Business;
 
 @Service
 public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
-	AllocationDAO allocationDAO;
+	private AllocationDAO allocationDAO;
+
+	@Autowired
+	private AllocationDetailDAOImpl allocationDetailDAO;
 
 	private static final Logger logger = LoggerFactory.getLogger(AllocationServiceImpl.class);
 
 	@Override
 	public boolean createAllocation(Allocation allocation) {
 		// end_date must be > start_date
-		if (allocation.getEnd_date().before(allocation.getStart_date()) ) {
+		if (allocation.getEnd_date().before(allocation.getStart_date())) {
 			return false;
 		}
-		
+
+		LocalDate start_date = allocation.getStart_date().toLocalDate();
+		LocalDate end_date = allocation.getEnd_date().toLocalDate();
+
 		// get maxEndDate Allocation in History
-		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
+		LocalDate maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
 		logger.info(maxEndDate + "max");
-		// check start_date with maxEndDate
-		if ( allocation.getStart_date().before(maxEndDate)
-				|| allocation.getStart_date().equals(maxEndDate)) {
-			return false;
+		if (maxEndDate != null) {
+			if (start_date.isBefore(maxEndDate) || start_date.isEqual(maxEndDate)) {
+				return false;
+			}
 		}
-		// get month , get year 
-		int month = allocation.getStart_date().toLocalDate().getMonthValue();
-		int year = allocation.getStart_date().toLocalDate().getYear();
-		
+		// check start_date with maxEndDate
+
+		// get month , get year
+		int month = start_date.getMonthValue();
+		int year = start_date.getYear();
+
 		// get distance Time between start_date vs end_date not set Weekends;
-		int distanceTime= Business.getDistanceTime(allocation.getStart_date().toLocalDate(),allocation.getEnd_date().toLocalDate());
-		logger.info( "distance Time: " + distanceTime);
-		
+		int distanceTime = Business.getDistanceTime(start_date, end_date);
+		logger.info("distance Time: " + distanceTime);
+
 		// get number days of month // get nums days weekend of month
-		int numDaysOfMonth = allocation.getStart_date().toLocalDate().lengthOfMonth();
+		int numDaysOfMonth = start_date.lengthOfMonth();
 		int numDaysWeekOfMonth = Business.numberWeekendOfMonth(month, year);
 
 		// set allocation_plan
-		double allocation_plan = Business.getAllocation_Plan(numDaysOfMonth, numDaysWeekOfMonth,distanceTime);
-		logger.info( "Allocation_Plan: " + allocation_plan);		
+		double allocation_plan = Business.getAllocation_Plan(numDaysOfMonth, numDaysWeekOfMonth, distanceTime);
+		logger.info("Allocation_Plan: " + allocation_plan);
 		allocation.setAllocation_plan(allocation_plan);
-		
-		logger.info( "expert" + allocation_plan);
-		
-		allocation.setMonth(allocation.getStart_date().toLocalDate().getMonthValue());
-		allocation.setYear(allocation.getStart_date().toLocalDate().getYear());
+
+		logger.info("expert" + allocation_plan);
+
+		allocation.setMonth(start_date.getMonthValue());
+		allocation.setYear(start_date.getYear());
 		if (allocationDAO.saveAllocation(allocation)) {
+			// generic allocationDetail
+			while (start_date.isBefore(end_date)) {
+				if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY
+						&& start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
+					AllocationDetail a = new AllocationDetail();
+					a.setEmployee_id(allocation.getEmployee_id());
+					a.setDate(start_date);
+					a.setTime(8);
+					allocationDetailDAO.saveAllocationDetail(a);
+				}
+				start_date = start_date.plusDays(1);
+			}
+
 			return true;
 		} else {
 			return false;
@@ -67,11 +89,56 @@ public class AllocationServiceImpl implements AllocationService {
 
 	}
 
-	
+	// @Override
+	// public PagedResponse<AllocationResponse> getAllocations1(int page, int
+	// pageSize, Boolean desc) {
+	//
+	// return allocationDAO.getAllocation1(page, pageSize, desc);
+	// }
+
 	@Override
-	public PagedResponse<AllocationResponse> getAllocation(int page, int pageSize, Boolean desc) {
-		
-		return allocationDAO.getAllocation(page, pageSize, desc);
+	public List<Allocation> getAllocations(int page, int pageSize) {
+		return allocationDAO.getAllocations(page, pageSize);
+	}
+
+	@Override
+	public Allocation findById(long allocation_id) {
+		return allocationDAO.findById(allocation_id);
+	}
+
+	@Override
+	public boolean deleteByID(Long allocation_id) {
+		if (allocationDAO.deleteById(allocation_id)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<Allocation> SearchAllocationWithTime(int year, int month, int page, int pageSize) {
+
+		return allocationDAO.searchAllocationWithTime(year, month, page, pageSize);
+	}
+
+	@Override
+	public List<Allocation> findAllocationByEmployeeID(long employee_id, int page, int pageSize) {
+
+		return allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize);
+	}
+
+	@Override
+	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize) {
+		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize);
+	}
+
+	@Override
+	public boolean saveAllocationDetail(AllocationDetail allocationDetail) {
+
+		if (allocationDetailDAO.saveAllocationDetail(allocationDetail)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -1,26 +1,26 @@
 package Com.IFI.InternalTool.DS.DAO;
 
-import java.sql.Date;
-import java.util.HashSet;
+
+import java.time.LocalDate;
 import java.util.List;
-
-
 import Com.IFI.InternalTool.DS.Model.Allocation;
-import Com.IFI.InternalTool.Payloads.AllocationResponse;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-
 public interface AllocationDAO {
 
-	List<Allocation> getAllAllocation(int page,int pageSize,Boolean desc);
+	List<Allocation> getAllocations(int page,int pageSize);
 
-	PagedResponse<AllocationResponse> getAllocation(int page,int pageSize,Boolean desc);
+	//PagedResponse<AllocationResponse> getAllocation1(int page,int pageSize,Boolean desc);
 	
 	boolean saveAllocation(Allocation allocation);
 
-	boolean deleteAlocation(long allocation_id);
+	boolean deleteById(long allocation_id);
 
-	Allocation getAllocationById(long allocation_id);
+	Allocation findById(long allocation_id);
 
-	Date findMaxEndDate(long employee_id);
+	LocalDate findMaxEndDate(long employee_id);
 	
+	List<Allocation> findAllocationByEmployeeID (final long employee_id,final int page,final int pageSize);
+	
+	List<Allocation> searchAllocationWithTime (final int year,final int month,final int page,final int pageSize);
+	
+	List<Allocation> findAllocationByProjectID (final long project_id,final int page,final int pageSize);
 }

@@ -3,6 +3,7 @@ package Com.IFI.InternalTool.DS.Model;
 
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,18 +19,18 @@ public class AllocationDetail  {
 	@Column(name = "allocation_detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long allocation_detail_id;
-	@Column(name = "project_id")
-	private long project_id;
+//	@Column(name = "project_id")
+//	private long project_id;
 	@Column(name = "employee_id")
 	private long employee_id;
 	@Column(name = "date")
-	private Date date;
+	private LocalDate date;
 	@Column(name = "time")
 	private int time;
 	
-	public AllocationDetail(long project_id, long employee_id, Date date, int time) {
+	public AllocationDetail( long employee_id, LocalDate date, int time) {
 		super();
-		this.project_id = project_id;
+		//this.project_id = project_id;
 		this.employee_id = employee_id;
 		this.date = date;
 		this.time = time;
@@ -43,22 +44,22 @@ public class AllocationDetail  {
 	public void setAllocation_detail_id(long allocation_detail_id) {
 		this.allocation_detail_id = allocation_detail_id;
 	}
-	public long getProject_id() {
-		return project_id;
-	}
-	public void setProject_id(long project_id) {
-		this.project_id = project_id;
-	}
+//	public long getProject_id() {
+//		return project_id;
+//	}
+//	public void setProject_id(long project_id) {
+//		this.project_id = project_id;
+//	}
 	public long getEmployee_id() {
 		return employee_id;
 	}
 	public void setEmployee_id(long employee_id) {
 		this.employee_id = employee_id;
 	}
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	public int getTime() {

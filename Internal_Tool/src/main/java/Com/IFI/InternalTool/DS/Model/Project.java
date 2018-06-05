@@ -15,8 +15,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="project")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
+@JsonIgnoreProperties(value={"month","year"})
 public class Project  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

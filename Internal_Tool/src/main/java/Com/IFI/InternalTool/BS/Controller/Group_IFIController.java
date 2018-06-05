@@ -99,9 +99,9 @@ public class Group_IFIController {
 
 	}
 
-	@PostMapping("/findGroupById")
+	@GetMapping("/findGroupById")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findGroupById(@RequestParam("group_id") String group_id) {
+	public @ResponseBody Payload findGroupById(@PathVariable String group_id) {
 		logger.info("Find Group By Id ... ");
 		
 		try {

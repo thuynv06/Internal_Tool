@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.EmployeeService;
+import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Employee;
 @Service("EmployeeService")
@@ -13,6 +14,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	@Autowired
 	EmployeeDAOImpl employeeDAO;
+
 	
 	@Override
 	public List<Employee> getAllEmployee(int page, int pageSize,String sortedColumn,Boolean desc) {

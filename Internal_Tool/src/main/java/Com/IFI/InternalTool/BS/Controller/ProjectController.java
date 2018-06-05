@@ -88,9 +88,9 @@ public class ProjectController {
 	}
 
 	//
-	@PostMapping("/findProjectLikeName")
+	@PostMapping("/findProjectNameLike")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findProjectLikeName(@RequestParam("projectName") String projectName) {
+	public @ResponseBody Payload findProjectNameLike(@RequestParam("projectName") String projectName) {
 		logger.info("Find Project Like Name ... ");
 
 		try {

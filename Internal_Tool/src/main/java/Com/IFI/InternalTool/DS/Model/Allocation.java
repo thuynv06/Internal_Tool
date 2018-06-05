@@ -11,9 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "allocation")
+@JsonIgnoreProperties(value={"month","year"})
 public class Allocation  {
 	@Id
 	@Column(name = "allocation_id")

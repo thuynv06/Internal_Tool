@@ -1,7 +1,6 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,21 +28,25 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public boolean createAllocation(Allocation allocation) {
-		// end_date must be > start_date
 		LocalDate start_date = allocation.getStart_date().toLocalDate();
 		LocalDate end_date = allocation.getEnd_date().toLocalDate();
-		if (end_date.isBefore(start_date)) {
+
+		// end_date must be > start_date
+		if (start_date.isAfter(end_date)) {
 			return false;
 		}
+
+
 		// get maxEndDate Allocation in History
-		LocalDate maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
-		logger.info(maxEndDate.toString() + " max end_date before");
-		// check start_date with maxEndDate
+		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
+		logger.info(maxEndDate + " max end_date in history");
+		
 		if (maxEndDate != null) {
-			if (start_date.isBefore(maxEndDate) || start_date.isEqual(maxEndDate)) {
+			if (start_date.isBefore(maxEndDate.toLocalDate()) || start_date.isEqual(maxEndDate.toLocalDate())) {
 				return false;
 			}
 		}
+		// check start_date with maxEndDate
 
 		// get month , get year
 		int month = start_date.getMonthValue();
@@ -62,26 +65,13 @@ public class AllocationServiceImpl implements AllocationService {
 		logger.info("Allocation_Plan: " + allocation_plan);
 		allocation.setAllocation_plan(allocation_plan);
 
-		logger.info("expert" + allocation_plan);
 
 		allocation.setMonth(start_date.getMonthValue());
 		allocation.setYear(start_date.getYear());
 		if (allocationDAO.saveAllocation(allocation)) {
-			// generic allocationDetail
-			while (start_date.isBefore(end_date) || start_date.isEqual(end_date)) {
-				if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY
-						&& start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
-					AllocationDetail a = new AllocationDetail();
-					a.setEmployee_id(allocation.getEmployee_id());
-					a.setDate((Date) Date.valueOf(start_date));
-					a.setTime(8);
-					allocationDetailDAO.saveAllocationDetail(a);
-				}
-				start_date = start_date.plusDays(1);
-			}
-
 			return true;
 		} else {
+			
 			return false;
 		}
 

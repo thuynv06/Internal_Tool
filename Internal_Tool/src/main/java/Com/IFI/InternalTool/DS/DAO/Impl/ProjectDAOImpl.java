@@ -57,6 +57,9 @@ public class ProjectDAOImpl implements ProjectDAO {
 		tx=session.beginTransaction();
 		String hql = "Delete from Project where project_id=:project_id";
 		Query query = session.createQuery(hql);
+		
+		String hql1 = "Delete from Project where project_id=:project_id";
+		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		query.executeUpdate();
 		tx.commit();

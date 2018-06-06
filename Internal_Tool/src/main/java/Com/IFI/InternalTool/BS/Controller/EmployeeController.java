@@ -31,14 +31,16 @@ public class EmployeeController {
 	private static final Logger logger = LoggerFactory.getLogger(Group_IFIController.class);
 
 	@GetMapping
-	public @ResponseBody Payload getEmployees(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+	public @ResponseBody Payload getEmployees(
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
 		try {
 			data = employeeService.getAllEmployees(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: " + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Employees Successfull", true);
@@ -55,8 +57,8 @@ public class EmployeeController {
 			data = employeeService.getEmployeeById(employee_id);
 		} catch (Exception e) {
 			logger.error("ERROR:", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR:" + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employee By ID Successfull",
@@ -64,40 +66,42 @@ public class EmployeeController {
 		return message;
 
 	}
-	
+
 	// find employees with name likes
 	@GetMapping("/findEmployeeNameLike/")
-	public @ResponseBody Payload findEmployeeNameLike(@RequestParam("name") String nameLike,@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+	public @ResponseBody Payload findEmployeeNameLike(@RequestParam("name") String nameLike,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees Name Like ... ");
 		try {
 			data = employeeService.findEmployeeNameLike(nameLike, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR:" + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees Name Like ... ", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees Name Like ... ",
+				true);
 		return message;
 	}
-	
-	
+
 	@GetMapping("/findEmployeeByGroupId/{group_id}")
-	public @ResponseBody Payload findEmployeeByGroupId(@RequestParam("group_id") String group_id,@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+	public @ResponseBody Payload findEmployeeByGroupId(@RequestParam(value = "group_id") String group_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees By Group ID ... ");
 		try {
 			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: " + e.getMessage(), false);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees By Group ID ... ", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees By Group ID ... ",
+				true);
 		return message;
 	}
-	
-	
-	
 
 }

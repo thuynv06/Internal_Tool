@@ -2,14 +2,16 @@ package Com.IFI.InternalTool.BS.Service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
 
 public interface Group_IFIService {
 	// create group
 	public void saveGroupIFI(final Group_IFI group);
 
 	// delete group by ID
+	@PreAuthorize("hasRole('ADMIN')")
 	public Boolean deleteGroupById(final String group_id);
 
 	// getGroupByID

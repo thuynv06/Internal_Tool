@@ -2,6 +2,8 @@ package Com.IFI.InternalTool.BS.Service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import Com.IFI.InternalTool.DS.Model.Employee;
 
 public interface EmployeeService {
@@ -12,6 +14,7 @@ public interface EmployeeService {
 	public void saveEmployee(final Employee employee);
 
 	// delete employees by id
+	@PreAuthorize("has+Role('ADMIN')")
 	public Boolean deleteEmployee(final long employee_id);
 
 	// get employss by ID

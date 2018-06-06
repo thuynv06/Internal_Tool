@@ -40,11 +40,7 @@ public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 	@Override
 	public boolean saveAllocationDetail(final AllocationDetail allocationDetail) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		Transaction tx = null;
-		tx = session.beginTransaction();
 		session.saveOrUpdate(allocationDetail);
-		tx.commit();
-		session.close();
 		return true;
 	}
 

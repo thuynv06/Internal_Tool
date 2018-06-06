@@ -2,7 +2,7 @@ package Com.IFI.InternalTool.Utils;
 
 public class AppConstants {
 	public static final String DEFAULT_PAGE_NUMBER = "1";
-	public static final String DEFAULT_PAGE_SIZE = "30";
+	public static final String DEFAULT_PAGE_SIZE = "50";
 	public static final int MAX_PAGE_SIZE = 50;
 	public static final String SUCCESS_CODE = "SUCCESS_CODE";
 	public static final String FAILED_CODE = "FAILED_CODE";

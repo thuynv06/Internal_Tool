@@ -36,8 +36,9 @@ public class AllocationController {
 	Object data = "";
 
 	@GetMapping
-	
-	public @ResponseBody Payload getAllocations(@RequestParam(value="page",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page ,
+
+	public @ResponseBody Payload getAllocations(
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {
 			data = allocationService.getAllocations(page, pageSize);
@@ -52,22 +53,28 @@ public class AllocationController {
 		return message;
 	}
 
-	
 	@PostMapping("/create")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload createAllocation(@Valid @RequestBody Allocation allocation) {
 		logger.info("Create allocation ... ");
 
-		if (allocationService.createAllocation(allocation)) {
-			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create allocation Successfull",
-					true);
-			return message;
-		} else {
-			logger.error("ERROR: Some things wrong error");
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: Some things wrong",
+		try {
+			if (allocationService.createAllocation(allocation)) {
+				message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+						"Create Allocation By ID Successfull", true);
+			} else {
+				message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: end_date < start_date or start_date is smaller than max end_date is history" ,
+						false);
+			}
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
+
+		return message;
 
 	}
 
@@ -110,7 +117,9 @@ public class AllocationController {
 
 	@GetMapping("/searchAllcationWithTime")
 	public @ResponseBody Payload searchAllocationWithMonth(@RequestParam("year") int year,
-			@RequestParam("month") int month, @RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+			@RequestParam("month") int month,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("search Allcation With Month ... ");
 		try {
 			data = allocationService.SearchAllocationWithTime(year, month, page, pageSize);
@@ -144,7 +153,8 @@ public class AllocationController {
 
 	@GetMapping("/findAllocationByProjectID")
 	public @ResponseBody Payload findAllocationByProjectID(@RequestParam("projecct_id") int project_id,
-			@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("find Allcation By Project ID ... ");
 		try {
 			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);

@@ -1,9 +1,11 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.time.DayOfWeek;
 
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.AllocationDetail;
 import Com.IFI.InternalTool.Payloads.AllocationResponse;
 import Com.IFI.InternalTool.Payloads.PagedResponse;
 
@@ -29,8 +32,11 @@ public class AllocationDAOImpl implements AllocationDAO {
 	private EntityManagerFactory entityManagerFactory;
 	private static final Logger logger = LoggerFactory.getLogger(AllocationDAOImpl.class);
 
+	@Autowired
+	AllocationDetailDAOImpl allocationDetailDAO;
+
 	@Override
-	public List<Allocation> getAllocations(int page, int pageSize) {
+	public List<Allocation> getAllocations(final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Allocation ";
 		Query query = session.createQuery(hql);
@@ -42,18 +48,27 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public boolean saveAllocation(Allocation allocation) {
+	public Boolean saveAllocation(final Allocation allocation) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		Transaction tx = null;
-		tx = session.beginTransaction();
 		session.saveOrUpdate(allocation);
-		tx.commit();
-		session.close();
+		// generic allocationDetail
+		LocalDate start_date = allocation.getStart_date().toLocalDate();
+		LocalDate end_date = allocation.getEnd_date().toLocalDate();
+		while (start_date.isBefore(end_date) || start_date.equals(end_date)) {
+			if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY && start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
+				AllocationDetail a = new AllocationDetail();
+				a.setEmployee_id(allocation.getEmployee_id());
+				a.setDate((Date) (Date.valueOf(start_date)));
+				a.setTime(8);
+				allocationDetailDAO.saveAllocationDetail(a);
+			}
+			start_date = start_date.plusDays(1);
+		}
 		return true;
 	}
 
 	@Override
-	public boolean deleteById(long allocation_id) {
+	public Boolean deleteById(final long allocation_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "Delete from Allocation where allocation_id=:allocation_id";
 		Query query = session.createQuery(hql);
@@ -64,7 +79,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public Allocation findById(long allocation_id) {
+	public Allocation findById(final long allocation_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Allocation where allocation_id=:allocation_id ";
 		Query query = session.createQuery(hql);
@@ -75,15 +90,15 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public LocalDate findMaxEndDate(long employee_id) {
+	public Date findMaxEndDate(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT MAX(a.end_date) FROM Allocation a where a.employee_id = :employee_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
-		// Date maxEndDate=
-		// logger.info(maxEndDate + "max_end_date" );
-		Date d=(Date) query.uniqueResult();
-		return d.toLocalDate();
+		if (query.uniqueResult() != null) {
+			return (Date) query.uniqueResult();
+		}
+		return null;
 	}
 
 	public List<Allocation> searchAllocationWithTime(final int year, final int month, final int page,
@@ -135,7 +150,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize) {
+	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "select a FROM Allocation a where a.project_id = :project_id";
 		Query query = session.createQuery(hql);

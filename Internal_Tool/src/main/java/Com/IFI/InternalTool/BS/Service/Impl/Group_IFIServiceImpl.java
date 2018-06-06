@@ -26,9 +26,8 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	}
 
 	@Override
-	public Group_IFI createGroupIFI(final Group_IFI group) {
-
-		return groupDAO.createGroup(group);
+	public void saveGroupIFI(final Group_IFI group) {
+		groupDAO.saveGroup(group);
 	}
 
 	@Override
@@ -39,13 +38,13 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	}
 
 	@Override
-	public List<Group_IFI> findGroupNameLike(final String name,final int page,final int pageSize) {
+	public List<Group_IFI> findGroupNameLike(final String name, final int page, final int pageSize) {
 
 		return groupDAO.findGroupNameLike(name, page, pageSize);
 	}
 
 	@Override
-	public List<Group_IFI> getGroups(final int page,final int pageSize) {
+	public List<Group_IFI> getGroups(final int page, final int pageSize) {
 		return groupDAO.getGroups(page, pageSize);
 	}
 

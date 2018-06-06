@@ -99,12 +99,12 @@ public class Group_IFIController {
 
 	// create new Group
 	@PostMapping("/create")
-	// @RolesAllowed("ROLE_USER")
+	@PreAuthorize("hasRole('USER') OR hasRole('ADMIN')")
 	public @ResponseBody Payload createGroup(@Valid @RequestBody Group_IFI groupRequest) {
 		logger.info("Create Group ... ");
 
 		try {
-			data = groupService.createGroupIFI(groupRequest);
+			 groupService.saveGroupIFI(groupRequest);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
@@ -116,6 +116,7 @@ public class Group_IFIController {
 	}
 
 	@DeleteMapping("deleteGroupById/{group_id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody Payload deleteGroupById(@PathVariable String group_id) {
 		logger.info("Create Group ... ");
 

@@ -2,8 +2,8 @@ package Com.IFI.InternalTool.DS.Model;
 
 
 
+
 import java.sql.Date;
-import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,11 +24,11 @@ public class AllocationDetail  {
 	@Column(name = "employee_id")
 	private long employee_id;
 	@Column(name = "date")
-	private LocalDate date;
+	private Date date;
 	@Column(name = "time")
 	private int time;
 	
-	public AllocationDetail( long employee_id, LocalDate date, int time) {
+	public AllocationDetail( long employee_id, Date date, int time) {
 		super();
 		//this.project_id = project_id;
 		this.employee_id = employee_id;
@@ -56,10 +56,10 @@ public class AllocationDetail  {
 	public void setEmployee_id(long employee_id) {
 		this.employee_id = employee_id;
 	}
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public int getTime() {

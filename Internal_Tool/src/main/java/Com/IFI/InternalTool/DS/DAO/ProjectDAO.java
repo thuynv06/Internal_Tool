@@ -11,7 +11,7 @@ public interface ProjectDAO {
 	
 	List<Project> getAllProject(int page,int pageSize,String sortedColumn,Boolean desc);
 	
-	boolean saveProject(Project project);
+	public void saveProject(Project project);
 	
 	boolean deleteProject(long project_id);
 	

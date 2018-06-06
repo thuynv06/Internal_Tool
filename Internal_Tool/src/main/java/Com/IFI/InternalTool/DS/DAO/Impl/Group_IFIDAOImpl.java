@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.Group_IFIDAO;
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
+
 @Repository("GroupDAO")
 @Transactional
 public class Group_IFIDAOImpl implements Group_IFIDAO {
@@ -21,20 +22,19 @@ public class Group_IFIDAOImpl implements Group_IFIDAO {
 	private EntityManagerFactory entityManagerFactory;
 
 	@Override
-	public Group_IFI createGroup(Group_IFI group) {
+	public void saveGroup(Group_IFI group) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		session.saveOrUpdate(group);
-		session.close();
-		return group;
 	}
 
 	@Override
-	public Group_IFI findGroupById(final String group_id) {
+	public Group_IFI findGroupById( String group_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "Select g FROM Group_IFI g where g.group_id = :group_id ";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
-		Group_IFI group = (Group_IFI) query.uniqueResult();
+		System.out.print(query);
+		Group_IFI group =  (Group_IFI) query.getSingleResult();
 		session.close();
 		return group;
 	}

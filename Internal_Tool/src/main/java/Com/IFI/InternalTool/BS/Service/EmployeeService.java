@@ -1,23 +1,29 @@
 package Com.IFI.InternalTool.BS.Service;
+
 import java.util.List;
 
 import Com.IFI.InternalTool.DS.Model.Employee;
+
 public interface EmployeeService {
+	// get list employeess and paginations
+	public List<Employee> getAllEmployees(final int page, final int pageSize);
 
+	// save employess
+	public void saveEmployee(final Employee employee);
 
-	List<Employee>  getAllEmployees(int page, int pageSize);
-	
-	Boolean saveEmployee(Employee employee);
-	
-	Boolean deleteEmployee(long employee_id);
-	
-	Employee getEmployeeById(long employee_id);
-	
-	List<Employee> findEmployeeNameLike(final String name,int page, int pageSize);
-	
-	List<Employee> findEmployeeByGroupId(final String group_id,final int page,final int pageSize);
+	// delete employees by id
+	public Boolean deleteEmployee(final long employee_id);
 
-	List<Long> getEmployeeByManager(long manager_id);
+	// get employss by ID
+	public Employee getEmployeeById(final long employee_id);
+
+	// find Employees Name Like
+	public List<Employee> findEmployeeNameLike(final String name, int page, int pageSize);
+
+	// find Employees By Group ID
+	public List<Employee> findEmployeeByGroupId(final String group_id, final int page, final int pageSize);
+
 	
-	
+	public List<Long> getEmployeeByManager(final long manager_id);
+
 }

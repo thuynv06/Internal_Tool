@@ -30,22 +30,20 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public boolean createAllocation(Allocation allocation) {
 		// end_date must be > start_date
-		if (allocation.getEnd_date().before(allocation.getStart_date())) {
-			return false;
-		}
-
 		LocalDate start_date = allocation.getStart_date().toLocalDate();
 		LocalDate end_date = allocation.getEnd_date().toLocalDate();
-
+		if (end_date.isBefore(start_date)) {
+			return false;
+		}
 		// get maxEndDate Allocation in History
 		LocalDate maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
-		logger.info(maxEndDate + "max");
+		logger.info(maxEndDate.toString() + " max end_date before");
+		// check start_date with maxEndDate
 		if (maxEndDate != null) {
 			if (start_date.isBefore(maxEndDate) || start_date.isEqual(maxEndDate)) {
 				return false;
 			}
 		}
-		// check start_date with maxEndDate
 
 		// get month , get year
 		int month = start_date.getMonthValue();
@@ -70,12 +68,12 @@ public class AllocationServiceImpl implements AllocationService {
 		allocation.setYear(start_date.getYear());
 		if (allocationDAO.saveAllocation(allocation)) {
 			// generic allocationDetail
-			while (start_date.isBefore(end_date)) {
+			while (start_date.isBefore(end_date) || start_date.isEqual(end_date)) {
 				if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY
 						&& start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
 					AllocationDetail a = new AllocationDetail();
 					a.setEmployee_id(allocation.getEmployee_id());
-					a.setDate(start_date);
+					a.setDate((Date) Date.valueOf(start_date));
 					a.setTime(8);
 					allocationDetailDAO.saveAllocationDetail(a);
 				}
@@ -89,15 +87,8 @@ public class AllocationServiceImpl implements AllocationService {
 
 	}
 
-	// @Override
-	// public PagedResponse<AllocationResponse> getAllocations1(int page, int
-	// pageSize, Boolean desc) {
-	//
-	// return allocationDAO.getAllocation1(page, pageSize, desc);
-	// }
-
 	@Override
-	public  List<Allocation> getAllocations(int page, int pageSize) {
+	public List<Allocation> getAllocations(int page, int pageSize) {
 		return allocationDAO.getAllocations(page, pageSize);
 	}
 

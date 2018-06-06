@@ -1,14 +1,21 @@
 package Com.IFI.InternalTool.BS.Service;
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.Security.CurrentUser;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 
 
 public interface AllocationService {
-
+	
+	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
 	boolean createAllocation(final Allocation allocation);
 	
+	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
 	boolean deleteByID(final Long allocation_id);
 
 	List<Allocation> getAllocations(final int page,final int pageSize);

@@ -35,34 +35,11 @@ public class AllocationDAOImpl implements AllocationDAO {
 		String hql = "FROM Allocation ";
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page - 1) * pageSize);
-		query.setMaxResults((page+1)*pageSize -1);
+		query.setMaxResults((page + 1) * pageSize - 1);
 		List<Allocation> list = query.getResultList();
 		session.close();
 		return list;
 	}
-
-	// @Override
-	// public PagedResponse<AllocationResponse> getAllocation1(int page, int
-	// pageSize, Boolean desc) {
-	// Session session =
-	// entityManagerFactory.unwrap(SessionFactory.class).openSession();
-	// String hql = "select a.allocation_id,a.employee_id, e.fullname,
-	// a.project_id,p.name,a.allocation_plan, a.start_date,a.end_date from
-	// Allocation a, Employee e, Project p where a.employee_id= e.employee_id and
-	// p.project_id = a.project_id";
-	//
-	// Query query = session.createQuery(hql);
-	// query.setFirstResult((page - 1) * pageSize);
-	// query.setFetchSize(pageSize);
-	// query.setMaxResults(pageSize);
-	// List<AllocationResponse> list = query.getResultList();
-	// if (list.size() > pageSize) {
-	// return new PagedResponse<>(list.subList(0, pageSize));
-	// }
-	// logger.info(list+ " ");
-	// session.close();
-	// return new PagedResponse(list.subList(0, pageSize));
-	// }
 
 	@Override
 	public boolean saveAllocation(Allocation allocation) {
@@ -105,7 +82,8 @@ public class AllocationDAOImpl implements AllocationDAO {
 		query.setParameter("employee_id", employee_id);
 		// Date maxEndDate=
 		// logger.info(maxEndDate + "max_end_date" );
-		return (LocalDate) query.uniqueResult();
+		Date d=(Date) query.uniqueResult();
+		return d.toLocalDate();
 	}
 
 	public List<Allocation> searchAllocationWithTime(final int year, final int month, final int page,
@@ -170,7 +148,5 @@ public class AllocationDAOImpl implements AllocationDAO {
 		session.close();
 		return list;
 	}
-	
-	
 
 }

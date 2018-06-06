@@ -21,11 +21,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Boolean saveEmployee(Employee employee) {
-		if (employeeDAO.saveEmployee(employee)) {
-			return true;
-		}
-		return false;
+	public void saveEmployee(Employee employee) {
+		employeeDAO.saveEmployee(employee);
 	}
 
 	@Override

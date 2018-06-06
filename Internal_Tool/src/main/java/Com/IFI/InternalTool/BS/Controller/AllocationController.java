@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +36,9 @@ public class AllocationController {
 	Object data = "";
 
 	@GetMapping
-	public @ResponseBody Payload getAllocations(@RequestParam("page") int page,
-			@RequestParam("pageSize") int pageSize) {
+	
+	public @ResponseBody Payload getAllocations(@RequestParam(value="page",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page ,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {
 			data = allocationService.getAllocations(page, pageSize);
 		} catch (Exception e) {
@@ -50,23 +52,7 @@ public class AllocationController {
 		return message;
 	}
 
-	// @GetMapping
-	// public @ResponseBody Payload getAllocation(@RequestParam("page") int page,
-	// @RequestParam("pageSize") int pageSize,
-	// @RequestParam("desc") Boolean desc) {
-	// try {
-	// data = allocationService.getAllocations1(page, pageSize,desc);
-	// } catch (Exception e) {
-	// logger.error("ERROR: Get connection error", e);
-	// message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-	// "ERROR: Get connection error" + e, false);
-	// return message;
-	// }
-	// message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-	// "Get Allocations Successfull", true);
-	// return message;
-	// }
-
+	
 	@PostMapping("/create")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload createAllocation(@Valid @RequestBody Allocation allocation) {

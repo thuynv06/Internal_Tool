@@ -28,6 +28,7 @@ import Com.IFI.InternalTool.Payloads.JwtAuthenticationResponse;
 import Com.IFI.InternalTool.Payloads.LoginRequest;
 import Com.IFI.InternalTool.Payloads.SignUpRequest;
 import Com.IFI.InternalTool.Security.JwtTokenProvider;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -65,9 +66,9 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        UserPrincipal user= (UserPrincipal) authentication.getPrincipal();
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ResponseEntity.ok( user);
     }
 
 //    @PostMapping("/signup")

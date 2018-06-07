@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.time.DayOfWeek;
 
 import javax.persistence.EntityManagerFactory;
@@ -36,7 +37,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 	AllocationDetailDAOImpl allocationDetailDAO;
 
 	@Override
-	public List<Allocation> getAllocations(final int page, final int pageSize) {
+	public List<Allocation> getAllocations(final long employee_id,final Set<Long>  listProject,final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Allocation ";
 		Query query = session.createQuery(hql);

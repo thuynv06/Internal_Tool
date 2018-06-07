@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import Com.IFI.InternalTool.BS.Service.Impl.AllocationServiceImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.Payloads.Payload;
+import Com.IFI.InternalTool.Security.CurrentUser;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
 
 @RestController
@@ -37,7 +39,7 @@ public class AllocationController {
 
 	@GetMapping
 
-	public @ResponseBody Payload getAllocations(
+	public @ResponseBody Payload getAllocations(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {

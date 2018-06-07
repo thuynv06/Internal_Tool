@@ -56,6 +56,6 @@ public class Business {
 	        start_date=start_date.plusDays(1);
 	        
 	    }	
-		return DistanceTime + 1 ;
+		return DistanceTime;
 	}
 }

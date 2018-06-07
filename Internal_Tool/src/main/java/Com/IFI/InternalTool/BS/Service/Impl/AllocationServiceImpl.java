@@ -2,7 +2,9 @@ package Com.IFI.InternalTool.BS.Service.Impl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
+import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.Business;
 
 @Service
@@ -20,7 +24,8 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
 	private AllocationDAO allocationDAO;
-
+	@Autowired
+	private ProjectManagerDAO projectManagerDAO;
 	@Autowired
 	private AllocationDetailDAOImpl allocationDetailDAO;
 
@@ -36,11 +41,10 @@ public class AllocationServiceImpl implements AllocationService {
 			return false;
 		}
 
-
 		// get maxEndDate Allocation in History
 		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
 		logger.info(maxEndDate + " max end_date in history");
-		
+
 		if (maxEndDate != null) {
 			if (start_date.isBefore(maxEndDate.toLocalDate()) || start_date.isEqual(maxEndDate.toLocalDate())) {
 				return false;
@@ -65,21 +69,29 @@ public class AllocationServiceImpl implements AllocationService {
 		logger.info("Allocation_Plan: " + allocation_plan);
 		allocation.setAllocation_plan(allocation_plan);
 
-
 		allocation.setMonth(start_date.getMonthValue());
 		allocation.setYear(start_date.getYear());
 		if (allocationDAO.saveAllocation(allocation)) {
 			return true;
 		} else {
-			
+
 			return false;
 		}
 
 	}
 
 	@Override
-	public List<Allocation> getAllocations(int page, int pageSize) {
-		return allocationDAO.getAllocations(page, pageSize);
+	public List<Allocation> getAllocations(UserPrincipal currentUser, int page, int pageSize) {
+
+		long employee_id = currentUser.getId();
+		Set<Long> listProjects = null;
+		currentUser.getAuthorities().forEach(role -> {
+			if ("ROLE_LEADER".equals(role) || "ROLE_ADMIN".equals(role)) {
+				listProjects = projectManagerDAO.getProjectIDs(employee_id);
+			}
+		});
+
+		return allocationDAO.getAllocations(employee_id, listProjects, page, pageSize);
 	}
 
 	@Override

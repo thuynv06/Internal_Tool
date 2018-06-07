@@ -3,10 +3,12 @@ package Com.IFI.InternalTool.DS.DAO;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
+
 import Com.IFI.InternalTool.DS.Model.Allocation;
 public interface AllocationDAO {
 
-	List<Allocation> getAllocations(final int page,final int pageSize);
+	List<Allocation> getAllocations(final long employee_id,final Set<Long>  listProject,final int page,final int pageSize);
 
 	//PagedResponse<AllocationResponse> getAllocation1(int page,int pageSize,Boolean desc);
 	

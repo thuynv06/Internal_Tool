@@ -89,14 +89,51 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
+	public Boolean updateAllocation(Allocation allocation) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		boolean success = false;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Allocation currentAllocation = session.get(Allocation.class, allocation.getAllocation_id());
+			currentAllocation.setAllocation_plan(allocation.getAllocation_plan());
+			currentAllocation.setEmployee_id(allocation.getEmployee_id());
+			currentAllocation.setEnd_date(allocation.getEnd_date());
+			currentAllocation.setMonth(allocation.getMonth());
+			currentAllocation.setProject_id(allocation.getProject_id());
+			currentAllocation.setStart_date(allocation.getStart_date());
+			currentAllocation.setYear(allocation.getYear());
+			tx.commit();
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
+	}
+
+	@Override
 	public Boolean deleteById(final long allocation_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		Transaction tx = null;
+		tx = session.beginTransaction();
+		// xoa cac detail allocation
+		String hqlDeleteDetail = "delete from AllocationDetail where allocation_id = :allocation_id";
+		Query queryDeleteDetail = session.createQuery(hqlDeleteDetail);
+		queryDeleteDetail.executeUpdate();
+		// xoa allocation
 		String hql = "Delete from Allocation where allocation_id=:allocation_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("allocation_id", allocation_id);
-		query.executeUpdate();
+		int row = query.executeUpdate();
+		tx.commit();
 		session.close();
-		return true;
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

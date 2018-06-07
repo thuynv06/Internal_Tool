@@ -65,7 +65,7 @@ public class AuthController {
 		UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 		String jwt = tokenProvider.generateToken(authentication);
 		message.setToken(jwt);
-		message.setUser(userDAO.getEmployeeById(user.getId()));
+		message.setUsername(userDAO.getEmployeeById(user.getId()));
 		return message;
 	}
 

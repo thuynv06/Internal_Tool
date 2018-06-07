@@ -14,6 +14,8 @@ public interface AllocationDAO {
 
 	public Boolean saveAllocation(final Allocation allocation);
 
+	public Boolean updateAllocation(final Allocation allocation);
+
 	public Boolean deleteById(final long allocation_id);
 
 	public Allocation findById(final long allocation_id);
@@ -26,4 +28,5 @@ public interface AllocationDAO {
 			final int pageSize);
 
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
+
 }

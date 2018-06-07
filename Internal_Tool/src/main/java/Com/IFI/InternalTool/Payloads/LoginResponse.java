@@ -23,12 +23,14 @@ public class LoginResponse {
 		this.token = token;
 	}
 
-	public Employee getUser() {
+	public Employee getUsername() {
 		return username;
 	}
 
-	public void setUser(Employee user) {
-		this.username = user;
+	public void setUsername(Employee username) {
+		this.username = username;
 	}
+
+
 
 }

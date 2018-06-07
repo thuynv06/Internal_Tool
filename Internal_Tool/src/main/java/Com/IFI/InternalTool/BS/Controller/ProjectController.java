@@ -20,12 +20,12 @@ import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
+import Com.IFI.InternalTool.Utils.Business;
 import Com.IFI.InternalTool.BS.Service.Impl.ProjectServiceImpl;
 
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
-
 	@Autowired
 	private ProjectServiceImpl projectService;
 
@@ -36,11 +36,13 @@ public class ProjectController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+	// lay tat ca project
 	@GetMapping
-	public @ResponseBody Payload getAllProject(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
-			@RequestParam("sortedColumn") String sortedColumn, @RequestParam("desc") Boolean desc) {
+	public @ResponseBody Payload getAllProject(
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {
-			data = projectService.getAllProject(page, pageSize, sortedColumn, desc);
+			data = projectService.getAllProject(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
@@ -51,8 +53,9 @@ public class ProjectController {
 		return message;
 	}
 
-	@PostMapping("/create")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	// tao project
+	@PostMapping(value = { "/create" })
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload createProject(@Valid @RequestBody Project projectRequest) {
 		logger.info("Create Project ... ");
 
@@ -68,7 +71,7 @@ public class ProjectController {
 		return message;
 	}
 
-	// find Project by ID
+	// tim kiem theo id
 	@PostMapping("/findProjectById")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findProjectById(@RequestParam("project_id") long project_id) {
@@ -87,14 +90,16 @@ public class ProjectController {
 
 	}
 
-	//
+	//tim kiem theo ten
 	@PostMapping("/findProjectNameLike")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findProjectNameLike(@RequestParam("projectName") String projectName) {
+	public @ResponseBody Payload findProjectNameLike(@RequestParam("projectName") String projectName,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Project Like Name ... ");
 
 		try {
-			data = projectService.findProjectLikeName(projectName);
+			data = projectService.findProjectNameLike(projectName, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
@@ -107,4 +112,138 @@ public class ProjectController {
 
 	}
 
+	// xoa project
+	@PostMapping("/deleteProject")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload deleteProject(@RequestParam("project_id") long projectId) {
+		logger.info("Delete Project ... ");
+
+		try {
+			data = projectService.deleteProject(projectId);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Delete Project Successfull", true);
+		return message;
+	}
+
+	// lay danh sach project cua mot group
+	@GetMapping("/getProjectsOfGroup")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload getProjectsOfGroup(@RequestParam("group_id") String groupId,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Get List Project Of Group... ");
+
+		try {
+			data = projectService.getProjectsOfGroup(groupId, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Of Group Successfull", true);
+		return message;
+	}
+
+	// lay quan ly cao nhat
+	@GetMapping("/getBigestManager")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload getBigestManager(@RequestParam("project_id") long project_id) {
+		logger.info("Get Bigest Manager... ");
+
+		try {
+			data = projectService.getBigestManager(project_id);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Bigest Manager Successfull", true);
+		return message;
+	}
+
+	// lya danh sach nhan vien trong project
+	@GetMapping("/getListEmployee")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload getListEmployee(@RequestParam("project_id") long project_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Get List Employee... ");
+
+		try {
+			data = projectService.getListEmployee(project_id, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Employee Successfull", true);
+		return message;
+	}
+
+	// update project
+	@PostMapping("/updateProject")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload updateProject(@Valid @RequestBody Project project) {
+		logger.info("Update Project... ");
+
+		try {
+			data = projectService.updateProject(project);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Projectt Successfull", true);
+		return message;
+	}
+
+	// lay danh sach project off
+	@GetMapping("/getListProjectOutOfDate")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload getListProjectOutOfDate(
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Get List Project Out Of Date... ");
+
+		try {
+			data = projectService.getListProjectOutOfDate(page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Out Of Dat Successfull", true);
+		return message;
+	}
+
+	// lay danh sach project theo nam thang
+	@GetMapping("/getProjectByMonthYear")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload getProjectByMonthYear(@RequestParam("year") int year, @RequestParam("month") int month,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Get Project By Month Year... ");
+
+		try {
+			data = projectService.getProjectByMonthYear(month, year, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Get connection error" + e, false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Project By Month Year Successfull", true);
+		return message;
+	}
 }
+

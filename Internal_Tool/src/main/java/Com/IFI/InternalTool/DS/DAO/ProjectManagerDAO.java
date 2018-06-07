@@ -1,8 +1,8 @@
 package Com.IFI.InternalTool.DS.DAO;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ProjectManagerDAO {
-	Set<Long> getProjectIDs(final long employee_id);
+	List<Long> getProjectIDs(final long employee_id);
 	
 }

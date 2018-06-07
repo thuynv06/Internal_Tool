@@ -1,22 +1,22 @@
 package Com.IFI.InternalTool.Payloads;
 
 public class UserSummary {
-    private Long id;
+    private Long employee_id;
     private String username;
     private String name;
 
     public UserSummary(Long id, String username, String name) {
-        this.id = id;
+        this.employee_id = id;
         this.username = username;
         this.name = name;
     }
 
     public Long getId() {
-        return id;
+        return employee_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.employee_id= id;
     }
 
     public String getUsername() {

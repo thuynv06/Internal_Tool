@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
+import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
 import Com.IFI.InternalTool.Payloads.AllocationResponse;
@@ -35,17 +36,36 @@ public class AllocationDAOImpl implements AllocationDAO {
 
 	@Autowired
 	AllocationDetailDAOImpl allocationDetailDAO;
+	@Autowired
+	private ProjectManagerDAO projectManagerDAO;
 
 	@Override
-	public List<Allocation> getAllocations(final long employee_id,final Set<Long>  listProject,final int page, final int pageSize) {
+	public List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Allocation ";
+		String hql = "FROM Allocation where employee_id= :employee_id ";
+
 		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults((page + 1) * pageSize - 1);
 		List<Allocation> list = query.getResultList();
 		session.close();
 		return list;
+	}
+
+	@Override
+	public List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize) {
+
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "Select a FROM Allocation a where a.project_id in (select pm.project_id from ProjectManager pm where pm.manager_id = :employee_id)";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults((page + 1) * pageSize - 1);
+		List<Allocation> list = query.getResultList();
+		session.close();
+		return list;
+
 	}
 
 	@Override

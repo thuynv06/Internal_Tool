@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,12 +40,21 @@ public class AllocationController {
 	Object data = "";
 
 	@GetMapping
-
 	public @ResponseBody Payload getAllocations(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+
+		boolean hasUserRole = currentUser.getAuthorities().stream()
+				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
+		logger.info(hasUserRole + " role");
+
 		try {
-			data = allocationService.getAllocations(page, pageSize);
+			if (hasUserRole) {
+				data = allocationService.getAllocations(currentUser.getId(), page, pageSize);
+			} else {
+				data = allocationService.getAllocatedofManager(currentUser.getId(), page, pageSize);
+			}
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
@@ -65,8 +76,8 @@ public class AllocationController {
 				message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
 						"Create Allocation By ID Successfull", true);
 			} else {
-				message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: end_date < start_date or start_date is smaller than max end_date is history" ,
-						false);
+				message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+						"ERROR: end_date < start_date or start_date is smaller than max end_date is history", false);
 			}
 
 		} catch (Exception e) {
@@ -82,7 +93,6 @@ public class AllocationController {
 
 	// Find Allocation By Id
 	@GetMapping("/findById/{allocation_id}")
-	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findAllocationById(@PathVariable Long allocation_id) {
 		logger.info("Find Allocation By Id ... ");
 
@@ -90,7 +100,7 @@ public class AllocationController {
 			data = allocationService.findById(allocation_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -127,7 +137,7 @@ public class AllocationController {
 			data = allocationService.SearchAllocationWithTime(year, month, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
@@ -144,7 +154,7 @@ public class AllocationController {
 			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -162,7 +172,7 @@ public class AllocationController {
 			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}

@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.BS.Controller;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import Com.IFI.InternalTool.Exception.AppException;
 import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Payloads.JwtAuthenticationResponse;
 import Com.IFI.InternalTool.Payloads.LoginRequest;
+import Com.IFI.InternalTool.Payloads.LoginResponse;
 import Com.IFI.InternalTool.Payloads.SignUpRequest;
 import Com.IFI.InternalTool.Security.JwtTokenProvider;
 import Com.IFI.InternalTool.Security.UserPrincipal;
@@ -34,72 +34,75 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 
-
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-    @Autowired
-    EmployeeDAO userDAO;
+	@Autowired
+	EmployeeDAO userDAO;
 
-    @Autowired
-    RoleDAO roleDAO;
+	@Autowired
+	RoleDAO roleDAO;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
-    @Autowired
-    JwtTokenProvider tokenProvider;
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-    	logger.info("Login ... ");
+	@Autowired
+	JwtTokenProvider tokenProvider;
+	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+	@PostMapping("/signin")
+	public LoginResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		logger.info("Login ... ");
+		LoginResponse message = new LoginResponse();
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserPrincipal user= (UserPrincipal) authentication.getPrincipal();
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok( user);
-    }
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+		String jwt = tokenProvider.generateToken(authentication);
+		message.setToken(jwt);
+		message.setUser(userDAO.getEmployeeById(user.getId()));
+		return message;
+	}
 
-//    @PostMapping("/signup")
-//    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-//        if(userDAO.existsByUsername(signUpRequest.getUsername())) {
-//            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-//                    HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if(userDAO.existsByEmail(signUpRequest.getEmail())) {
-//            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-//                    HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // Creating user's account
-//        Employee user = new Employee(signUpRequest.getName(), signUpRequest.getUsername(),
-//                signUpRequest.getEmail(), signUpRequest.getPassword());
-//
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//
-//        Role userRole = roleDAO.findByName(RoleName.ROLE_USER)
-//                .orElseThrow(() -> new AppException("User Role not set."));
-//
-//        user.setRoles(Collections.singleton(userRole));
-//
-//        Employee result = userDAO.save(user);
-//
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath().path("/users/{username}")
-//                .buildAndExpand(result.getUsername()).toUri();
-//
-//        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
-//    }
+	// @PostMapping("/signup")
+	// public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest
+	// signUpRequest) {
+	// if(userDAO.existsByUsername(signUpRequest.getUsername())) {
+	// return new ResponseEntity(new ApiResponse(false, "Username is already
+	// taken!"),
+	// HttpStatus.BAD_REQUEST);
+	// }
+	//
+	// if(userDAO.existsByEmail(signUpRequest.getEmail())) {
+	// return new ResponseEntity(new ApiResponse(false, "Email Address already in
+	// use!"),
+	// HttpStatus.BAD_REQUEST);
+	// }
+	//
+	// // Creating user's account
+	// Employee user = new Employee(signUpRequest.getName(),
+	// signUpRequest.getUsername(),
+	// signUpRequest.getEmail(), signUpRequest.getPassword());
+	//
+	// user.setPassword(passwordEncoder.encode(user.getPassword()));
+	//
+	// Role userRole = roleDAO.findByName(RoleName.ROLE_USER)
+	// .orElseThrow(() -> new AppException("User Role not set."));
+	//
+	// user.setRoles(Collections.singleton(userRole));
+	//
+	// Employee result = userDAO.save(user);
+	//
+	// URI location = ServletUriComponentsBuilder
+	// .fromCurrentContextPath().path("/users/{username}")
+	// .buildAndExpand(result.getUsername()).toUri();
+	//
+	// return ResponseEntity.created(location).body(new ApiResponse(true, "User
+	// registered successfully"));
+	// }
 }

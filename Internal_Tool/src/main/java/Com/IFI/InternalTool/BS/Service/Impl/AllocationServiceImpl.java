@@ -3,6 +3,7 @@ package Com.IFI.InternalTool.BS.Service.Impl;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,8 +25,7 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
 	private AllocationDAO allocationDAO;
-	@Autowired
-	private ProjectManagerDAO projectManagerDAO;
+
 	@Autowired
 	private AllocationDetailDAOImpl allocationDetailDAO;
 
@@ -81,17 +81,14 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public List<Allocation> getAllocations(UserPrincipal currentUser, int page, int pageSize) {
+	public List<Allocation> getAllocations(final long employee_id, int page, int pageSize) {
+		return allocationDAO.getAllocations(employee_id, page, pageSize);
+	}
 
-		long employee_id = currentUser.getId();
-		Set<Long> listProjects = null;
-		currentUser.getAuthorities().forEach(role -> {
-			if ("ROLE_LEADER".equals(role) || "ROLE_ADMIN".equals(role)) {
-				listProjects = projectManagerDAO.getProjectIDs(employee_id);
-			}
-		});
+	@Override
+	public List<Allocation> getAllocatedofManager(final long employee_id, int page, int pageSize) {
+		return allocationDAO.getAllocatedOfManager(employee_id, page, pageSize);
 
-		return allocationDAO.getAllocations(employee_id, listProjects, page, pageSize);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
@@ -22,12 +23,12 @@ public class ProjectManagerDAOImpl implements ProjectManagerDAO {
 	private EntityManagerFactory entityManagerFactory;
 
 	@Override
-	public Set<Long> getProjectIDs(long employee_id) {
+	public List<Long> getProjectIDs(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "Select pm.project_id from ProjectManager pm where pm.manager_id=:employee_id";
 		Query query = session.createQuery(hql);
-		query.setParameter("manager_id", employee_id); 
-		return (Set<Long>) query.getResultList();
+		query.setParameter("employee_id", employee_id); 
+		return (List<Long>) query.getResultList();
 	}
 
 }

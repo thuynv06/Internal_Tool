@@ -18,7 +18,10 @@ public interface AllocationService {
 	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
 	boolean deleteByID(final Long allocation_id);
 
-	List<Allocation> getAllocations(UserPrincipal currentUser,final int page,final int pageSize);
+	List<Allocation> getAllocations(final long employee_id,final int page,final int pageSize);
+	
+	//get allocated of manager
+	List<Allocation> getAllocatedofManager(final long employee_id,final int page,final int pageSize);
 	
 	Allocation findById(final long allocation_id);
 	

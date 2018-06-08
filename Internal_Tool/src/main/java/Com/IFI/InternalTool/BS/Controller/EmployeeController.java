@@ -39,7 +39,7 @@ public class EmployeeController {
 			data = employeeService.getAllEmployees(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
@@ -48,7 +48,7 @@ public class EmployeeController {
 	}
 
 	// Find Employee By Id
-	@GetMapping("/findById/{employee_id}")
+	@GetMapping("/findEmployeeById/{employee_id}")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findEmployeeById(@PathVariable Long employee_id) {
 		logger.info("Find Employee By Id ... ");
@@ -57,7 +57,7 @@ public class EmployeeController {
 			data = employeeService.getEmployeeById(employee_id);
 		} catch (Exception e) {
 			logger.error("ERROR:", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -77,7 +77,7 @@ public class EmployeeController {
 			data = employeeService.findEmployeeNameLike(nameLike, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -95,7 +95,7 @@ public class EmployeeController {
 			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}

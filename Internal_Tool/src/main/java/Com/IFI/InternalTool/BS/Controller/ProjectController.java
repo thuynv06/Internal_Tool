@@ -45,8 +45,8 @@ public class ProjectController {
 			data = projectService.getAllProject(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Projects Successfull", true);
@@ -63,8 +63,8 @@ public class ProjectController {
 			projectService.saveProject(projectRequest);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Project Successfull", true);
@@ -80,8 +80,8 @@ public class ProjectController {
 			data = projectService.getProjectById(project_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Project By ID Successfull",
@@ -102,8 +102,8 @@ public class ProjectController {
 			data = projectService.findProjectNameLike(projectName, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
@@ -122,8 +122,8 @@ public class ProjectController {
 			data = projectService.deleteProject(projectId);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Delete Project Successfull", true);
@@ -132,7 +132,6 @@ public class ProjectController {
 
 	// lay danh sach project cua mot group
 	@GetMapping("/getProjectsOfGroup")
-	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload getProjectsOfGroup(@RequestParam("group_id") String groupId,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -142,8 +141,8 @@ public class ProjectController {
 			data = projectService.getProjectsOfGroup(groupId, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Of Group Successfull", true);
@@ -160,8 +159,8 @@ public class ProjectController {
 			data = projectService.getBigestManager(project_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Bigest Manager Successfull", true);
@@ -180,8 +179,8 @@ public class ProjectController {
 			data = projectService.getListEmployee(project_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Employee Successfull", true);
@@ -199,7 +198,7 @@ public class ProjectController {
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Projectt Successfull", true);
@@ -218,11 +217,11 @@ public class ProjectController {
 			data = projectService.getListProjectOutOfDate(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Out Of Dat Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Out Of Date Successfull", true);
 		return message;
 	}
 
@@ -238,8 +237,8 @@ public class ProjectController {
 			data = projectService.getProjectByMonthYear(month, year, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e, false);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: " + e.getMessage(), false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Project By Month Year Successfull", true);

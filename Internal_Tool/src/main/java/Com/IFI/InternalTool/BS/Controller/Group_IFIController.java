@@ -39,14 +39,15 @@ public class Group_IFIController {
 	// get all group
 	@GetMapping
 	// @PreAuthorize("hasRole('USER')")
-	public @ResponseBody Payload getGroups(@RequestParam("page") int page,
-			@RequestParam("pageSize") int pageSize) {
+	public @ResponseBody Payload getGroups(
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
 		try {
 			data = groupService.getGroups(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -56,15 +57,16 @@ public class Group_IFIController {
 
 	@GetMapping("/findGroupNameLike")
 	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findGroupNameLike(@RequestParam("name") String name,@RequestParam("page") int page,
-			@RequestParam("pageSize") int pageSize) {
-		logger.info("Find Group Like Name ... ");
+	public @ResponseBody Payload findGroupNameLike(@RequestParam("name") String name,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Find Group Name Like ... ");
 
 		try {
 			data = groupService.findGroupNameLike(name, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
@@ -95,15 +97,15 @@ public class Group_IFIController {
 
 	// create new Group
 	@PostMapping("/create")
-	@PreAuthorize("hasRole('USER') OR hasRole('ADMIN')")
+	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
 	public @ResponseBody Payload createGroup(@Valid @RequestBody Group_IFI groupRequest) {
 		logger.info("Create Group ... ");
 
 		try {
-			 groupService.saveGroupIFI(groupRequest);
+			groupService.saveGroupIFI(groupRequest);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -112,7 +114,7 @@ public class Group_IFIController {
 	}
 
 	@DeleteMapping("deleteGroupById/{group_id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('LEADER')")
 	public @ResponseBody Payload deleteGroupById(@PathVariable String group_id) {
 		logger.info("Create Group ... ");
 
@@ -120,7 +122,7 @@ public class Group_IFIController {
 			data = groupService.deleteGroupById(group_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}

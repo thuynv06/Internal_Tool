@@ -1,5 +1,7 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -57,8 +59,8 @@ public class AllocationController {
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-					"ERROR: Get connection error" + e.getMessage(), false);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull",
@@ -67,7 +69,6 @@ public class AllocationController {
 	}
 
 	@PostMapping("/create")
-	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload createAllocation(@Valid @RequestBody Allocation allocation) {
 		logger.info("Create allocation ... ");
 
@@ -92,7 +93,7 @@ public class AllocationController {
 	}
 
 	// Find Allocation By Id
-	@GetMapping("/findById/{allocation_id}")
+	@GetMapping("/findAllocationById/{allocation_id}")
 	public @ResponseBody Payload findAllocationById(@PathVariable Long allocation_id) {
 		logger.info("Find Allocation By Id ... ");
 
@@ -100,7 +101,7 @@ public class AllocationController {
 			data = allocationService.findById(allocation_id);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}
@@ -121,18 +122,19 @@ public class AllocationController {
 			return message;
 		} else {
 			logger.error("ERROR: Get connection error");
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: Some things wrong error",
-					false);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+					"ERROR: Some things wrong error", false);
 			return message;
 		}
 	}
 
 	@GetMapping("/searchAllcationWithTime")
-	public @ResponseBody Payload searchAllocationWithMonth(@RequestParam("year") int year,
-			@RequestParam("month") int month,
+	public @ResponseBody Payload searchAllocationWithMonth(
+			@RequestParam(value = "year") int year, @RequestParam("month") int month,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("search Allcation With Month ... ");
+		logger.info(year + " "); 
 		try {
 			data = allocationService.SearchAllocationWithTime(year, month, page, pageSize);
 		} catch (Exception e) {

@@ -23,18 +23,22 @@ public interface AllocationService {
 	//get allocated of manager
 	List<Allocation> getAllocatedofManager(final long employee_id,final int page,final int pageSize);
 	
+	// find Allocation By Id
 	Allocation findById(final long allocation_id);
 	
+	// search allocation with month or year
 	List<Allocation> SearchAllocationWithTime(final int year, final int month, final int page,
 			final int pageSize);
 	
+	// find AllocationByEmPloyeeID
 	List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page,
 			final int pageSize);
 	
+	// find AllocationByProjectID
 	List<Allocation> findAllocationByProjectID(final long employee_id, final int page,
 			final int pageSize);
 	
+	// save AllocationDetail
 	boolean saveAllocationDetail(final AllocationDetail allocationDetail);
-	//public PagedResponse<AllocationResponse> getAllocations1(final int page,final int pageSize,final Boolean desc);
 
 }

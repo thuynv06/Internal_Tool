@@ -2,8 +2,6 @@ package Com.IFI.InternalTool.DS.DAO;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
-
 import Com.IFI.InternalTool.DS.Model.Allocation;
 
 public interface AllocationDAO {

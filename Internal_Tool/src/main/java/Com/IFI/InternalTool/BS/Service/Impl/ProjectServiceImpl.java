@@ -102,4 +102,16 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.getProjectByMonthYear(month, year, page, pageSize);
 	}
 
+	
+	@Override
+	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
+		return projectDAO.getProjectAllocatedIn(employee_id, page, pageSize);
+	}
+
+	
+	@Override
+	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {
+		return projectDAO.getProjectAllocateTo(employee_id, page, pageSize);
+	}
+
 }

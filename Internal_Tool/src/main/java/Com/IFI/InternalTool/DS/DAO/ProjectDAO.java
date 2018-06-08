@@ -45,4 +45,10 @@ public interface ProjectDAO {
 
 	// tim kiem theo nam thang
 	List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize);
+
+	// tim kiem project cua nhan vien tham gia vao
+	List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize);
+
+	// lay cac project ma nhan vien do quan ly
+	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
 }

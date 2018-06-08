@@ -47,7 +47,7 @@ public class Business {
 
 	public static int getDistanceTime(LocalDate start_date, LocalDate end_date) {
 		int DistanceTime = 0;
-		while (start_date.isBefore(end_date)) {
+		while (start_date.isBefore(end_date) || start_date.equals(end_date)) {
 			if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY && start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
 				DistanceTime++;
 			}

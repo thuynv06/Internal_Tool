@@ -278,7 +278,7 @@ public class ProjectController {
 	}
 
 	// lay cac project ma nhan vien do duoc phan cong
-	@GetMapping("/getProjectAllocatedIn")
+	@GetMapping("/getProjectAllocateTo")
 	public @ResponseBody Payload getProjectAllocateTo(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {

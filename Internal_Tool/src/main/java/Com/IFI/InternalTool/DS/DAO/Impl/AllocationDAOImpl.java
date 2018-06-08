@@ -222,4 +222,21 @@ public class AllocationDAOImpl implements AllocationDAO {
 		return list;
 	}
 
+	
+	@Override
+	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "from Allocation where allocation_id in (select allocation_id from AllocationDetail where date between :fromDate and :toDate)";
+		Query query = session.createQuery(hql);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", fromDate);
+
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+
+		List<Allocation> list = query.getResultList();
+		session.close();
+		return list;
+	}
+
 }

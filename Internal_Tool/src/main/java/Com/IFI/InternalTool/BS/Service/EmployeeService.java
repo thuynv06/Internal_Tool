@@ -28,5 +28,8 @@ public interface EmployeeService {
 
 	
 	public List<Long> getEmployeeByManager(final long manager_id);
+	
+	//tim kiem danh sanh nhan vien duoc phan cong vao 1 project
+	List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize);
 
 }

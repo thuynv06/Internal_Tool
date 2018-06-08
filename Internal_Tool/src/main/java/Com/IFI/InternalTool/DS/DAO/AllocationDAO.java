@@ -1,5 +1,7 @@
 package Com.IFI.InternalTool.DS.DAO;
 
+
+
 import java.sql.Date;
 import java.util.List;
 import Com.IFI.InternalTool.DS.Model.Allocation;
@@ -26,5 +28,7 @@ public interface AllocationDAO {
 			final int pageSize);
 
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
+	//tim kiem allocation tu ngay den ngay
+	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);
 
 }

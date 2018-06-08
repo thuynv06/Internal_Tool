@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -129,6 +130,12 @@ public class AllocationServiceImpl implements AllocationService {
 		} else {
 			return false;
 		}
+	}
+
+	
+	@Override
+	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize) {
+		return allocationDAO.findAllocationFromDateToDate(fromDate, toDate, page, pageSize);
 	}
 
 }

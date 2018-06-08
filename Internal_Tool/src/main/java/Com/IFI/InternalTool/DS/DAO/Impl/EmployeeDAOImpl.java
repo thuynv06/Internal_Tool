@@ -107,4 +107,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return emp;
 	}
 
+	
+	@Override
+	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Employee where Employee_id in (select distinct employee_id from Allocation where project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", project_id);
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		List<Employee> emp = query.getResultList();
+		session.close();
+		return emp;
+	}
+
 }

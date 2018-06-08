@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.validation.Valid;
@@ -172,6 +173,24 @@ public class AllocationController {
 		logger.info("find Allcation By Project ID ... ");
 		try {
 			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+				"find Allcation By Project ID  ID Successfull", true);
+		return message;
+	}
+	
+	@GetMapping("/findAllocationFromDateToDate")
+	public @ResponseBody Payload findAllocationFromDateToDate(@RequestParam("from_date") Date from_date, @RequestParam("to_date") Date to_date,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("findAllocationFromDateToDate ... ");
+		try {
+			data = allocationService.findAllocationFromDateToDate(from_date, to_date, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

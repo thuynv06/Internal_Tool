@@ -103,5 +103,23 @@ public class EmployeeController {
 				true);
 		return message;
 	}
+	
+	@GetMapping("/getListEmployeeInProject")
+	public @ResponseBody Payload getListEmployeeInProject(@RequestParam(value = "group_id") String group_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Find Employees By Group ID ... ");
+		try {
+			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees By Group ID ... ",
+				true);
+		return message;
+	}
 
 }

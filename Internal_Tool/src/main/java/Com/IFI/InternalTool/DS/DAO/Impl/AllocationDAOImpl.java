@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import Com.IFI.InternalTool.BS.Service.EmployeeService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
@@ -35,9 +36,11 @@ public class AllocationDAOImpl implements AllocationDAO {
 
 	@Autowired
 	AllocationDetailDAOImpl allocationDetailDAO;
-	@Autowired
-	private ProjectManagerDAO projectManagerDAO;
 
+
+
+	@Autowired
+	ProjectManagerDAO projectManagerDAO;
 	private boolean success = false;
 
 	@Override
@@ -158,6 +161,8 @@ public class AllocationDAOImpl implements AllocationDAO {
 		query.setParameter("allocation_id", allocation_id);
 		Allocation allocation = (Allocation) query.uniqueResult();
 		session.close();
+		//allocation.setEmployee_Name(employeeDAO.getEmployeeById(allocation.getEmployee_id()).getFullname());
+		//allocation.setProject_Name(projectDAO.getProjectById(allocation.getProject_id()).getName());
 		return allocation;
 	}
 

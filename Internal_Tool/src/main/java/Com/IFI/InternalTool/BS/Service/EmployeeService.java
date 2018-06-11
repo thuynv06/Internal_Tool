@@ -36,4 +36,8 @@ public interface EmployeeService {
 	public List<Long> getEmployeeByManager(final long manager_id);
 
 	Long getEmployeeIdAuthenticated();
+
+	// lay danh sach nhan vien cap duoi
+	List<Employee> getListSubEmployee(final long employee_id);
+
 }

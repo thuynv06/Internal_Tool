@@ -76,4 +76,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return id;
 	}
 
+	@Override
+	public List<Employee> getListSubEmployee(long employee_id) {
+		return employeeDAO.getListSubEmployees(employee_id);
+	}
+
 }

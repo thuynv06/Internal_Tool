@@ -28,7 +28,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	private AllocationDAOImpl allocationDAO;
 
 	@Override
-	public Boolean IsMembersOfProject(long employee_id, final long project_id) {
+	public Boolean isMembersOfProject(long employee_id, final long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = " From ProjectMembers where employee_id=:employee_id and project_id=:project_id";
 		Query query = session.createQuery(hql);
@@ -46,9 +46,9 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	}
 
 	@Override
-	public Boolean AddMemberToProject(ProjectMembers projectMember) {
+	public Boolean addMemberToProject(ProjectMembers projectMember) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		if (IsMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
+		if (isMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
 			return false;
 		}
 
@@ -65,16 +65,17 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	}
 
 	@Override
-	public Boolean RemoveMemberOfProject(final long project_id, final long employee_id) {
+	public Boolean removeMemberOfProject(long projectMemberId) {
 
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		boolean success = false;
 		Transaction tx = null;
 		tx = session.beginTransaction();
-		String hql = "Delete from ProjectMembers where employee_id=:employee_id and project_id =: project_id";
+		String hql = "Delete from ProjectMembers where project_members_id = :project_members_id";
 		Query query = session.createQuery(hql);
-		query.setParameter("project_id", project_id);
-		query.setParameter("employee_id", employee_id);
+		query.setParameter("project_members_id", projectMemberId);
 		int row = query.executeUpdate();
+		success = true;
 		tx.commit();
 		session.close();
 		if (row > 0) {
@@ -85,7 +86,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	}
 
 	@Override
-	public List<Long> ListEmPloyeesIdInProject(long project_id) {
+	public List<Long> listEmPloyeesIdInProject(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "Select distinct pm.employee_id From ProjectMembers pm where pm.project_id =: project_id";
 		Query query = session.createQuery(hql);

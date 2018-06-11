@@ -233,7 +233,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "from project where project_id in (select distinct project_id from allocation where employee_id = :employee_id)";
+		String hql = "from Project where project_id in (select distinct project_id from ProjectMembers where employee_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);

@@ -67,7 +67,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDAO.getListEmployeeNotInProject(employee_id, project_id, page, pageSize);
 	}
 
-<<<<<<< HEAD
 	@Override
 	public Long getEmployeeIdAuthenticated() {
 		SecurityContext context = SecurityContextHolder.getContext();
@@ -77,15 +76,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return id;
 	}
 
-=======
-	
 	@Override
 	public List<Employee> getListSubEmployee(long employee_id) {
 		return employeeDAO.getListSubEmployees(employee_id);
 	}
-
-	
-	
->>>>>>> hoang2
 
 }

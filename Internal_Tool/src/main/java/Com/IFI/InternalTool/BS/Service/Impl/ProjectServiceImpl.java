@@ -124,30 +124,26 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Boolean addMemberToProject(long currentEmployeeId, ProjectMembers projectMember) {
 		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
-		//kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
+		// kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
 		if (employeeServiceImpl.getListSubEmployee(projectMember.getEmployee_id()).contains(currentEmployee)) {
 			projectMember.setPriority(employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id()).getRole_id());
 			return projectMemberDAO.addMemberToProject(projectMember);
-		}else {
+		} else {
 			return false;
 		}
-		
+
 	}
 
 	@Override
 	public Boolean removeMemberOfProject(long currentEmployeeId, long projectMemberId) {
 		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
-		//kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
+		// kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
 		// va nhan vien do co allocation chua
 		if (employeeServiceImpl.getListSubEmployee(projectMemberId).contains(currentEmployee)
-				&& allocationServiceImpl.findAllocationByEmployeeID(projectMemberId, 1, 1) == null) {				
+				&& allocationServiceImpl.findAllocationByEmployeeID(projectMemberId, 1, 1) == null) {
 			return projectMemberDAO.removeMemberOfProject(projectMemberId);
-		}else {
+		} else {
 			return false;
-<<<<<<< HEAD
-		} catch (Exception e) {
-=======
->>>>>>> hoang2
 		}
 	}
 

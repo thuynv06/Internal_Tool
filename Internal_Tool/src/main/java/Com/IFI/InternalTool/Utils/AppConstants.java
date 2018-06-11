@@ -12,4 +12,8 @@ public class AppConstants {
 	public static final String STATUS_KO = "STATUS_KO";
 	static int year = LocalDate.now().getYear();
 	public static final String YEAR=String.valueOf(year);
+	public static final String FULL_STACK = "FULLSTACK";
+	public static final String BACK_END = "BACK_END";
+	public static final String FRONT_END = "FRONT_END";
+	
 }

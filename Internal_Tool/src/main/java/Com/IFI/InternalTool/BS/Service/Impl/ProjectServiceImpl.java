@@ -117,19 +117,29 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Boolean addMemberToProject(ProjectMembers projectMember) {
-		return projectMemberDAO.AddMemberToProject(projectMember);
+	public Boolean addMemberToProject(long currentEmployeeId, ProjectMembers projectMember) {
+		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
+		//kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
+		if (employeeServiceImpl.getListSubEmployee(projectMember.getEmployee_id()).contains(currentEmployee)) {
+			projectMember.setPriority(employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id()).getRole_id());
+			return projectMemberDAO.addMemberToProject(projectMember);
+		}else {
+			return false;
+		}
+		
 	}
 
 	@Override
-	public Boolean RemoveMemberOfProject(long project_id, long employee_id) {
-		try {
-			allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, 1);
+	public Boolean removeMemberOfProject(long currentEmployeeId, long projectMemberId) {
+		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
+		//kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
+		// va nhan vien do co allocation chua
+		if (employeeServiceImpl.getListSubEmployee(projectMemberId).contains(currentEmployee)
+				&& allocationServiceImpl.findAllocationByEmployeeID(projectMemberId, 1, 1) == null) {				
+			return projectMemberDAO.removeMemberOfProject(projectMemberId);
+		}else {
 			return false;
-		} catch (Exception e) {
-			
 		}
-		return projectMemberDAO.RemoveMemberOfProject(project_id, employee_id);
 	}
 
 }

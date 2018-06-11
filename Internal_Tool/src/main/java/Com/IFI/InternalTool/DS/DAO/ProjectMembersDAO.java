@@ -6,12 +6,12 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectMembersDAO {
 	
-	Boolean IsMembersOfProject(final long employee_id,final long project_id);
+	Boolean isMembersOfProject(final long employee_id,final long project_id);
 	
-	Boolean AddMemberToProject(final ProjectMembers projectMember);
+	Boolean addMemberToProject(final ProjectMembers projectMember);
 	
-	Boolean RemoveMemberOfProject(final long project_id,final long employee_id);
+	Boolean removeMemberOfProject(final long projectMemberId);
 	
-	List<Long> ListEmPloyeesIdInProject(final long project_id);
+	List<Long> listEmPloyeesIdInProject(final long project_id);
 	
 }

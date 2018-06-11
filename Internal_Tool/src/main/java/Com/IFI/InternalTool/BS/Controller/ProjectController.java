@@ -261,9 +261,11 @@ public class ProjectController {
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
 		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
+				.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info(hasUserRole + " role");
-
+		
+		
+		hasUserRole = true;
 		try {
 			if (hasUserRole) {
 				data = projectService.getProjectAllocatedIn(currentUser.getId(), page, pageSize);
@@ -308,16 +310,16 @@ public class ProjectController {
 
 	@PostMapping("/AddMemberToProject")
 	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload AddMemberToProject(@Valid @RequestBody ProjectMembers projectMember) {
+	public @ResponseBody Payload AddMemberToProject(@CurrentUser UserPrincipal currentUser,
+			@Valid @RequestBody ProjectMembers projectMember) {
+
+		boolean hasUserRole = currentUser.getAuthorities().stream()
+				.anyMatch(r -> r.getAuthority().equals("ROLE_LEADER"));
 		logger.info("Add Member To Project... ");
 
 		try {
-			if (projectService.addMemberToProject(projectMember) == true) {
-				message.setPayLoad("Success", AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-						"Add Member To Project Successfull", true);
-			} else {
-				message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-						"ERROR: Employee was member in projects ", false);
+			if (hasUserRole) {
+				data = projectService.addMemberToProject(currentUser.getId(), projectMember);
 			}
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
@@ -325,18 +327,20 @@ public class ProjectController {
 					false);
 			return message;
 		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Add Member To Project Successfull",
+				true);
 		return message;
 	}
 
 	@DeleteMapping("/RemoveMemberOfProject")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser,
-			@RequestParam("project_id") long project_id, @RequestParam("employee_id") long employee_id) {
+			@RequestParam long projectMemberId) {
 		logger.info("Remove Member in Project... ");
 		boolean hasUserRole = currentUser.getAuthorities().stream()
 				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
 		try {
-			if (projectService.RemoveMemberOfProject(project_id, employee_id)) {
+			if (projectService.removeMemberOfProject(currentUser.getId(), projectMemberId)) {
 				message.setPayLoad("Success", AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
 						"Remove  Member in Project Successfull", true);
 			} else {

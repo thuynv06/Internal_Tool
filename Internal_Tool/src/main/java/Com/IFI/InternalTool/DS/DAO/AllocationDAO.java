@@ -32,3 +32,5 @@ public interface AllocationDAO {
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);
 
 }
+
+

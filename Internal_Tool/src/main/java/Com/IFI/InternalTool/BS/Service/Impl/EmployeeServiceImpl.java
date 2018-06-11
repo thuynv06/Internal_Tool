@@ -21,8 +21,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void saveEmployee(Employee employee) {
-		employeeDAO.saveEmployee(employee);
+	public Boolean saveEmployee(Employee employee) {
+		return employeeDAO.saveEmployee(employee);
 	}
 
 	@Override

@@ -23,8 +23,6 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
-	@Autowired
-	private EmployeeDAOImpl employeeDAO;
 
 	@Autowired
 	private AllocationDAOImpl allocationDAO;
@@ -53,7 +51,8 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		if (IsMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
 			return false;
 		}
-		projectMember.setPriority(employeeDAO.getEmployeeById(projectMember.getEmployee_id()).getType_id());
+
+		// projectMember.setPriority(employeeDAO.getEmployeeById(projectMember.getEmployee_id()).getType_id());
 		try {
 			session.saveOrUpdate(projectMember);
 			success = true;

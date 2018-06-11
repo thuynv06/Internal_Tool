@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Com.IFI.InternalTool.BS.Service.Impl.EmployeeServiceImpl;
 import Com.IFI.InternalTool.DS.DAO.EmployeeDAO;
 import Com.IFI.InternalTool.DS.DAO.RoleDAO;
 
@@ -32,10 +33,7 @@ public class AuthController {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	EmployeeDAO userDAO;
-
-	@Autowired
-	RoleDAO roleDAO;
+	EmployeeServiceImpl employeeService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -49,13 +47,13 @@ public class AuthController {
 		logger.info("Login ... ");
 		LoginResponse message = new LoginResponse();
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 		String jwt = tokenProvider.generateToken(authentication);
 		message.setToken(jwt);
-		message.setUsername(userDAO.getEmployeeById(user.getId()));
+		message.setUsername(employeeService.getEmployeeById(user.getId()));
 		return message;
 	}
 

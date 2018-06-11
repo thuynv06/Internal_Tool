@@ -84,7 +84,7 @@ public class AllocationController {
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
 					false);
 			return message;
 		}

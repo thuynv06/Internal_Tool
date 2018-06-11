@@ -38,6 +38,8 @@ public class AllocationDAOImpl implements AllocationDAO {
 	@Autowired
 	private ProjectManagerDAO projectManagerDAO;
 
+	private boolean success = false;
+
 	@Override
 	public List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
@@ -70,21 +72,34 @@ public class AllocationDAOImpl implements AllocationDAO {
 	@Override
 	public Boolean saveAllocation(final Allocation allocation) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		session.saveOrUpdate(allocation);
-		// generic allocationDetail
-		LocalDate start_date = allocation.getStart_date().toLocalDate();
-		LocalDate end_date = allocation.getEnd_date().toLocalDate();
-		while (start_date.isBefore(end_date) || start_date.equals(end_date)) {
-			if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY && start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
-				AllocationDetail a = new AllocationDetail();
-				a.setEmployee_id(allocation.getEmployee_id());
-				a.setDate((Date) (Date.valueOf(start_date)));
-				a.setTime(8);
-				allocationDetailDAO.saveAllocationDetail(a);
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(allocation);
+
+			// // generic allocationDetail
+			LocalDate start_date = allocation.getStart_date().toLocalDate();
+			LocalDate end_date = allocation.getEnd_date().toLocalDate();
+			while (start_date.isBefore(end_date) || start_date.equals(end_date)) {
+				if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY
+						&& start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
+					AllocationDetail a = new AllocationDetail();
+					a.setEmployee_id(allocation.getEmployee_id());
+					a.setDate((Date) (Date.valueOf(start_date)));
+					a.setTime(8);
+					allocationDetailDAO.saveAllocationDetail(a);
+				}
+				start_date = start_date.plusDays(1);
 			}
-			start_date = start_date.plusDays(1);
+			tx.commit();
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
 		}
-		return true;
+		return success;
+
 	}
 
 	@Override
@@ -221,9 +236,9 @@ public class AllocationDAOImpl implements AllocationDAO {
 		return list;
 	}
 
-	
 	@Override
-	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize) {
+	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page,
+			final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "from Allocation where allocation_id in (select allocation_id from AllocationDetail where date between :fromDate and :toDate)";
 		Query query = session.createQuery(hql);

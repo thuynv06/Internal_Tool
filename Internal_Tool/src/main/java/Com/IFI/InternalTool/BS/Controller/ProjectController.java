@@ -41,7 +41,7 @@ public class ProjectController {
 
 	// lay tat ca project
 	@GetMapping
-	public @ResponseBody Payload getAllProject(
+	public @ResponseBody Payload getAllProjects(
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {
@@ -116,7 +116,7 @@ public class ProjectController {
 	}
 
 	// xoa project
-	@PostMapping("/deleteProject")
+	@DeleteMapping("/deleteProject")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload deleteProject(@RequestParam("project_id") long projectId) {
 		logger.info("Delete Project ... ");

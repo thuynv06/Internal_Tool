@@ -12,7 +12,7 @@ public interface EmployeeService {
 			final int pageSize);
 
 	// save employess
-	public void saveEmployee(final Employee employee);
+	public Boolean saveEmployee(final Employee employee);
 
 	// delete employees by id
 	@PreAuthorize("hasRole('ADMIN')")

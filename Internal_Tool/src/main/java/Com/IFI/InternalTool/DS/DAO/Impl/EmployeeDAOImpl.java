@@ -22,8 +22,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private ProjectMembersDAOImpl projectMembersDAO;
-	@Autowired
-	private EmployeeDAOImpl employeeDAO;
 
 	@Override
 	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
@@ -50,9 +48,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	// save or update
 	@Override
-	public void saveEmployee(Employee employee) {
+	public Boolean saveEmployee(Employee employee) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		session.saveOrUpdate(employee);
+		boolean success = false;
+		try {
+			session.saveOrUpdate(employee);
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
+
 	}
 
 	@Override
@@ -123,7 +131,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeInProject( long project_id, int page, int pageSize) {
+	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
@@ -140,7 +148,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
-		Employee emp = employeeDAO.getEmployeeById(employee_id);
+		Employee emp = getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID) "
 				+ "and emp.group_id = :group_id and emp.type_id = :type_id "
@@ -152,6 +160,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		query.setParameter("listEmployeesID", listEmployeesID);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
+		List<Employee> list = query.getResultList();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<Employee> getListSubEmployees(long employee_id) {
+
+		Employee emp = getEmployeeById(employee_id);
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "SELECT emp FROM  Employee emp where emp.role_id > :role_id and type_id=:type_id ";
+		Query query = session.createQuery(hql);
+		query.setParameter("role_id", emp.getRole_id());
+		query.setParameter("type_id", emp.getType_id());
 		List<Employee> list = query.getResultList();
 		session.close();
 		return list;

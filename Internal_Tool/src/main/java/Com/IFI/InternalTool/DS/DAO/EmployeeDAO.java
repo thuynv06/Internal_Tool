@@ -32,7 +32,7 @@ public interface EmployeeDAO {
 	// tim kiem danh sanh nhan vien duoc phan cong vao 1 project
 	List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize);
 	
-	List<Employee> getListEmployeeNotInProject(long project_id, int page, int pageSize);
+	List<Employee> getListEmployeeNotInProject(final long employee_id,long project_id, int page, int pageSize);
 	
 
 }

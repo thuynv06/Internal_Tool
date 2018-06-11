@@ -22,6 +22,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private ProjectMembersDAOImpl projectMembersDAO;
+	@Autowired
+	private EmployeeDAOImpl employeeDAO;
 
 	@Override
 	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
@@ -121,10 +123,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
+	public List<Employee> getListEmployeeInProject( long project_id, int page, int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where employee_id in (:listEmployeesID)";
+		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		query.setParameter("listEmployeesID", listEmployeesID);
@@ -136,20 +138,23 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeNotInProject(long project_id, int page, int pageSize) {
+	public List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
+		Employee emp = employeeDAO.getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID)";
+		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID) "
+				+ "and emp.group_id = :group_id and emp.type_id = :type_id "
+				+ "and emp.role_id >= :role_id order by role_id\";";
 		Query query = session.createQuery(hql);
-		query.setParameter("project_id", project_id);
+		query.setParameter("group_id", emp.getGroup_id());
+		query.setParameter("type_id", emp.getTypes().getType_id());
+		query.setParameter("role_id", emp.getRole().getRole_id());
 		query.setParameter("listEmployeesID", listEmployeesID);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
-		List<Employee> emp = query.getResultList();
+		List<Employee> list = query.getResultList();
 		session.close();
-		return emp;
+		return list;
 	}
-	
-	
 
 }

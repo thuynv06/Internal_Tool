@@ -1,4 +1,4 @@
-	package Com.IFI.InternalTool.DS.DAO.Impl;
+package Com.IFI.InternalTool.DS.DAO.Impl;
 
 import java.util.List;
 
@@ -38,13 +38,13 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		query.setParameter("project_id", project_id);
 		try {
 			query.getSingleResult();
-			return true;
+			success = true;
 		} catch (Exception e) {
 			return false;
 		} finally {
 			session.close();
 		}
-		
+		return success;
 	}
 
 	@Override
@@ -93,11 +93,5 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		query.setParameter("project_id", project_id);
 		return query.getResultList();
 	}
-
-
-	
-	
-	
-	
 
 }

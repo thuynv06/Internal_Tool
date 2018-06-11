@@ -17,16 +17,19 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.AllocationDetailDAO;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+
 @Repository("AllocationDetailDAO")
 @Transactional
 public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AllocationDetailDAOImpl.class);
-	
+
+	private boolean success = false;
+
 	@Override
-	public List<AllocationDetail> getAllocationDetails(final int page,final int pageSize) {
+	public List<AllocationDetail> getAllocationDetails(final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM AllocationDetail ";
 		Query query = session.createQuery(hql);
@@ -40,8 +43,15 @@ public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 	@Override
 	public boolean saveAllocationDetail(final AllocationDetail allocationDetail) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		session.saveOrUpdate(allocationDetail);
-		return true;
+		try {
+			session.saveOrUpdate(allocationDetail);
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
 	}
 
 	@Override
@@ -50,9 +60,13 @@ public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 		String hql = "Delete from AllocationDetail where allocation_detail_id =:allocation_detail_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("allocation_detail_id", allocation_detail_id);
-		query.executeUpdate();
+		int row = query.executeUpdate();
 		session.close();
-		return true;
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -71,10 +85,5 @@ public class AllocationDetailDAOImpl implements AllocationDetailDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	
-	
 
 }

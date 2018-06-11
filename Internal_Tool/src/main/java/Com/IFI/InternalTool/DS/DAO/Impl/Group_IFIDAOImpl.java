@@ -21,20 +21,29 @@ public class Group_IFIDAOImpl implements Group_IFIDAO {
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
 
+	private boolean success = false;
+
 	@Override
-	public void saveGroup(Group_IFI group) {
+	public Boolean saveGroup(Group_IFI group) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		session.saveOrUpdate(group);
+		try {
+			session.saveOrUpdate(group);
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
 	}
 
 	@Override
-	public Group_IFI findGroupById( String group_id) {
+	public Group_IFI findGroupById(String group_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "Select g FROM Group_IFI g where g.group_id = :group_id ";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
-		System.out.print(query);
-		Group_IFI group =  (Group_IFI) query.getSingleResult();
+		Group_IFI group = (Group_IFI) query.getSingleResult();
 		session.close();
 		return group;
 	}

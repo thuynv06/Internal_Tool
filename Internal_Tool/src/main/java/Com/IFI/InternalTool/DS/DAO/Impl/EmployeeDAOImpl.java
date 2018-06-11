@@ -1,4 +1,4 @@
-package Com.IFI.InternalTool.DS.DAO.Impl;
+  package Com.IFI.InternalTool.DS.DAO.Impl;
 
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.EmployeeDAO;
+import Com.IFI.InternalTool.DS.DAO.RoleDAO;
 import Com.IFI.InternalTool.DS.Model.Employee;
 
 @Repository("EmployeeDAO")
@@ -22,12 +23,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private ProjectMembersDAOImpl projectMembersDAO;
-
 	@Override
 	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
 			int pageSize) {
 		Employee emp = getEmployeeById(employee_id);
-
+  
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT emp FROM Employee emp ";
 		if (!hasRoleEmployee) {

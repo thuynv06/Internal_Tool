@@ -89,6 +89,11 @@ public class Employee implements Serializable {
 	@Column(name = "type_id")
 	private int type_id;
 
+	@Transient
+	private String role_name;
+	@Transient
+	private String type_name;
+
 	@Column(name = "role_id")
 	private int role_id;
 
@@ -106,6 +111,23 @@ public class Employee implements Serializable {
 
 	public int getType_id() {
 		return type_id;
+	}
+
+	public String getType_name() {
+		return type_name;
+	}
+	
+
+	public String getRole_name() {
+		return role_name;
+	}
+
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
+	}
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
 	}
 
 	public void setType_id(int type_id) {

@@ -8,7 +8,7 @@ public interface Group_IFIDAO {
 
 
 	//save group
-	public void saveGroup(final Group_IFI group);
+	public Boolean saveGroup(final Group_IFI group);
 
 	//find Group By ID
 	Group_IFI findGroupById(final String group_id);

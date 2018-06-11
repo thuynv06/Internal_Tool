@@ -24,9 +24,21 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private AllocationDAOImpl allocationDaoImpl;
+	
+	
+	
+	@Override
+	public List<Project> getAllProject() {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Project";
+		Query query = session.createQuery(hql);
+		List<Project> list = query.list();
+		session.close();
+		return list;
+	}
 
 	@Override
-	public List<Project> getAllProject(int page, int pageSize) {
+	public List<Project> getAllProjects(int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Project WHERE status = 1";
 		Query query = session.createQuery(hql);
@@ -90,27 +102,24 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id) {
-
+	public List<ProjectManager> getProjectManagerByEmp(long employee_id,long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select distinct p FROM Project_manager p LEFT JOIN Vacation AS v ON p.employee_id=v.employee_id where p.employee_id=:employee_id and p.project_id=:project_id";
+		String hql = "Select distinct p FROM ProjectManager p where p.employee_id=:employee_id and p.project_id=:project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setParameter("project_id", project_id);
-		List<ProjectManager> list = query.list();
+		List<ProjectManager> list=query.list();
 		return list;
 	}
-
+	
 	@Override
 	public List<Long> getProjectByEmp(long employee_id) {
-
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select distinct p.project_id FROM Project_manager p LEFT JOIN Vacation AS v ON p.employee_id=v.employee_id where p.employee_id=:employee_id";
+		String hql = "Select distinct p.project_id FROM ProjectManager p LEFT JOIN Vacation AS v ON p.employee_id=v.employee_id where p.employee_id=:employee_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
-		List<Long> list = query.list();
+		List<Long> list=query.list();
 		return list;
-
 	}
 
 	@Override

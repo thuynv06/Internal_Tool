@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -42,8 +43,13 @@ public class Allocation  {
 	private Date start_date;
 	
 	@Column(name = "end_date")
- 
 	private Date end_date;
+	
+	@Transient
+	private String Employee_Name;
+	
+	@Transient
+	private String Project_Name;
 
 	public Allocation(long project_id, long employee_id, int month, int year, float allocation_plan,
 			Date start_date, Date end_date) {
@@ -59,6 +65,23 @@ public class Allocation  {
 
 	public Allocation() {
 		super();
+	}
+
+	
+	public String getEmployee_Name() {
+		return Employee_Name;
+	}
+
+	public void setEmployee_Name(String employee_Name) {
+		Employee_Name = employee_Name;
+	}
+
+	public String getProject_Name() {
+		return Project_Name;
+	}
+
+	public void setProject_Name(String project_Name) {
+		Project_Name = project_Name;
 	}
 
 	public long getAllocation_id() {

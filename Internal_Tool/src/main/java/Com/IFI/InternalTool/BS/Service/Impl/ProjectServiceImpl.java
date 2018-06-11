@@ -31,8 +31,13 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectMembersDAOImpl projectMemberDAO;
 
 	@Override
-	public List<Project> getAllProject(int page, int pageSize) {
-		return projectDAO.getAllProject(page, pageSize);
+	public List<Project> getAllProjects(int page, int pageSize) {
+		return projectDAO.getAllProjects(page, pageSize);
+	}
+
+	@Override
+	public List<Project> getAllProject() {
+		return projectDAO.getAllProject();
 	}
 
 	@Override
@@ -127,7 +132,7 @@ public class ProjectServiceImpl implements ProjectService {
 			allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, 1);
 			return false;
 		} catch (Exception e) {
-			
+
 		}
 		return projectMemberDAO.RemoveMemberOfProject(project_id, employee_id);
 	}

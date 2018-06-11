@@ -9,8 +9,9 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectService {
 	// lay tat ca project
-	List<Project> getAllProject(int page, int pageSize);
-
+	List<Project> getAllProjects(int page, int pageSize);
+	
+	List<Project> getAllProject();
 	// luu project
 	public void saveProject(Project project);
 
@@ -19,11 +20,6 @@ public interface ProjectService {
 
 	// lay theo id
 	Project getProjectById(Long project_id);
-
-	//
-	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);
-
-	List<Long> getProjectByEmp(long employee_id);
 
 	// lay danh sach project theo group
 	List<Project> getProjectsOfGroup(String group_id, int page, int pageSize);
@@ -55,4 +51,8 @@ public interface ProjectService {
 
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
+	
+	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);
+
+	List<Long> getProjectByEmp(long employee_id);
 }

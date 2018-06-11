@@ -8,7 +8,7 @@ import Com.IFI.InternalTool.DS.Model.Group_IFI;
 
 public interface Group_IFIService {
 	// create group
-	public void saveGroupIFI(final Group_IFI group);
+	public Boolean saveGroupIFI(final Group_IFI group);
 
 	// delete group by ID
 	@PreAuthorize("hasRole('ADMIN')")

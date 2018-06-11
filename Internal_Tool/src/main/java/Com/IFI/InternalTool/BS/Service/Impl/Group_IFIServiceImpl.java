@@ -26,8 +26,8 @@ public class Group_IFIServiceImpl implements Group_IFIService {
 	}
 
 	@Override
-	public void saveGroupIFI(final Group_IFI group) {
-		groupDAO.saveGroup(group);
+	public Boolean saveGroupIFI(final Group_IFI group) {
+		return groupDAO.saveGroup(group);
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class Group_IFIController {
 
 	// create new Group
 	@PostMapping("/create")
-	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody Payload createGroup(@Valid @RequestBody Group_IFI groupRequest) {
 		logger.info("Create Group ... ");
 
@@ -114,7 +114,7 @@ public class Group_IFIController {
 	}
 
 	@DeleteMapping("deleteGroupById/{group_id}")
-	@PreAuthorize("hasRole('ADMIN') OR hasRole('LEADER')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody Payload deleteGroupById(@PathVariable String group_id) {
 		logger.info("Create Group ... ");
 

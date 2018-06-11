@@ -8,8 +8,9 @@ import Com.IFI.InternalTool.DS.Model.ProjectManager;
 public interface ProjectDAO {
 
 	// lay tat ca project
-	List<Project> getAllProject(int page, int pageSize);
-
+	List<Project> getAllProjects(int page, int pageSize);
+	
+	public List<Project> getAllProject() ;
 	// tao hoac chinh sua
 	boolean saveProject(Project project);
 
@@ -51,4 +52,5 @@ public interface ProjectDAO {
 
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
+	
 }

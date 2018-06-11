@@ -28,13 +28,15 @@ public interface EmployeeDAO {
 
 	// find employess by groups id
 	public List<Employee> findEmployeeByGroupId(final String group_id, final int page, final int pageSize);
-	
+
 	List<Employee> getListSubEmployees(long employee_id);
 
 	// tim kiem danh sanh nhan vien duoc phan cong vao 1 project
 	List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize);
-	
-	List<Employee> getListEmployeeNotInProject(final long employee_id,long project_id, int page, int pageSize);
-	
+
+	List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize);
+
+
+
 
 }

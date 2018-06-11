@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Com.IFI.InternalTool.BS.Service.Impl.EmployeeServiceImpl;
+import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.Payloads.Payload;
-
+import Com.IFI.InternalTool.Security.CurrentUser;
+import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
 
 @RestController
@@ -22,21 +24,23 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeServiceImpl employeeService;
-
-	@Autowired
-	AuthenticationManager authenticationManager;
 	Payload message = new Payload();
 	Object data = "";
 
 	private static final Logger logger = LoggerFactory.getLogger(Group_IFIController.class);
 
 	@GetMapping
-	public @ResponseBody Payload getEmployees(
+	public @ResponseBody Payload getEmployees(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
+		// logger.info(currentUser.getId()+ " ID Current User");
+
+		boolean hasUserRole = currentUser.getAuthorities().stream()
+				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
+
 		try {
-			data = employeeService.getAllEmployees(page, pageSize);
+			data = employeeService.getAllEmployees(hasUserRole, currentUser.getId(), page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -103,7 +107,7 @@ public class EmployeeController {
 				true);
 		return message;
 	}
-	
+
 	@GetMapping("/getListEmployeeInProject")
 	public @ResponseBody Payload getListEmployeeInProject(@RequestParam(value = "group_id") String group_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,

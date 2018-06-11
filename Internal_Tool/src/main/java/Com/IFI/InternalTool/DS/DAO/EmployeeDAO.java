@@ -8,7 +8,8 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 @Repository
 public interface EmployeeDAO {
 	// get list employess and paginations
-	List<Employee> getAllEmployees(final int page, final int pageSize);
+	List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, final int page,
+			final int pageSize);
 
 	// save employees
 	public void saveEmployee(final Employee employee);
@@ -30,5 +31,8 @@ public interface EmployeeDAO {
 
 	// tim kiem danh sanh nhan vien duoc phan cong vao 1 project
 	List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize);
+	
+	List<Employee> getListEmployeeNotInProject(long project_id, int page, int pageSize);
+	
 
 }

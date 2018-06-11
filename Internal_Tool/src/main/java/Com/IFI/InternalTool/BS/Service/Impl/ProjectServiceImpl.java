@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.ProjectService;
 import Com.IFI.InternalTool.DS.DAO.ProjectDAO;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.ProjectMembersDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.Employee;
 //import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectManager;
+import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -25,6 +27,8 @@ public class ProjectServiceImpl implements ProjectService {
 	AllocationServiceImpl allocationServiceImpl;
 	@Autowired
 	EmployeeServiceImpl employeeServiceImpl;
+	@Autowired
+	ProjectMembersDAOImpl projectMemberDAO;
 
 	@Override
 	public List<Project> getAllProject(int page, int pageSize) {
@@ -102,16 +106,30 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDAO.getProjectByMonthYear(month, year, page, pageSize);
 	}
 
-	
 	@Override
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
 		return projectDAO.getProjectAllocatedIn(employee_id, page, pageSize);
 	}
 
-	
 	@Override
 	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {
 		return projectDAO.getProjectAllocateTo(employee_id, page, pageSize);
+	}
+
+	@Override
+	public Boolean addMemberToProject(ProjectMembers projectMember) {
+		return projectMemberDAO.AddMemberToProject(projectMember);
+	}
+
+	@Override
+	public Boolean RemoveMemberOfProject(long project_id, long employee_id) {
+		try {
+			allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, 1);
+			return false;
+		} catch (Exception e) {
+			
+		}
+		return projectMemberDAO.RemoveMemberOfProject(project_id, employee_id);
 	}
 
 }

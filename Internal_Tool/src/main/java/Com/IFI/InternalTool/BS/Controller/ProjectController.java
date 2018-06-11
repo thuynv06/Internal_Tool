@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import Com.IFI.InternalTool.DS.DAO.ProjectMembersDAO;
 import Com.IFI.InternalTool.DS.Model.Project;
+import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
@@ -300,6 +303,53 @@ public class ProjectController {
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull",
 				true);
+		return message;
+	}
+
+	@PostMapping("/AddMemberToProject")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload AddMemberToProject(@Valid @RequestBody ProjectMembers projectMember) {
+		logger.info("Add Member To Project... ");
+
+		try {
+			if (projectService.addMemberToProject(projectMember) == true) {
+				message.setPayLoad("Success", AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+						"Add Member To Project Successfull", true);
+			} else {
+				message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+						"ERROR: Employee was member in projects ", false);
+			}
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		return message;
+	}
+
+	@DeleteMapping("/RemoveMemberOfProject")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser,
+			@RequestParam("project_id") long project_id, @RequestParam("employee_id") long employee_id) {
+		logger.info("Remove Member in Project... ");
+		boolean hasUserRole = currentUser.getAuthorities().stream()
+				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
+		try {
+			if (projectService.RemoveMemberOfProject(project_id, employee_id)) {
+				message.setPayLoad("Success", AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+						"Remove  Member in Project Successfull", true);
+			} else {
+				message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+						"ERROR: This Employee had allocated ", false);
+			}
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+
 		return message;
 	}
 }

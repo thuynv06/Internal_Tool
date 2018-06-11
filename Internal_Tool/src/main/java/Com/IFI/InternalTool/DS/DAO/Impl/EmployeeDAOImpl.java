@@ -20,12 +20,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
+	@Autowired
+	private ProjectMembersDAOImpl projectMembersDAO;
 
 	@Override
-	public List<Employee> getAllEmployees(int page, int pageSize) {
+	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
+			int pageSize) {
+		Employee emp = getEmployeeById(employee_id);
+
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee ";
+		String hql = "SELECT emp FROM Employee emp ";
+		if (!hasRoleEmployee) {
+			hql += " where emp.group_id = :group_id and emp.type_id = :type_id and emp.role_id > :role_id order by role_id ";
+		}
 		Query query = session.createQuery(hql);
+		if (!hasRoleEmployee) {
+			query.setParameter("group_id", emp.getGroup_id());
+			query.setParameter("type_id", emp.getTypes().getType_id());
+			query.setParameter("role_id", emp.getRole().getRole_id());
+		}
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> list = query.getResultList();
@@ -107,18 +120,36 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return emp;
 	}
 
-	
 	@Override
 	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
+		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where Employee_id in (select distinct employee_id from Allocation where project_id = :project_id";
+		String hql = "FROM Employee where employee_id in (:listEmployeesID)";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
+		query.setParameter("listEmployeesID", listEmployeesID);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> emp = query.getResultList();
 		session.close();
 		return emp;
 	}
+
+	@Override
+	public List<Employee> getListEmployeeNotInProject(long project_id, int page, int pageSize) {
+		List<Long> listEmployeesID = projectMembersDAO.ListEmPloyeesIdInProject(project_id);
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID)";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", project_id);
+		query.setParameter("listEmployeesID", listEmployeesID);
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		List<Employee> emp = query.getResultList();
+		session.close();
+		return emp;
+	}
+	
+	
 
 }

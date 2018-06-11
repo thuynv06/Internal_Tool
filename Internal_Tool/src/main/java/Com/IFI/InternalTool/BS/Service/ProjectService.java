@@ -5,6 +5,7 @@ import java.util.List;
 import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectManager;
+import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectService {
 	// lay tat ca project
@@ -37,17 +38,21 @@ public interface ProjectService {
 	List<Employee> getListEmployee(long project_id, int page, int pageSize);
 
 	// update project
-	boolean updateProject(Project project);
+	boolean updateProject(final Project project);
+
+	Boolean addMemberToProject(final ProjectMembers projectMember);
+
+	Boolean RemoveMemberOfProject(final long project_id, final long employee_id);
 
 	// tim kiem cac project da off
 	List<Project> getListProjectOutOfDate(int page, int pageSize);
 
 	// tim kiem theo nam thang
 	List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize);
-	
-	//lay project nhan vien duoc phan cong vao
+
+	// lay project nhan vien duoc phan cong vao
 	List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize);
-	
-	//lay cac project ma nhan vien do quan ly
+
+	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
 }

@@ -13,7 +13,7 @@ import Com.IFI.InternalTool.Security.UserPrincipal;
 
 public interface AllocationService {
 
-	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	boolean createAllocation(final Allocation allocation);
 
 	@PreAuthorize("hasRole('LEADER') OR hasRole('ADMIN')")

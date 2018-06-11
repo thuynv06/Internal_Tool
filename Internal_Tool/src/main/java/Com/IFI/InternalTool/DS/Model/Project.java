@@ -61,6 +61,7 @@ public class Project  {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	public String getGroup_id() {
 		return group_id;

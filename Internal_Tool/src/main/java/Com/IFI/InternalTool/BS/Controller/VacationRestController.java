@@ -49,7 +49,6 @@ public class VacationRestController {
 
 	/*-----------Begin Vacation MainRestController--------*/
 	// get vacation by id
-	@PreAuthorize("hasRole('CODER') OR hasRole('LEADER')")
 	@GetMapping("/vacations/{vacation_id}")
 	public Vacation getVacationById(@PathVariable("vacation_id") long vacation_id) {
 		Vacation v = vacationService.getVacationById(vacation_id);
@@ -57,7 +56,6 @@ public class VacationRestController {
 	}
 
 	// get all vacation (employee page)
-	@PreAuthorize("hasRole('EMPLOYEE')")
 	@GetMapping("/vacations/employee")
 	public @ResponseBody Payload getVacationByEmp(@RequestParam("page") int page,
 			@RequestParam("pageSize") int pageSize, @RequestParam(required = false) String sortedColumn,
@@ -120,7 +118,6 @@ public class VacationRestController {
 		return message;
 	}
 	// get vacation number by status (employee page)
-	@PreAuthorize("hasRole('EMPLOYEE')")
 	@GetMapping("/vacations/employee/count")
 	public CountVacationResponse countVacationByStatus(){
 		List<Long> count =vacationService.countVacationByStatusEmp(employeeService.getEmployeeIdAuthenticated());
@@ -133,7 +130,6 @@ public class VacationRestController {
 
 	}
 	// get all vacation type
-	@PreAuthorize("hasRole('CODER') OR hasRole('LEADER')")
 	@GetMapping("/vacationTypes")
 	public List<Vacation_Type> getAllVacationType() {
 		return vacationService.getAllVacationType();
@@ -245,7 +241,6 @@ public class VacationRestController {
 	}
 
 	// edit vacation
-	@PreAuthorize("hasRole('CODER') OR hasRole('LEADER')")
 	@PutMapping("/vacations")
 	public @ResponseBody Payload editVacation(@RequestBody Vacation vacation) {
 		Payload message = new Payload();
@@ -328,7 +323,6 @@ public class VacationRestController {
 	}
 
 	// delete vacation by id
-	@PreAuthorize("hasRole('CODER') OR hasRole('LEADER')")
 	@DeleteMapping("/vacations/{vacation_id}")
 	public @ResponseBody Payload deleteVacation(@PathVariable long vacation_id) {
 		Payload message = new Payload();
@@ -355,45 +349,62 @@ public class VacationRestController {
 	}
 
 	// get vacation ( manager/leader page)
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager")
-	public List<Vacation> getEmployeeVacationByManager(@RequestParam("page") int page,
+	public @ResponseBody Payload getEmployeeVacationByManager(@RequestParam("page") int page,
 			@RequestParam("pageSize") int pageSize, @RequestParam("sortedColumn") String sortedColumn,
 			@RequestParam("desc") Boolean desc) {
-
+		Payload message=new Payload();
 		Long manager_id = employeeService.getEmployeeIdAuthenticated();
 		List<Vacation> listVacation = vacationService.getAllVacationByEmp2(manager_id, page, pageSize, sortedColumn,
 				desc);
-		for(Vacation v:listVacation) {
-			List<String> approved_manager=new ArrayList<String>();
-			String disapproved_manager=null;
-			String project_name=null;
-			String employee_name=null;
-			String vacation_type_name=null;
-			String next_approve_manager=null;
-			List<Long> e=vacationService.getApprovedIdByVacationId(v.getVacation_id());
-			for(Long i:e) {
-				if(employeeService.getEmployeeById(i)!=null)
-				approved_manager.add(employeeService.getEmployeeById(i).getFullname());
+		if( listVacation.size() > 0) {
+				for(Vacation v:listVacation) {
+					List<String> approved_manager=new ArrayList<String>();
+					String disapproved_manager=null;
+					String project_name=null;
+					String employee_name=null;
+					String vacation_type_name=null;
+					String next_approve_manager=null;
+					List<Long> e=vacationService.getApprovedIdByVacationId(v.getVacation_id());
+					for(Long i:e) {
+						if(employeeService.getEmployeeById(i)!=null)
+						approved_manager.add(employeeService.getEmployeeById(i).getFullname());
+					}
+					//get employee name
+						employee_name=employeeService.getEmployeeById(v.getEmployee_id()).getFullname();
+					//get project name
+						project_name=projectService.getProjectById(v.getProject_id()).getName();
+					//get vacation type name
+						vacation_type_name=vacationService.getVacationTypeById(v.getVacation_type()).getName();
+					v.setProject_name(project_name);
+					v.setEmployee_name(employee_name);
+					v.setVacation_type_name(vacation_type_name);
+					v.setApproved_manager(approved_manager);
+					v.setDisapproved_manager(disapproved_manager);
+					v.setNext_approve_manager(next_approve_manager);
+				}
+				Long count = vacationService.countAllVacationByEmp2(manager_id);
+				int pages = (int) (count / pageSize);
+				if (count % pageSize > 0) {
+					pages++;
+				}
+				message.setPages(pages);
+				message.setMessage("Get vacation successfully");
+				message.setCode("CODE OK!");
+				message.setStatus("OK!");
+				message.setData(listVacation);
 			}
-			//get employee name
-				employee_name=employeeService.getEmployeeById(v.getEmployee_id()).getFullname();
-			//get project name
-				project_name=projectService.getProjectById(v.getProject_id()).getName();
-			//get vacation type name
-				vacation_type_name=vacationService.getVacationTypeById(v.getVacation_type()).getName();
-			v.setProject_name(project_name);
-			v.setEmployee_name(employee_name);
-			v.setVacation_type_name(vacation_type_name);
-			v.setApproved_manager(approved_manager);
-			v.setDisapproved_manager(disapproved_manager);
-			v.setNext_approve_manager(next_approve_manager);
+		else {
+			message.setCode("CODE OK!");
+			message.setStatus("OK!");
+			message.setMessage("No result!");
 		}
-		return listVacation;
+		return message;
 
 	}
 	//get number of vacation manager need approve
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager/count")
 	public CountVacationResponseMng countVacationByStatus2(){
 		List<Long> count=vacationService.countVacationByStatusMng(employeeService.getEmployeeIdAuthenticated());
@@ -404,7 +415,7 @@ public class VacationRestController {
 		return cvr;
 	}
 	//get vacation approved by manager
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager/approved")
 	public List<Vacation> getApprovedVacationLogByMng(@RequestParam("page") int page,
 													  @RequestParam("pageSize") int pageSize	){
@@ -441,7 +452,7 @@ public class VacationRestController {
 		return result;
 	}
 	//get vacation disapproved by manager
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager/disapproved")
 	public List<Vacation> getDisApprovedVacationLogByMng(@RequestParam("page") int page,
 			  											 @RequestParam("pageSize") int pageSize){
@@ -506,7 +517,7 @@ public class VacationRestController {
 				message.setCode("OK");
 				message.setStatus("OK");
 				message.setData(v);
-				message.setMessage("Approve Vacation successful! ");
+				message.setMessage("Approve Vacation successfully! ");
 				break;
 			} else {
 				message.setCode("OK");
@@ -519,7 +530,7 @@ public class VacationRestController {
 	}
 
 	// disapprove a request
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/disapprove")
 	public @ResponseBody Payload disapproveEmployeeRequest(@RequestParam("vacation_id") long vacation_id) {
 		Payload message = new Payload();
@@ -537,7 +548,7 @@ public class VacationRestController {
 				message.setCode("OK");
 				message.setStatus("OK");
 				message.setData(v);
-				message.setMessage("Disapprove Vacation successful! ");
+				message.setMessage("Disapprove Vacation successfully! ");
 				break;
 			} else {
 				message.setCode("OK");
@@ -550,8 +561,7 @@ public class VacationRestController {
 	}
 
 	// search page manager/leader
-
-	@PreAuthorize("hasRole('LEADER')")
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@PostMapping("/vacations/searchv1")
 	public @ResponseBody Payload searchVacation(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
 			@RequestParam("sortedColumn") String sortedColumn, @RequestParam("desc") Boolean desc,
@@ -586,6 +596,12 @@ public class VacationRestController {
 				v.setDisapproved_manager(disapproved_manager);
 				v.setNext_approve_manager(next_approve_manager);
 			}
+			Long count = vacationService.CountSearchVacation(manager_id, vacationSearch);
+			int pages = (int) (count / pageSize);
+			if (count % pageSize > 0) {
+				pages++;
+			}
+			message.setPages(pages);
 			message.setMessage("Search vacation successfully");
 			message.setCode("CODE OK!");
 			message.setStatus("OK!");
@@ -601,7 +617,6 @@ public class VacationRestController {
 	}
 
 	// search page employee
-	@PreAuthorize("hasRole('CODER') OR hasRole('LEADER')")
 	@PostMapping("/vacations/searchv2")
 	public @ResponseBody Payload searchVacationP2(@RequestParam("page") int page,
 			@RequestParam("pageSize") int pageSize, @RequestParam("sortedColumn") String sortedColumn,
@@ -645,6 +660,12 @@ public class VacationRestController {
 				v.setDisapproved_manager(disapproved_manager);
 				v.setNext_approve_manager(next_approve_manager);
 			}
+			Long count = vacationService.CountSearchVacationP2(employee_id, vacationSearch);
+			int pages = (int) (count / pageSize);
+			if (count % pageSize > 0) {
+				pages++;
+			}
+			message.setPages(pages);
 			message.setMessage("Search vacation successfully");
 			message.setCode("CODE OK!");
 			message.setStatus("OK!");

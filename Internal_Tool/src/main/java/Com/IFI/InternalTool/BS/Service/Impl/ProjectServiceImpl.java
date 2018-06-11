@@ -132,7 +132,6 @@ public class ProjectServiceImpl implements ProjectService {
 			allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, 1);
 			return false;
 		} catch (Exception e) {
-
 		}
 		return projectMemberDAO.RemoveMemberOfProject(project_id, employee_id);
 	}

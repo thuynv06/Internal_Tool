@@ -33,7 +33,9 @@ public interface EmployeeService {
 	// tim kiem danh sanh nhan vien chua duoc phan cong vao 1 project
 	List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize);
 
+
 	public List<Long> getEmployeeByManager(final long manager_id);
 
 	Long getEmployeeIdAuthenticated();
+
 }

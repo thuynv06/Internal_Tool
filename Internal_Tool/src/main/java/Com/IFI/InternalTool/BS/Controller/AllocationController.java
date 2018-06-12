@@ -38,7 +38,7 @@ public class AllocationController {
 	@Autowired
 	private AllocationServiceImpl allocationService;
 
-	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AllocationController .class);
 
 	Payload message = new Payload();
 	Object data = "";

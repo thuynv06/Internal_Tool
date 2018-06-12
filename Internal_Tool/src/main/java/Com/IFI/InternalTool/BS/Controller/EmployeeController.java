@@ -28,7 +28,7 @@ public class EmployeeController {
 	Payload message = new Payload();
 	Object data = "";
 
-	private static final Logger logger = LoggerFactory.getLogger(Group_IFIController.class);
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
 	@GetMapping
 	public @ResponseBody Payload getEmployees(@CurrentUser UserPrincipal currentUser,
@@ -94,7 +94,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/findEmployeeByGroupId/{group_id}")
-	public @ResponseBody Payload findEmployeeByGroupId(@RequestParam(value = "group_id") String group_id,
+	public @ResponseBody Payload findEmployeeByGroupId(@PathVariable(value = "group_id") String group_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees By Group ID ... ");

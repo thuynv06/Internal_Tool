@@ -208,7 +208,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public Long NumRecordsEmployeeInProject(long project_id) {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
+		String hql = "SELECT count(*) FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		query.setParameter("listEmployeesID", listEmployeesID);
@@ -222,7 +222,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
 		Employee emp = getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID) "
+		String hql = " SELECT count(*) FROM Employee where employee_id NOT IN (:listEmployeesID) "
 				+ "and emp.group_id = :group_id and emp.type_id = :type_id "
 				+ "and emp.role_id >= :role_id order by role_id\";";
 		Query query = session.createQuery(hql);
@@ -238,7 +238,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Long NumRecordsEmployeeNameLike(String name) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM Employee emp where emp.fullname LIKE CONCAT('%', :name, '%') ";
+		String hql = "SELECT count(*) FROM Employee emp where emp.fullname LIKE CONCAT('%', :name, '%') ";
 		Query query = session.createQuery(hql);
 		query.setParameter("name", name);
 		Long count = (Long) query.uniqueResult();
@@ -249,7 +249,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Long NumRecordsEmployeeInGroup(String group_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where group_id=:group_id";
+		String hql = "Select count(*) FROM Employee where group_id=:group_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
 		Long count = (Long) query.uniqueResult();

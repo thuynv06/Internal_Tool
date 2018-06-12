@@ -15,6 +15,8 @@ import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
 import Com.IFI.InternalTool.Security.UserPrincipal;
@@ -28,6 +30,12 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
 	private AllocationDetailDAOImpl allocationDetailDAO;
+
+	@Autowired
+	private EmployeeDAOImpl employeeDAO;
+
+	@Autowired
+	private ProjectDAOImpl projectDAO;
 
 	private static final Logger logger = LoggerFactory.getLogger(AllocationServiceImpl.class);
 
@@ -82,7 +90,12 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public List<Allocation> getAllocations(final long employee_id, int page, int pageSize) {
-		return allocationDAO.getAllocations(employee_id, page, pageSize);
+		List<Allocation> list = allocationDAO.getAllocations(employee_id, page, pageSize);
+		for (Allocation item : list) {
+			item.setEmployee_Name(employeeDAO.getEmployeeById(item.getEmployee_id()).getFullname());
+			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
+		}
+		return list;
 	}
 
 	@Override
@@ -93,7 +106,10 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public Allocation findById(long allocation_id) {
-		return allocationDAO.findById(allocation_id);
+		Allocation a = allocationDAO.findById(allocation_id);
+		a.setEmployee_Name(employeeDAO.getEmployeeById(a.getEmployee_id()).getFullname());
+		a.setProject_Name(projectDAO.getProjectById(a.getProject_id()).getName());
+		return a;
 	}
 
 	@Override

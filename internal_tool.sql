@@ -1,0 +1,1188 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th6 12, 2018 lúc 07:44 SA
+-- Phiên bản máy phục vụ: 10.1.21-MariaDB
+-- Phiên bản PHP: 5.6.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Cơ sở dữ liệu: `internal_tool`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `allocation`
+--
+
+CREATE TABLE `allocation` (
+  `allocation_id` bigint(20) NOT NULL,
+  `allocation_plan` float DEFAULT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `year` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `allocation`
+--
+
+INSERT INTO `allocation` (`allocation_id`, `allocation_plan`, `employee_id`, `project_id`, `end_date`, `month`, `start_date`, `year`) VALUES
+(1, 13, 196, 56, '2018-05-05', 5, '2018-05-01', 2018),
+(2, 13, 196, 165, '2018-05-15', 5, '2018-05-06', 2018),
+(3, 13, 196, 56, '2018-05-20', 5, '2018-05-16', 2018),
+(6, 0, 196, 56, '2018-05-25', 5, '2018-05-21', 2018),
+(7, 0, 196, 56, '2018-05-27', 5, '2018-05-25', 2018),
+(8, 0, 196, 56, '2018-05-29', 5, '2018-05-28', 2018),
+(9, 0, 196, 56, '2018-06-01', 5, '2018-05-30', 2018),
+(10, 0, 196, 56, '2018-06-04', 6, '2018-06-02', 2018),
+(11, 0, 196, 56, '2018-06-06', 6, '2018-06-04', 2018),
+(12, 0, 196, 56, '2018-06-10', 6, '2018-06-07', 2018),
+(13, 0, 196, 56, '2018-06-11', 6, '2018-06-10', 2018),
+(14, 0, 196, 56, '2018-06-13', 6, '2018-06-12', 2018),
+(15, 0, 196, 56, '2018-06-15', 6, '2018-06-14', 2018),
+(16, 0, 196, 56, '2018-06-18', 6, '2018-06-16', 2018),
+(17, 0, 196, 56, '2018-06-20', 6, '2018-06-19', 2018),
+(18, 0, 196, 56, '2018-06-21', 6, '2018-06-20', 2018),
+(19, 0, 196, 56, '2018-06-23', 6, '2018-06-22', 2018),
+(20, 0, 196, 56, '2018-06-30', 6, '2018-06-25', 2018),
+(21, 0, 196, 56, '2018-07-02', 7, '2018-07-01', 2018),
+(22, 0, 196, 56, '2018-07-05', 7, '2018-07-03', 2018),
+(23, 0, 196, 56, '2018-07-07', 7, '2018-07-06', 2018),
+(24, 0, 196, 56, '2018-07-09', 7, '2018-07-08', 2018),
+(25, 0, 196, 56, '2018-07-12', 7, '2018-07-10', 2018),
+(26, 0, 196, 56, '2018-07-14', 7, '2018-07-13', 2018),
+(27, 0, 196, 56, '2018-07-17', 7, '2018-07-15', 2018),
+(28, 100, 196, 56, '2018-07-21', 7, '2018-07-18', 2018),
+(29, 0, 196, 56, '2018-07-25', 7, '2018-07-22', 2018),
+(30, 0, 196, 56, '2018-07-29', 7, '2018-07-26', 2018),
+(31, 0, 196, 56, '2018-08-05', 8, '2018-08-01', 2018),
+(32, 0, 196, 56, '2018-08-07', 8, '2018-08-06', 2018),
+(43, 26.09, 196, 56, '2018-08-20', 8, '2018-08-11', 2018);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `allocation_detail`
+--
+
+CREATE TABLE `allocation_detail` (
+  `allocation_detail_id` bigint(20) NOT NULL,
+  `date` date DEFAULT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `allocation_detail`
+--
+
+INSERT INTO `allocation_detail` (`allocation_detail_id`, `date`, `employee_id`, `project_id`, `time`) VALUES
+(1, '2018-05-10', 6, NULL, 8),
+(2, '2018-05-11', 6, NULL, 8),
+(3, '2018-05-14', 6, NULL, 8),
+(4, '2018-05-15', 6, NULL, 8),
+(5, '2018-08-21', 196, NULL, 8),
+(6, '2018-08-22', 196, NULL, 8),
+(7, '2018-08-23', 196, NULL, 8),
+(8, '2018-08-24', 196, NULL, 8),
+(9, '2018-08-27', 196, NULL, 8),
+(10, '2018-08-29', 196, NULL, 8),
+(11, '2018-09-03', 196, NULL, 8),
+(12, '2018-09-05', 196, NULL, 8),
+(13, '2018-09-06', 196, NULL, 8),
+(14, '2018-09-03', 41, NULL, 8),
+(15, '2018-09-04', 41, NULL, 8),
+(16, '2018-09-05', 41, NULL, 8),
+(17, '2018-09-06', 41, NULL, 8),
+(18, '2018-09-07', 41, NULL, 8),
+(19, '2018-09-10', 41, NULL, 8),
+(20, '2018-09-11', 41, NULL, 8),
+(21, '2018-05-01', 66, NULL, 8),
+(22, '2018-05-02', 66, NULL, 8),
+(23, '2018-05-03', 66, NULL, 8),
+(24, '2018-05-04', 66, NULL, 8),
+(25, '2018-05-07', 66, NULL, 8),
+(26, '2018-05-08', 66, NULL, 8),
+(27, '2018-05-09', 66, NULL, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `employee`
+--
+
+CREATE TABLE `employee` (
+  `employee_id` bigint(20) NOT NULL,
+  `username` varchar(15) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `group_id` varchar(255) DEFAULT NULL,
+  `is_active` bit(1) DEFAULT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `employee`
+--
+
+INSERT INTO `employee` (`employee_id`, `username`, `email`, `password`, `code`, `group_id`, `is_active`, `fullname`, `age`, `address`, `phone`, `role_id`, `type_id`) VALUES
+(1, 'root', 'root@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'ROOT', 'N1', b'1', 'IFISOLUTION', 21, 'root', '999999', 1, 1),
+(2, 'user2', 'Nguyen Van A', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N001', 'N1', b'1', 'Nguyen Van A', 21, 'Nguyen Van A', 'Nguyen Van', 2, 2),
+(4, 'user3', 'ntuan90@saigonnet.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N003', 'N1', b'1', 'Nguyễn Tuấn ', 21, '278 Nguyễn Văn Lượng,P16,Q.Gò Vấp ', '01648315306 ', 3, 2),
+(5, 'user4', 'Thuynq.kv@petrolimex.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N004', 'N1', b'1', 'Nguyễn Quốc Thùy ', 25, '47 Huỳnh Mẫn Đạt, Phường 19, Bình Thạnh, HCM ', '0903956484 ', 4, 2),
+(6, 'user5', 'reprince911@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N005', 'N1', b'1', 'Trần Hồng Phúc ', 27, '1544 Hùnh Tấn Phát - Phú Mỹ - Q7  ', '0909095475 ', 5, 2),
+(7, 'user6', 'cuong11101979@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N006', 'N1', b'1', 'Nguyễn Chơn Cường ', 28, 'Xà Bang - Châu Đức - BRVT  ', '0982161745 ', 4, 1),
+(8, 'user7', 'huynhhuong@skypte.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N007', 'N1', b'1', 'Huỳnh Mỹ Hương ', 28, 'SKY JSC, 12/4C Nguyễn Thị Minh Khai, P. Đa Kao, Q1', '0903886292 ', 3, 1),
+(9, 'user8', 'khoilt@vass.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N008', 'N1', b'1', 'Lê Trọng Khởi ', 25, '82 Thân Nhân Trung P13, Q. Tân Bình ', '0908283649 ', 3, 4),
+(10, 'user9', 'thu_nguyenhoai@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N009', 'N1', b'1', 'Nguyễn Hoài Thu ', 21, 'Căn hộ số 4, lầu 4 C/c NGuyễn Ngọc Phương, P19 Q.', '907330379', 5, 5),
+(11, 'user10', 'quanks2k13@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N010', 'N1', b'1', 'Lê Trần Quân ', 27, 'A303 Cao Ốc Phú Thịnh, Cao Đạt, Q5 ', '0902334833 ', 5, 1),
+(12, 'user11', 'lehoangduyanh@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N011', 'N1', b'1', 'Lê Hoàng Duy Anh ', 26, '880 Quốc Lộ 22, KP8, TT Củ Chi ', '0903327124 ', 2, 5),
+(13, 'user12', 'oanh_tran1972@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N012', 'N1', b'1', 'Trần Kim Oanh ', 22, '13 đường 702 Hồng Bàng, P1, Q11, TPHCM ', '01686411329 ', 2, 1),
+(14, 'user13', 'chauduong84@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N013', 'N1', b'1', 'Dương Ngọc Châu ', 24, 'N21 Cư xá Phú Lâm A, P12, Q6, TPHCM ', '0903114330 ', 4, 3),
+(15, 'user14', 'anhdao77777@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N014', 'N1', b'1', 'Nguyễn Thị Anh Đào ', 29, '120/18B Trần Hưng Đạo, P. Phạm Ngũ Lão, Q1, TPHCM ', '0968263878 ', 3, 4),
+(16, 'user15', 'thanhnghia862000@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N015', 'N1', b'1', 'Dương Thanh Hòa ', 27, '132/205A Đoàn Văn Bơ, P15, Q4, HCM ', '906330379', 5, 2),
+(17, 'user16', 'trongtridv@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N016', 'N1', b'1', 'Nguyễn Ngọc Trí ', 23, '525/100 Huỳnh Văn Bánh, F14, Q Phú Nhuận, HCM ', '0986674850 ', 4, 5),
+(18, 'user17', 'vominhhiep_105@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N017', 'N1', b'1', 'Võ Minh Hiệp ', 24, 'Tổ dân phố Linh Phú, Đường 3-4, F Cam Linh, Thị Xã', '0583952918 ', 5, 4),
+(19, 'user18', 'vietnam_red_blue@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N018', 'N1', b'1', 'Dương Thanh Thế ', 24, '879 Phạm Văn Thuận, F Tam Hiệp, Biên Hoà, tỉnh Đồn', '0989777659 ', 2, 5),
+(20, 'user19', 'hoahongpru@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N019', 'N1', b'1', 'Ngũ Thị Hồng Hoa ', 24, '385/20 Minh Phụng, P10, Q11, HCM ', '0989777659 ', 4, 5),
+(21, 'user20', 'girl_da_sau3000@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N020', 'N1', b'1', 'Cao Thị Thanh Thảo ', 20, '193/7A Lê Quang Sung P6, Q6, TPHCM ', '0938020758 ', 4, 4),
+(22, 'user21', 'pnt.thanh@prudential.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N021', 'N1', b'1', 'Phạm Thị Ngọc Thanh ', 24, '60/15/4 đường số 02 Hiệp Bình Phước, Thủ Đức, TPHC', '0909641433 ', 3, 2),
+(23, 'user22', 'tvhali@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N022', 'N1', b'1', 'Trần Văn Hạnh ', 28, '13/45/10 Bắc Hải, P6, Q. Tân Bình, TPHCM ', '0983436038 ', 2, 1),
+(24, 'user23', 'hanhtkqn@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N023', 'N1', b'1', 'Trần Văn Hạnh ', 21, '13/45/10 Bắc Hải, P6, Q. Tân Bình, TPHCM ', '0983436038 ', 3, 5),
+(25, 'user24', 'lequyen19021986@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N024', 'N1', b'1', 'Nguyễn Thị Lệ Quyên ', 26, '144/10 Lê Trọng Tấn, P.Tây Thạnh, Q. Tân Phú, TPHC', '0909890850 ', 2, 3),
+(26, 'user25', 'lananh30574@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N025', 'N1', b'1', 'Nguyễn Thị Lan Anh ', 20, '18/189 Trần Quang Diệu, P14, Q3, TPHCM ', '0947774275 ', 4, 3),
+(27, 'user26', 'thanhquang456@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N026', 'N1', b'1', 'Nguyễn Thanh Quang ', 26, '45/6G Điện Biên Phủ, P15, Q. Bình Thạnh ', '0903682080 ', 3, 5),
+(28, 'user27', 'chuonghrvietnam@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N027', 'N1', b'1', 'Lương Việt Chương ', 26, '056 đường số 19, Bình Hưng Hòa A, Q. Bình Tân ', '0989961522 ', 2, 4),
+(29, 'user28', 'doremonu20@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N028', 'N1', b'1', 'Nguyễn Thị Kim Tuyến ', 27, '2145 Lê Thúc Hoạch, P. Phú Thọ Hòa, Q. Tân Phú, TP', '0908669839 ', 4, 5),
+(30, 'user29', 'xuanvinh125@hcm.fpt.vn', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N029', 'N1', b'1', 'Vũ Xuân Vinh ', 27, '2/28 tổ 18, KP3, Quốc lộ 13, Hiệp Bình Chánh, Q. T', '0908690569 ', 4, 4),
+(31, 'user30', 'kimtuyengifts@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N030', 'N1', b'1', 'Nguyễn Thị Kim Tuyến ', 22, '2145 Lê Thúc Hoạch, P. Phú Thọ Hòa, Q. Tân Phú, TP', '0908669839 ', 2, 2),
+(32, 'user31', 'johnyxuanvinh@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N031', 'N1', b'1', 'Vũ Xuân Vinh ', 26, '2/28 tổ 18, KP3, Quốc lộ 13, Hiệp Bình Chánh, Q. T', '0908690569 ', 5, 5),
+(33, 'user32', 'ccdngayay@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N032', 'N1', b'1', 'Lâm Đỗ Lê Duy ', 23, '341/19/12 Khương Việt, P. Phú Trang, Q. Tân Phú, T', '0909681517 ', 3, 5),
+(34, 'user33', 'lemth075@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N033', 'N1', b'1', 'Lê Thị Mỹ Thy ', 28, '59 Bành Văn Trân, P7, Q. Tân Bình, TPHCM ', '0909386007 ', 3, 3),
+(35, 'user34', 'hvlong@vhu.hcm.edu.vn', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N034', 'N1', b'1', 'Hoàng Vĩnh Long ', 27, 'C13 khu chợ phường 25, Ung Văn Khiêm, P25, Q. Bình', '0983122449 ', 5, 4),
+(36, 'user35', 'hvlong@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N035', 'N1', b'1', 'Hoàng Vĩnh Long ', 29, 'C13 khu chợ phường 25, Ung Văn Khiêm, P25, Q. Bình', '0983122449 ', 2, 3),
+(37, 'user36', 'cuongdm@vietbright.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N036', 'N1', b'1', 'Đào Mạnh Cường ', 27, 'D415 lô E, KCN Tân Bình, P. Tây Thạnh, Q. Tân Phú,', '0907398720 ', 4, 5),
+(38, 'user37', 'xmuiq2@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N037', 'N1', b'1', 'Đỗ Thị Mùi ', 25, '63 đường số 5, P. Bình An, Q2, TPHCM ', '0917183711 ', 2, 1),
+(39, 'user38', 'nhiltt@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N038', 'N1', b'1', 'Lương Thị Nhị ', 28, '208 KP4, P. Bình An, Q2, TPHCM ', '0909380589 ', 5, 3),
+(40, 'user39', 'nhiltt@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N039', 'N1', b'1', 'Lương Thị Nhị ', 20, '208 KP4, P. Bình An, Q2, TPHCM ', '0909380589 ', 5, 4),
+(41, 'user40', 'salepacificvn2000@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N040', 'N1', b'1', 'Bùi Thị Hoàng Mai ', 21, '505/4 Nguyễn Kiệm, P9, Q. Phú Nhuận, TPHCM ', '0983636773 ', 4, 1),
+(42, 'user41', 'quangvietcd@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N041', 'N1', b'1', 'Bùi Quang Việt ', 25, '309K Thanh Đa, P27, Q. Bình Thạnh, TPHCM ', '0908987696 ', 2, 3),
+(43, 'user42', 'bqviet@ueh.edu.vn', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N042', 'N1', b'1', 'Bùi Quang Việt ', 29, '309K Thanh Đa, P27, Q. Bình Thạnh, TPHCM ', '0908987696 ', 5, 4),
+(44, 'user43', 'onlylove20042003@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N043', 'N1', b'1', 'Phạm Công Định ', 20, '260 Ấp 3, An Phước, Long Thành, Đồng Nai ', '01684667808 ', 5, 2),
+(45, 'user44', 'hiensunjinvn@yahoo.com.vn', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N044', 'N1', b'1', 'Bùi Thị Diệu Hiền ', 20, '10/123 KP3, Tam Hòa, Biên Hòa, Đồng Nai ', '0908350674 ', 4, 1),
+(46, 'user45', 'seezuaf999@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N045', 'N1', b'1', 'Bùi Thị Diệu Hiền ', 23, '10/123 KP3, Tam Hòa, Biên Hòa, Đồng Nai ', '0908350674 ', 2, 3),
+(47, 'user46', 'tran_ngoc92@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N046', 'N1', b'1', 'Trần Đăng Ngọc ', 22, 'Đồng Thành, Yên Thành, Nghệ An ', '0932174282 ', 4, 3),
+(48, 'user47', 'ddthoai2002@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N047', 'N1', b'1', 'Đặng Đình Thanh Hoài ', 21, '50 đường 15, P. Bình Trưng Đông, Q2, TPHCM ', '0989354446 ', 3, 1),
+(49, 'user48', 'nguyenthanh_15071962@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N048', 'N1', b'1', 'Nguyễn Văn Thành ', 28, '36 tổ 2, ấp 6, Hưng Hòa, Bến Cát, Bình Dương ', '0918223085 ', 3, 4),
+(50, 'user49', 'ngayayxaroi0909@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N049', 'N1', b'1', 'Nguyễn Trường Giang Hà ', 28, 'C6 tổ 6, Khu phố 5, An Bình, Biên Hòa, Đồng Nai ', '0916962449 ', 3, 1),
+(51, 'user50', 'christtina8282@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N050', 'N1', b'1', 'Nguyễn Thị Thúy ', 20, '17 đường 26, KCN Sóng Thần II, Dĩ An ', '01686699090 ', 2, 5),
+(52, 'user51', 'christinanguyen@pohhuat.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N051', 'N1', b'1', 'Nguyễn Thị Thúy ', 26, '17 đường 26, KCN Sóng Thần II, Dĩ An ', '01686699090 ', 5, 4),
+(53, 'user52', 'thuyntt82@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N052', 'N1', b'1', 'Nguyễn Thu Thủy ', 22, '173/15 Trần Quốc Thảo, P9, Q3, TPHCM ', '01228863254 ', 3, 5),
+(54, 'user53', 'beo_con882000@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N053', 'N1', b'1', 'Phạm Nguyễn Phương Hồng ', 22, '27/2/18 đường số 3, P. Tam Phú, Q. Thủ Đức, TPHCM ', '0909523525 ', 5, 3),
+(55, 'user54', 'hienluong_vgas@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N054', 'N1', b'1', 'Đàm Thị Lương ', 28, 'Long Bình Tân, Biên Hòa, Đồng Nai ', '0974282002 ', 4, 3),
+(56, 'user55', 'nsvc.hr1@gbl.nidec_sankyo.co.jp', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N055', 'N1', b'1', 'Trịnh Thị Tố Trinh ', 23, 'D634 khu phố 4, Long Bình, Biên Hòa, Đồng Nai ', '0902498125 ', 3, 5),
+(57, 'user56', 'dqtruong@sym.com.tw', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N056', 'N1', b'1', 'Dương Quang Trường ', 21, 'H10/2/13 Khu phố 7, Tân Phong, Biên Hòa, Đồng Nai ', '0916705252 ', 3, 3),
+(58, 'user57', 'tranbaotran1982@yahoo.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N057', 'N1', b'1', 'Trần Bảo Trân ', 25, 'M8A, Thất Sơn, P15, Q10, TPHCM ', '0902808681 ', 2, 2),
+(59, 'user58', 'sakura_4t@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N058', 'N1', b'1', 'Trịnh Thị Tố Trinh ', 22, 'D634 khu phố 4, Long Bình, Biên Hòa, Đồng Nai ', '0902498125 ', 4, 5),
+(60, 'user59', 'dqtruong08@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N059', 'N1', b'1', 'Dương Quang Trường ', 24, 'H10/2/13 Khu phố 7, Tân Phong, Biên Hòa, Đồng Nai ', '0916705252 ', 3, 1),
+(61, 'user60', 'tranbaotran1982@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N060', 'N1', b'1', 'Trần Bảo Trân ', 24, 'M8A, Thất Sơn, P15, Q10, TPHCM ', '0902808681 ', 4, 2),
+(62, 'user61', 'ngoclnp@techcombank.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N061', 'N1', b'1', 'Lê Nguyễn Phương Ngọc ', 24, '108/31 đường số 9, P9, Gò Vấp ', '0908263429 ', 5, 1),
+(63, 'user62', 'nhombonminh2006@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N062', 'N1', b'1', 'Nguyễn Lê Châu ', 24, '300/28 Nguyễn Văn Linh, F Bình Thuận, Q 7, HCM ', '0973643938 ', 5, 3),
+(64, 'user63', 'vanvu679@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N063', 'N1', b'1', 'Trương Văn Vũ ', 24, 'TK 15/31 Nguyễn Cảnh Chân, F Cầu Kho, Q1, HCM ', '0958815597 ', 5, 1),
+(65, 'user64', 'haphuongnd86@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N064', 'N1', b'1', 'Nguyễn Đắc Hà Phương ', 29, '95/12 Lê Văn Sỹ, P13, Q.Phú Nhuận, HCM ', '0949073268 ', 2, 3),
+(66, 'user65', 'LyCTH@gemadept.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N065', 'N1', b'1', 'Chu Thị Hồng Lý ', 23, 'Số 6, Lô E2, Cư xá 30/4, Phường 25, Q Bình Thạnh,', '0976263488 ', 2, 2),
+(67, 'user66', 'dvcthotnot@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N066', 'N1', b'1', 'Trương Quang Thành ', 25, '02.02 Lô C C/C Phạm Viết Chánh, F19, Bình Thạnh, H', '0913911922 ', 2, 5),
+(68, 'user67', 'sinhchau@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N067', 'N1', b'1', 'Nguyễn Khắc Sinh Châu ', 27, '23 Đường 12, Bình An, Quận 2, HCM ', '09093607557 ', 5, 2),
+(69, 'user68', 'thanhtam_email@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N068', 'N1', b'1', 'Phan Thị Thanh Tâm ', 22, '232/2/15 Đoàn Văn Bơ, Phường 10, Quận 4, HCM ', '0983813530 ', 2, 2),
+(70, 'user69', 'thuyhang171@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N069', 'N1', b'1', 'Nguyễn Thị Thúy Hằng ', 29, '6/12 Đường 68, Hiệp Phú, Quận 9, HCM ', '0983118768 ', 3, 2),
+(71, 'user70', 'nguyenminhthien2009@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N070', 'N1', b'1', 'Nguyễn Minh Thiện ', 26, 'số 6, N11 KDC Phú Hòa, Phú Hòa, Thủ Dầu 1, Bình Dư', '0986317217 ', 5, 4),
+(73, 'user72', 'bachyen04@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N072', 'N2', b'1', 'Nguyễn Thị Bạch Yến ', 25, '23 Đường số 10, Cát Lái, Quận 2, HCM ', '0903640449 ', 4, 5),
+(74, 'user73', 'at7-8x@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N073', 'N2', b'1', 'Phạm Nguyễn Anh Trà ', 25, 'Cát Hậu, Hồng Hưng, Gia Lộc, Hải Dương ', '0984944604 ', 5, 2),
+(75, 'user74', 'nguyenansong@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N074', 'N2', b'1', 'Nguyễn An Sống ', 25, 'Cát Hậu, Hồng Hưng, Gia Lộc, Hải Dương ', '0902751783 ', 2, 3),
+(76, 'user75', 'phongasc@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N075', 'N2', b'1', 'Trần Cẩm Phong ', 33, 'Cát Hậu, Hồng Hưng, Gia Lộc, Hải Dương ', '0937385070 ', 2, 2),
+(77, 'user76', 'ntlanh.khdn@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N076', 'N2', b'1', 'Nguyễn Thị Lành ', 29, 'Cát Hậu, Hồng Hưng, Gia Lộc, Hải Dương ', '0987999031 ', 4, 3),
+(78, 'user77', 'hothunga77@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N077', 'N2', b'1', 'Hồ Thiên Nga ', 22, '255/72/4 Ngô Tất Tố, P22, Bình Thạnh ', '0987999031 ', 2, 2),
+(79, 'user78', 'trieuminh240684@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N078', 'N2', b'1', 'Nguyễn Văn Tý ', 27, '255/72/4 Ngô Tất Tố, P22, Bình Thạnh ', '0987999031 ', 3, 3),
+(80, 'user79', 'moiro1985@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N079', 'N2', b'1', 'Hồ Thị Quỳnh Như ', 24, '441/33/9 Nguyễn Bỉnh Khiêm, P1, Gò Vấp, HCM ', '0987999031 ', 5, 5),
+(81, 'user80', 'ngohai1976@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N080', 'N2', b'1', 'Ngô Thanh Hải ', 20, '441/33/9 Nguyễn Bỉnh Khiêm, P1, Gò Vấp, HCM ', '0987999031 ', 2, 2),
+(82, 'user81', 'dannynguyen1980@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N081', 'N2', b'1', 'Nguyễn Quang Đức ', 27, 'P417 C/c Vạn Đô, 348 Bến Vân Đồn, F1, Quận 4, HCM ', '0987999031 ', 5, 5),
+(83, 'user82', 'dieuhienvssc@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N082', 'N2', b'1', 'Phạm Thị Diệu Hiền ', 28, 'P417 C/c Vạn Đô, 348 Bến Vân Đồn, F1, Quận 4, HCM ', '0935765765 ', 4, 1),
+(84, 'user83', 'dangngocsuong@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N083', 'N2', b'1', 'Đặng Thị Ngọc Sương ', 26, 'P417 C/c Vạn Đô, 348 Bến Vân Đồn, F1, Quận 4, HCM ', '0974950370 ', 2, 3),
+(85, 'user84', 'sgn-tsm@sgnlogistics.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N084', 'N2', b'1', 'Nguyễn Thanh Tùng ', 20, 'P417 C/c Vạn Đô, 348 Bến Vân Đồn, F1, Quận 4, HCM ', '0938312868 ', 3, 4),
+(86, 'user85', 'ngocmybk@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N085', 'N2', b'1', 'Nguyễn Thị Ngọc My ', 28, '94 đường 17, P. Linh Chiểu, Thủ Đức ', '0984221287 ', 3, 2),
+(87, 'user86', 'trieu_tql@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N086', 'N2', b'1', 'Trương Quang Long Triều ', 28, '95 đường 17, P. Linh Chiểu, Thủ Đức ', '0918339988 ', 5, 5),
+(88, 'user87', 'quanglinhmail@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N087', 'N2', b'1', 'Nguyễn Quang Linh ', 21, '45/9 Đinh Tiên Hoàng, Bến Nghé, Quận 1, HCM ', '01684577977 ', 3, 2),
+(89, 'user88', 'binhchuongkts@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N088', 'N2', b'1', 'Trần Bình Chương ', 30, '45/9 Đinh Tiên Hoàng, Bến Nghé, Quận 1, HCM ', '0903925707 ', 4, 3),
+(90, 'user89', 'andavn@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N089', 'N2', b'1', 'Lê Thị Anh Đào ', 34, '45/9 Đinh Tiên Hoàng, Bến Nghé, Quận 1, HCM ', '0918103908 ', 2, 2),
+(91, 'user90', 'xhavu@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N090', 'N2', b'1', 'Vũ Xuân Hà ', 31, '277/14 Nguyễn Tiểu La, P8, Q10, Tp. Hồ Chí Minh ', '0982390490 ', 2, 2),
+(92, 'user91', 'lqdao@pvfcoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N091', 'N2', b'1', 'Lưu Quang Đạo ', 29, '277/14 Nguyễn Tiểu La, P8, Q10, Tp. Hồ Chí Minh ', '0919587879 ', 5, 5),
+(93, 'user92', 'hongngocsg@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N092', 'N2', b'1', 'Phan Hồng Ngọc ', 21, '277/14 Nguyễn Tiểu La, P8, Q10, Tp. Hồ Chí Minh ', '094646886 ', 5, 5),
+(94, 'user93', 'lephucuong@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N093', 'N2', b'1', 'Lê Phú Cường ', 32, '277/14 Nguyễn Tiểu La, P8, Q10, Tp. Hồ Chí Minh ', '0918413504 ', 2, 3),
+(95, 'user94', 'Dunglv1606@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N094', 'N2', b'1', 'Lưu Thị Dung ', 28, '130 Ung Văn Khiêm, P25, Bình Thạnh, HCM ', '0985596312 ', 3, 1),
+(96, 'user95', 'ngocshpcnhcm@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N095', 'N2', b'1', 'Phan Văn Ngọc ', 23, '785/16/32 Xô Viết Nghệ Tĩnh, P25, Q. Bình Thạnh, T', '0903820261 ', 2, 3),
+(97, 'user96', 'hongphuong@sunimex.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N096', 'N2', b'1', 'Lê Cẩm Hồng Phượng ', 25, '35 Đoàn Hữu Trưng, An Phú, Q.2, TPHCM ', '0903641020 ', 3, 2),
+(98, 'user97', 'xuanthanh9@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N097', 'N2', b'1', 'Nguyễn Xuân Thịnh ', 33, '327/44/3 Tổ 7 KP 2A, P.Thới An, Q.12, TPHCM ', '0947541503 ', 4, 2),
+(99, 'user98', 'ngan.trinh@libertyinsurance.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N098', 'N2', b'1', 'Trịnh Kim Ngân ', 31, '39/9 Nhất Chi Mai, P13, Q.Tân Bình, TPHCM ', '0913607635 ', 5, 4),
+(100, 'user99', 'tranthiphuongthao17@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N099', 'N2', b'1', 'Trần Thị Phương Thảo ', 31, '404/1/28 Lê Hồng Phong, Nha Trang, Khánh Hoà ', '0937983177 ', 4, 4),
+(101, 'user100', 'vicky2006@nurian.org ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N100', 'N2', b'1', 'Bùi Thuỵ Uyên Vy ', 29, '11/3H Nguyễn Anh Thủ, Ấp Đông, Hóc Môn  ', '0908200689 ', 3, 4),
+(102, 'user101', 'thphng@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N101', 'N2', b'1', 'Nguyễn Thị Thanh Phương ', 20, '263 Hàn Hải Nguyên, P2, Q11, TPHCM ', '0986888956 ', 2, 1),
+(103, 'user102', 'thanhdevyt@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N102', 'N2', b'1', 'Nguyễn Xuân Thành ', 28, 'A9 Đường 30, P.Bình Anh, Q.2, TPHCM ', '0903722730 ', 2, 1),
+(104, 'user103', 'hoangnhung789@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N103', 'N2', b'1', 'Nguyễn Văn Nhung ', 26, '52A Đường 20 KP 4 Hiệp Bình Chánh, Thủ Đức ', '0989519967 ', 4, 5),
+(105, 'user104', 'vmphuong1@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N104', 'N2', b'1', 'Võ Thị Minh Phượng ', 23, '163/22A Khu 5,6, Bình Hưng HòaB, Q.Bình Tân ', '0986 720 608 ', 4, 1),
+(106, 'user105', 'minhdem1980@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N105', 'N2', b'1', 'Quách Thế Minh ', 25, '41/7 Bùi Viện, P.Phạm Ngũ Lão,Q.1 ', '0985 066688 ', 5, 4),
+(107, 'user106', 'alice@nurian.org ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N106', 'N2', b'1', 'Trần Thị Lan Hương ', 24, 'số 6 KP3, P.Bình Hưng Hòa, Q.Bình Tân, TPHCM ', '0933340799 ', 2, 4),
+(108, 'user107', 'phamtrucvy@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N107', 'N2', b'1', 'Phạm Trúc Vy ', 25, 'số 6 KP3, P.Bình Hưng Hòa, Q.Bình Tân, TPHCM ', '0905751100 ', 2, 2),
+(109, 'user108', 'yenvi_2812@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N108', 'N2', b'1', 'Nguyễn Kiều Yến Vi ', 24, '649/58 Điện Biên Phủ, P.25, Q. Bình Thạnh, HCM ', '0984 534 246 ', 4, 4),
+(110, 'user109', 'chipbombo@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N109', 'N2', b'1', 'Đỗ Thị Bích Hà ', 22, '245D, Nguyễn Trãi, P. Nguyễn Cư Trinh, Q.1,HCM ', '0908 006292 ', 5, 4),
+(111, 'user110', 'tramelite@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N110', 'N2', b'1', 'Nguyễn Thị Bích Trâm ', 32, '152/54/28 Lạc Long Quân, P.3, Q.11, HCM ', '0918 609984 ', 5, 2),
+(112, 'user111', 'hieu_kimlong@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N111', 'N2', b'1', 'Vũ Trung Hiếu ', 22, '385/4 Điện Biên Phủ, P4, Q3, TPHCM ', '0903711279 ', 2, 4),
+(113, 'user112', 'cucn79@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N112', 'N2', b'1', 'Nguyễn Thị Ngọc Cúc ', 32, '385/4 Điện Biên Phủ, P4, Q3, TPHCM ', '0908899559 ', 2, 4),
+(114, 'user113', 'viethuy@fmc.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N113', 'N2', b'1', 'Nguyễn Gia Việt Huy ', 24, '385/4 Điện Biên Phủ, P4, Q3, TPHCM ', '0169997809 ', 3, 2),
+(115, 'user114', 'abrandnewperson88@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N114', 'N2', b'1', 'Trần Minh ', 29, 'B22/15 Đường Bạch Đằng, P.2, Tân Bình, HCM ', '0909 707110 ', 2, 1),
+(116, 'user115', 'bichthuy_1804@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N115', 'N2', b'1', 'Phạm Thị Bích Thủy ', 24, '180/34 XVNT, P21, Q. Bình THạnh ', '0902.217.093 ', 4, 5),
+(117, 'user116', 'patuan@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N116', 'N2', b'1', 'Phùng Anh Tuấn ', 25, '68/46A, Nguyễn Thái Sơn, P.3, Q. Gò Vấp, HCM ', '0903.920.555 ', 3, 5),
+(118, 'user117', 'hoangtrang.vinaship@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N117', 'N2', b'1', 'Hòang Thị Thu Trang ', 23, '5E, Nguyễn Đình Chiểu, P. Đakao, Q.1, HCM ', '0945.797.908 ', 2, 5),
+(119, 'user118', 'v3112@jtc.com.tw ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N118', 'N2', b'1', 'Lữ Ngọc Bình ', 24, '137 I, Tân Khai,P.4, Q.11, HCM  ', '0918 359 248 ', 4, 3),
+(120, 'user119', 'bacsiutcamau@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N119', 'N2', b'1', 'Lý Văn Út ', 28, '40 Lý Thường Kiệt, P.7, TP Cà Mau ', '0913.722791 ', 3, 2),
+(121, 'user120', 'tunguyen_1234@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N120', 'N2', b'1', 'Nguyễn Hòang Cẩm Tú ', 30, '109 Đường 10,P.4, Q.8, HCM ', '0909.184.797 ', 2, 3),
+(122, 'user121', 'dungalc@hotmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N121', 'N2', b'1', 'Nguyễn Thị Ngọc Dung ', 27, 'MM2, Trường Sơn, P.15, Q.10, HCM ', '0913.735.669 ', 3, 3),
+(123, 'user122', 'tonnuphuongthanh_octieu@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N122', 'N2', b'1', 'Tôn Nữ Phương Thanh ', 26, '50/8, Trần Khắc Trân, P. Tân Định, Q.1, HCM ', '0903.822.382 ', 2, 1),
+(124, 'user123', 'duongxuanbinh746@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N123', 'N2', b'1', 'Dương Xuân Bình ', 31, '29/29D, Tổ 54, P.16, Q.Tân Bình, HCM ', '0935.222.237 ', 5, 3),
+(125, 'user124', 'dinhnhothang@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N124', 'N2', b'1', 'Đinh Nho Thắng ', 26, '138,Dương Đình Hội, P. Phước Long B, Q.9, HCM ', '0983.533.777 ', 5, 3),
+(126, 'user125', 'ttlong80@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N125', 'N2', b'1', 'Trần Thế Long ', 21, '195/4/1, Trần Văn Đang, P.11, Q.3, HCM ', '0903.330.407 ', 2, 2),
+(127, 'user126', 'mythu910@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N126', 'N2', b'1', 'Nguyễn Thị Mỹ Thu ', 33, '71/26/7/25, Nguyễn Bặc, P.3, Tân Bình,HCM ', '0909.242.644 ', 4, 5),
+(128, 'user127', 'minhhieung1977@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N127', 'N2', b'1', 'Nguyễn Thị Minh Hiếu ', 21, '27A, Thạch Thị Thanh, P. Tân Định, Q.1, HCM ', '0908.130.179 ', 2, 3),
+(129, 'user128', 'danhhocong@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N128', 'N2', b'1', 'Hồ Công Danh ', 30, '48C, Lạc Long Quân, P,8, Q. Tân Bình, HCM ', '0913.728.88 ', 5, 4),
+(130, 'user129', 'quocdung427@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N129', 'N2', b'1', 'Trần Quốc Dũng ', 33, '433/40/38, Lý Thái Tổ, P.9, Q.10, HCM ', '0989.601.660 ', 2, 1),
+(131, 'user130', 'maiquynh3003@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N130', 'N2', b'1', 'Lê Vũ Quỳnh Mai ', 21, 'Số 6, Đường 46, P. Thảo Điền, Q.2, HCM ', '0907.987.340 ', 2, 5),
+(132, 'user131', 'haisgb@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N131', 'N2', b'1', 'Lê Minh Hải ', 28, '293/15A, Bình Tiên, P.8,Q.6, HCM ', '0909.238789 ', 3, 1),
+(133, 'user132', 'mychi55@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N132', 'N2', b'1', 'Nguyễn Thị Mỹ Chi ', 30, '102, LôH, Cư Xá Thanh Đa, P.27, Q.BT, HCM ', '0936.888.432 ', 2, 1),
+(134, 'user133', 'quanganh.vl@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N133', 'N2', b'1', 'Lê Quang Anh ', 30, '477/61/009, Nơ Trang Long, P.13, Q.BT, HCM ', '0986.040.986 ', 2, 5),
+(135, 'user134', 'vthue264@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N134', 'N2', b'1', 'Vũ Tuyết Huệ ', 32, '210 Dương Bá Trạc, Q.8, HCM ', '0913747748 ', 2, 1),
+(136, 'user135', 'trunghieuhr@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N135', 'N2', b'1', 'Trần Thị Hòa ', 31, '211 Dương Bá Trạc, Q.8, HCM ', '0988160666 ', 2, 4),
+(137, 'user136', 'trunghieuhr@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N136', 'N2', b'1', 'Trần Trung Hiếu ', 33, '17T, Tổ 35, KP 3, P. Tân Chánh Hiệp, Q.12 ', '1111 ', 2, 5),
+(138, 'user137', 'thanhvu@hcm.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N137', 'N2', b'1', 'Trần Thị Mộng Tuyết ', 23, '299/16/4A, Lý Thường Kiệt, P.15, Q.11, HCM ', '0903.811.421 ', 2, 1),
+(139, 'user138', 'tranthaihoa1968@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N138', 'N2', b'1', 'Trần Thái Hòa ', 28, '20 Chợ Đường Rày, P.25, Q.Bình Thạnh, TPHCM ', '0908899719 ', 3, 3),
+(140, 'user139', 'toanhonghung@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N139', 'N2', b'1', 'Trần Huy Tòan ', 33, '292, Điện Biên Phủ, P.22, Q.BT, HCM ', '0985.711.320 ', 4, 4),
+(141, 'user140', 'haichauan@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N140', 'N2', b'1', 'Nguyễn Tôn Hiến ', 30, '9/33, Tổ 9, KP6, P. Linh Trung, Thủ Đức, HCM ', '01669038200 ', 5, 5),
+(142, 'user141', 'darkangel_vk@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N141', 'N2', b'1', 'Nguyễn Văn Kết ', 35, '57/18, Hùynh Khuơng An, P.5, Q.Gò Vấp, HCM ', '01682709069 ', 5, 1),
+(143, 'user142', 'phuonglt8583@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N142', 'N2', b'1', 'Lê Thu Phượng ', 32, '159, Trần Hữu Trang, P.10, Q.PN, HCM ', '0902.020.585 ', 3, 3),
+(144, 'user143', 'huongloan77@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N143', 'N2', b'1', 'Nguyễn Thị Hương Loan ', 33, 'Lô 811, Xa lộ HN, P.An Phú, Q.2, HCM ', '0909.282.856 ', 2, 2),
+(145, 'user144', 'wt_02003@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N144', 'N2', b'1', 'Lâm Tuấn Nguyên ', 24, '104,Tam Sóc A, Mỹ Thuận,Mỹ Tú, Sóc Trăng ', '0984.066.867 ', 5, 5),
+(146, 'user145', 'funnycats79@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N145', 'N2', b'1', 'Trần Thị Huỳnh Như ', 20, 'C/C 346, Số 504, lô 1, Đường Phan Văn Trị,P.11, Q.', '0902.638679 ', 5, 5),
+(147, 'user146', 'hoangtu_a52002@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N146', 'N2', b'1', 'Nguyễn Khánh Nhật ', 27, '8B, Cư Xá Tân Cảng, P.25, Q.BT, HCM ', '0908.220.985 ', 3, 1),
+(148, 'user147', 'danglv@pvdrilling.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N147', 'N2', b'1', 'Lê Văn Đáng ', 27, '60/9/3, Đường số 2, Hiệp Bình Phước, Quận Thủ Đức,', '0982343506 ', 5, 1),
+(149, 'user148', 'hoanbvbni@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N148', 'N2', b'1', 'Trần Thị Thu Hòan ', 31, 'Chung cư 35, Nguyễn Văn Tráng, P.Bến Thành, Q.1, H', '0982.447.283 ', 4, 1),
+(150, 'user149', 'hangkhanhhuy@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N149', 'N2', b'1', 'Hàng Khánh Huy ', 32, '439 Lê Quang Định,p.5, Q.Bình Thạnh, HCM ', '0903804505 ', 3, 4),
+(151, 'user150', 'cun_con22ot@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N150', 'N2', b'1', 'Phạm Thị Thùy Dương ', 35, '18 Đường số 2 căn cứ 26c, F7, Gò Vấp ', '01227061893 ', 5, 3),
+(152, 'user151', 'phuongtrang07@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N151', 'N2', b'1', 'Nguyễn Thị Bạch Phượng ', 31, '19 Đường số 2 căn cứ 26c, F7, Gò Vấp ', '0909050769 ', 3, 3),
+(153, 'user152', 'YEN_NGUYEN652000@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N152', 'N2', b'1', 'Nguyễn Thị Bạch Yến ', 26, '15/69 Võ Duy Ninh,P.22,Q.Bình Thạnh ', '0913982889 ', 2, 1),
+(154, 'user153', 'lvkhoi@pvfcco.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N153', 'N2', b'1', 'Lê Văn Khôi ', 24, 'Phòng C2 lầu 9 chung cư Nguyễn Phúc Nguyên,P.10, Q', '0947878668 ', 4, 3),
+(155, 'user154', 'dr.men3230@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N154', 'N2', b'1', 'Nguyễn Tài Nam ', 33, 'Phòng C2 lầu 9 chung cư Nguyễn Phúc Nguyên,P.10, Q', '01222211988 ', 2, 4),
+(156, 'user155', 'trantienthanh1988@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N155', 'N2', b'1', 'Trần Tiến Thành ', 32, '2/28, Đường 147,P. Tăng Nhơn Phú B, Q.9, HCM ', '0908388507 ', 2, 4),
+(157, 'user156', 'thuyphuc.nguyen@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N156', 'N2', b'1', 'Nguyễn Phúc Khánh ', 32, '361/7 Nguyễn Đình Chiểu,P5,Q3 ', '0913751990 ', 4, 3),
+(158, 'user157', 'acuongvn2000@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N157', 'N2', b'1', 'Nguyễn Mạnh Cường ', 29, '5/1 đường Đồ Sơn,P4,Q.Tân Bình ', '0904481648 ', 3, 2),
+(159, 'user158', 'doan_245@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N158', 'N2', b'1', 'Bùi Vũ Thục Đoan ', 33, '24/434 A Thống Nhất, P.15, Q.Gò Vấp ', '0909307607 ', 5, 3),
+(160, 'user159', 'nammap1978@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N159', 'N2', b'1', 'Nguyễn Hoàng Nam ', 29, '38/11/2A KP6 Trường Thọ,Thủ Đức.TP.HCM ', '0984016601 ', 2, 5),
+(161, 'user160', 'nvktnt@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N160', 'N2', b'1', 'Nguyễn Vinh Khánh Toàn ', 31, '178/4/12H1 Phan Đăng Lưu,P3,Q.Phú Nhuận ', '0909112172 ', 3, 5),
+(162, 'user161', 'ngohu@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N161', 'N2', b'1', 'Trần Ngọc Hùng ', 34, '200/48 Lê Văn Việt, P.Tăng Nhơn Phú B,Q.9 ', '0909667977 ', 5, 2),
+(163, 'user162', 'clragonthang@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N162', 'N2', b'1', 'Lê Minh Thắng ', 23, '20/17 KP5 Dầu Tiếng Bình Dương ', '0908446644 ', 5, 5),
+(164, 'user163', 'thuyphuc.nguyen@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N163', 'N2', b'1', 'Nguyễn Phúc Thảo ', 24, '361/7 Nguyễn Đình Chiểu,P5,Q3 ', '0913752990 ', 5, 2),
+(165, 'user164', 'tttha@baominh.om.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N164', 'N2', b'1', 'Trần Thị Thúy Hà ', 25, '30/07 Bùi Thế Mỹ,P.Hiệp Tân,Q.Tân Phú ', '0908664879 ', 2, 2),
+(166, 'user165', 'nguyenthuy0152@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N165', 'N2', b'1', 'Nguyễn Thị Thùy Nhung ', 30, '666/64/18 đường 3/2,P14,Q10 ', '0938515658 ', 5, 3),
+(167, 'user166', 'airport.hcm@aomlogistics.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N166', 'N2', b'1', 'Nguyễn Hữu Hoàng Nguyên ', 28, '89 Phan Vãn Tình,TT Thủ Thừa,Thủ Thừa,Long An ', '0908558858 ', 2, 1),
+(168, 'user167', 'vuongthanhvienart@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N167', 'N2', b'1', 'Vương Thanh Viễn ', 26, '288/5 Dương bá Trạc,P2,Q8,Tp.HCM ', '0918676097 ', 4, 4),
+(169, 'user168', 'leyen.dl@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N168', 'N2', b'1', 'Lê Thị Hải Yến ', 27, 'L6 KDC Hồng Long,Quốc Lộ 13,P.Hiệp Bình Phước,TĐ ', '0907167455 ', 3, 5),
+(170, 'user169', 'legiathuc@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N169', 'N2', b'1', 'Lê Gia Thức ', 34, '736 Nguyễn Kiệm P4 Phú Nhuận HCM ', '0903712830 ', 4, 3),
+(171, 'user170', 'ducdung@viettien.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N170', 'N2', b'1', 'Nguyễn Đức Dũng ', 30, '698 Nguyễn Kiệm phường 4 Phú Nhuận HCM ', '0903656465 ', 3, 5),
+(172, 'user171', 'hungchuatd@tamlong.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N171', 'N2', b'1', 'Trần Duy Hưng ', 32, '7/C7 Ấp 3,Xã An Phú,thuận An,Bình Dương ', '0908468946 ', 4, 5),
+(173, 'user172', 'nguyenlinh.8888@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N172', 'N2', b'1', 'Nguyễn Duy Linh ', 22, 'P.Tân Giang, tx Hà Tĩnh, hà Tĩnh ', '0902660355 ', 5, 3),
+(174, 'user173', 'trannhatvinh@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N173', 'N2', b'1', 'Trần Nhật Vĩnh ', 34, '45/1 Đồng Xoài P.13 Q. Tân Bình ', '0932345610 ', 2, 4),
+(175, 'user174', 'nlhuong@cityford.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N174', 'N2', b'1', 'Nguyễn Lan Hương ', 26, '104/1 Huỳnh Mẫn Đạt, P.2, Q.5, TP.Hồ Chí Minh ', '0913895976 ', 5, 2),
+(176, 'user175', 'lephan_82@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N175', 'N2', b'1', 'Phan Thị Lệ ', 22, '70/7 Xô Viết Nghệ Tĩnh, P.21, Q.Bình Thạnh, TP.HCM', '0977835885 ', 5, 5),
+(177, 'user176', 'trunghi668@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N176', 'N2', b'1', 'Phan Bảo Trung ', 23, '23/37A Hòa Hưng, P.12, Q.10, TP.HCM ', '0938168368 ', 3, 5),
+(178, 'user177', 'thithaihale@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N177', 'N2', b'1', 'Lê Thị Thái Hà ', 34, '97 Lương Đình Của,P.An Khánh,Q2 ', '0908025229 ', 3, 2),
+(179, 'user178', 'e_e5640@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N178', 'N2', b'1', 'Tạ Quang Lâm ', 32, 'TT KT3 45 Paster Q.1,HCM ', '01689655955 ', 2, 2),
+(180, 'user179', 'hongchautt@vfc.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N179', 'N2', b'1', 'Thái Thị Hồng Châu ', 27, '10A Lê Thánh Tôn, P.Bến Nghé, Q.1, TP.HCM ', '0903920662 ', 2, 1),
+(181, 'user180', 'vuquang_76@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N180', 'N2', b'1', 'Tô Vũ Quang ', 29, '2/5C Đồng Nai,Q10,TP.HCM ', '0979308590 ', 2, 1),
+(182, 'user181', 'truong_civil75@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N181', 'N2', b'1', 'Trịnh Trung Trưởng ', 22, '35/97 Xô Viết Nghệ Tĩnh, P.17, Q.Bình Thạnh, TP.HC', '0913710465 ', 2, 3),
+(183, 'user182', 'nganghe83@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N182', 'N2', b'1', 'Nguyễn Anh Nga ', 22, 'Định Liên, Yên Định, Thanh Hóa ', '0974686999 ', 2, 4),
+(184, 'user183', 'gsaigon@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N183', 'N2', b'1', 'Nguyễn Hồng Vinh ', 25, '26/23A Tân Thành,P.tân Thành,Q.Tân Phú ', '0933200080 ', 3, 5),
+(185, 'user184', 'khachen_dtcl@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N184', 'N2', b'1', 'Quách Kha Chen ', 27, '26/23A Tân Thành,P.Tân Thành,Q.Tân Phú ', '0988030439 ', 5, 1),
+(186, 'user185', 'tientodung@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N185', 'N2', b'1', 'Tô Dũng Tiến ', 20, '132, Đường 43, P.Tân Quy, Q.7, HCM ', '0988.077.708 ', 3, 2),
+(187, 'user186', 'thuydt@saigonnewpart.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N186', 'N2', b'1', 'Đào Thị Thu Thủy ', 21, 'B7 lầu 7 c/c thế kỷ 21,326/1 Ung Văn Khiêm,P25,Q.B', '0983304525 ', 4, 3),
+(188, 'user187', 'minhnguyen_05@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N187', 'N2', b'1', 'Nguyễn Văn Minh ', 22, 'Hồng Long ,NAm Đàn ,Nghệ An ', '0977738902 ', 5, 3),
+(189, 'user188', 'duytd117@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N188', 'N2', b'1', 'Trần Đức Duy ', 27, '11 lô H c/c Nguyễn Thiện Thuật,P1,Q3 ', '0983311725 ', 4, 4),
+(190, 'user189', 'dongtrantrung@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N189', 'N2', b'1', 'Trần Trung Đông ', 35, '33/5/14, Ấp Tam Đa, Đ.Long Thuận, P. Trường Thạnh,', '0707.728.842 ', 5, 5),
+(191, 'user190', 'nqdung@saigonnewport.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N190', 'N2', b'1', 'NGUYỄN QUỐC DŨNG ', 35, '405/b12 Xô viết nghệ tĩnh , P.24 , Bình Thạnh, TP.', '0903.667.611 ', 5, 4),
+(192, 'user191', 'qkien94@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N191', 'N2', b'1', 'Nguyễn Thanh Hà ', 23, '89, Nguyễn Phi Khanh, P.Tân Định,Q.1, HCM ', '0989.016.229 ', 2, 2),
+(193, 'user192', 'truongthenguyen@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N192', 'N2', b'1', 'Nguyễn Thế Trường ', 33, '72/3 Nguyễn Lâm, P.7, Q.Phú Nhuận, TPHCM ', '0913627550 ', 4, 5),
+(194, 'user193', 'hltrung@saigonnewport.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N193', 'N3', b'1', 'Hòang Lê Trung ', 20, '183/9C,1, Điện Biên Phủ, P.21, BT, HCM ', '0889.250.589 ', 5, 1),
+(195, 'user194', 'duong.business@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N194', 'N3', b'1', 'Nguyễn Thái Dương ', 24, '80/9 B13, Tân Hòa Đông, P.14, Q.6, HCM  ', '0933.886.733 ', 3, 1),
+(196, 'user195', 'vmsvnpt@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N195', 'N3', b'1', 'Hoàng Liên Sơn ', 31, 'P115C c/c Ehome 86 Dương Đình Hội,Phước Long B,Q9 ', '0908220506 ', 5, 1),
+(197, 'user196', 'ngovu3009@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N196', 'N3', b'1', 'Ngô Thục Viên ', 21, '82/14/9 NGuyễn Xí,P26,Q.Bình Thạnh ', '0908292414 ', 5, 2),
+(198, 'user197', 'buidanhhuong@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N197', 'N3', b'1', 'Bùi Danh Hường ', 34, 'A304 cc Ehome Dương Đình Hội,Phước Long B, Q9 ', '0909344837 ', 3, 3),
+(199, 'user198', 'chipkhoi2005@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N198', 'N3', b'1', 'Cù Thị Tuyết ', 26, '321 c/c1 Bàn Cát,P14,Tân Bình ', '0978312468 ', 3, 1),
+(200, 'user199', 'dinhdung7179@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N199', 'N3', b'1', 'Vũ Đình Dũng ', 34, '12/5 Ngô Sỹ Liên,P.Tân Sơn,TP.Thanh Hóa ', '0908504324 ', 5, 5),
+(201, 'user200', 'hangthanhnguyen@holcim.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N200', 'N3', b'1', 'Nguyễn Thị Thanh Hằng ', 33, '356 Huỳnh Tấn Phát,BÌnh Thuận,Q7 ', '38724279 ', 2, 5),
+(202, 'user201', 'xuyendo@tafieo.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N201', 'N3', b'1', 'Đỗ Duy Xuyên ', 34, '314 cc An Hòa 1,Trần Trọng Cung,Tân Thuận Đông,Q7 ', '0984380380 ', 2, 1),
+(203, 'user202', 'chung9551@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N202', 'N3', b'1', 'Trần Viết Chung ', 35, '315 cc An Hòa 1,Trần Trọng Cung,Tân Thuận Đông,Q7 ', '01687825961 ', 3, 1),
+(204, 'user203', 'hieu.nguyen@alamvn.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N203', 'N3', b'1', 'Nguyễn Nam Hiếu ', 34, '104/1, Huỳnh Mẫn Đạt, P.2, Q. 5, HCM ', '0903.077.145 ', 4, 4),
+(205, 'user204', 'hnam0904@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N204', 'N3', b'1', 'Vũ Hòai Nam ', 29, '359B2, Nguyễn Trọng Tuyển, P.1, Tân Bình, HCM ', '0908.225.588 ', 3, 5),
+(206, 'user205', 'viden2002@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N205', 'N3', b'1', 'Phan Vũ Huyền Trâm ', 28, '38, Tân Canh, P1, Q. Tân Bình, HCM ', '0918.281.846 ', 2, 1),
+(207, 'user206', 'tranvansam123@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N206', 'N3', b'1', 'Trần Văn Sâm ', 23, '460/4/24, Lê Văn Luơng, P. Tân Phong, Q.7, HCM ', '0918.001.869 ', 3, 2),
+(208, 'user207', 'phanvantungpsc@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N207', 'N3', b'1', 'Phan Văn Tùng ', 26, 'B3A 05 C/C Botanic, 312 Nguyễn Thượng Hiền, P.5, Q', '0903.824.779 ', 2, 3),
+(209, 'user208', 'tvchuong75@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N208', 'N3', b'1', 'Trần Văn Chương ', 21, '184 Đường số 9, Khu Tân Mỹ, P Tân Phú, Q.7 , TP.HC', '0908188699 ', 4, 1),
+(210, 'user209', 'tuananh_zip_0101@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N209', 'N3', b'1', 'Nguyễn Anh Tuấn ', 20, '534/12, D1, Điện Biên Phủ, Q.BT, HCM ', '0982.399.355 ', 5, 5),
+(211, 'user210', 'ahhalife@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N210', 'N3', b'1', 'Dương Nguyễn Trà My ', 24, '525 Nguyễn Thị Định, P.CL, QF.2, HCM ', '0984.714.312 ', 3, 3),
+(212, 'user211', 'thoingochuy@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N211', 'N3', b'1', 'Thới Ngọc Huy ', 21, 'LôS1_S2, Cao Ốc An Cư, Đ. 8B, KĐTM An Phú An Khánh', '0989.876.956 ', 2, 5),
+(213, 'user212', 'quachthaibao@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N212', 'N3', b'1', 'Quách Thái Bảo ', 30, '553, Trần Hưng Đạo, TP Long Xuyên, T. An Giang ', '0903.986.609 ', 4, 2),
+(214, 'user213', 'nguyen_phamphu@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N213', 'N3', b'1', 'Phạm Phú Tây Nguyên ', 24, '82/43/14, ĐS2, KP 6, Hiệp Bình Phước, Thủ Đức ', '0913.175.929 ', 4, 4),
+(215, 'user214', 'truongvinh767@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N214', 'N3', b'1', 'Trương Văn Vĩnh ', 25, '31 tầng 8 CC Cửu Long, P.13, Q.BT, HCM ', '0938207789 ', 5, 4),
+(216, 'user215', 'dthuong.mbbank@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N215', 'N3', b'1', 'Đinh Thị Hương ', 23, '32 tầng 8 CC Cửu Long, P.13, Q.BT, HCM ', '0918607121 ', 4, 4),
+(217, 'user216', 'thanhlan0106@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N216', 'N3', b'1', 'Đặng Thị Thanh Lan ', 25, 'Số 20, Huỳnh Văn Cọ, KP6, Thị trấn Củ Chi, HCM ', '0976317286 ', 4, 5),
+(218, 'user217', 'violet9883@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N217', 'N3', b'1', 'Phan Thị Hải Anh ', 23, '24, đường số 7, P. HBC, Q. Thủ Đức, HCM ', '0907267696 ', 3, 5),
+(219, 'user218', 'bantaynho09@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N218', 'N3', b'1', 'Nguyễn Thị Thúy ', 28, '9, Giải Phóng, P4, Q.Tân Bình, HCM ', '0986102681 ', 2, 1),
+(220, 'user219', 'kfc1902@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N219', 'N3', b'1', 'Nguyễn Thị Tường Vi ', 23, '9, Giải Phóng, P4, Q.Tân Bình, HCM ', '01226769871 ', 3, 4),
+(221, 'user220', 'phuongngan@grtoyota-tsusho.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N220', 'N3', b'1', 'Hồ Nguyễn Phương Ngân ', 27, '118/890, Nguyễn Kiệm, P.3, Q. GV, HCM ', '0903.117.068 ', 2, 2),
+(222, 'user221', 'vietha_224@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N221', 'N3', b'1', 'Phạm Việt Hà ', 27, '134/18, Phú Hòa, TX Thủ Dầu Một, Bình Dương ', '0913629306 ', 5, 1),
+(223, 'user222', 'luongbichtram315@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N222', 'N3', b'1', 'Lương Thị Bích Trâm ', 26, '457 Đại Lộ Bình Dương, P.Phú Cường, TXTDM, Bình Dư', '0909848204 ', 3, 2),
+(224, 'user223', 'tu.thuy.diem@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N223', 'N3', b'1', 'Từ Thúy Diễm ', 22, '20 Huỳnh Khương Ninh, P.ĐaKao, Q.1, TP.HCM ', '0984945121 ', 3, 5),
+(225, 'user224', 'lethanhthang1@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N224', 'N3', b'1', 'Lê Thành Thắng ', 21, '21 Huỳnh Khương Ninh, P.ĐaKao, Q.1, TP.HCM ', '01236968125 ', 5, 4),
+(226, 'user225', 'chuonganhkhoa@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N225', 'N3', b'1', 'Chương Anh Khoa ', 35, '26, Nguyễn Tử Nha, P12, Q Tân Bình, HCM ', '0907835538 ', 4, 3),
+(227, 'user226', 'z3ncode@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N226', 'N3', b'1', 'Nguyễn Minh Bảo ', 33, 'Bắc Phương Danh Đập Đá, An Nhơn, Bình Định ', '0902006234 ', 4, 5),
+(228, 'user227', 'bichthao230186@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N227', 'N3', b'1', 'Nguyễn Thị Bích Thảo ', 35, '115 Lạc Long Quân, P.10, Q.Tân Bình, TP.HCM ', '0906406799 ', 3, 2),
+(229, 'user228', 'cscchau@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N228', 'N3', b'1', 'Nguyễn Thanh Tùng Châu ', 24, '116 Lạc Long Quân, P.10, Q.Tân Bình, TP.HCM ', '0989026689 ', 5, 4),
+(230, 'user229', 'voanhvu873403@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N229', 'N3', b'1', 'Võ Anh Vũ ', 26, '28 Cửu Long, Nha Trang, Khánh Hòa ', '0975433482 ', 3, 1),
+(231, 'user230', 'cuongletan67@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N230', 'N3', b'1', 'Lê Tấn Cường ', 24, '29 Cửu Long, Nha Trang, Khánh Hòa ', '0903663760 ', 5, 1),
+(232, 'user231', 'wallace_722@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N231', 'N3', b'1', 'Nguyễn Văn Tú ', 34, '30 Cửu Long, Nha Trang, Khánh Hòa ', '0914700701 ', 2, 3);
+INSERT INTO `employee` (`employee_id`, `username`, `email`, `password`, `code`, `group_id`, `is_active`, `fullname`, `age`, `address`, `phone`, `role_id`, `type_id`) VALUES
+(233, 'user232', 'socola3839@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N232', 'N3', b'1', 'Lê Anh Tấn Phương ', 34, '31 Cửu Long, Nha Trang, Khánh Hòa ', '0909703978 ', 2, 4),
+(234, 'user233', 'thietnk@yahoo.com.vn ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N233', 'N3', b'1', 'Nguyễn Kiến Thiết ', 31, '32 Cửu Long, Nha Trang, Khánh Hòa ', '0908046689 ', 4, 5),
+(235, 'user234', 'hviet123@yahoo.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N234', 'N3', b'1', 'Nguyễn Hoàng Bình ', 23, '14E3, KP1, P. Thảo Điền, Q.2, HCM ', '0908682687 ', 5, 2),
+(236, 'user235', 'haitran219@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N235', 'N3', b'1', 'Trần Thanh Hải ', 35, '92 đường 3/2, Q. Hải Châu, Tp. Đà Nẵng ', '0905190087 ', 5, 3),
+(237, 'user236', 'thanhtram2510@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N236', 'N3', b'1', 'Trần Thị Thanh Trầm ', 31, 'Thôn 4, Nghĩa Lâm, Tư Nghĩa, Quảng Ngãi ', '01689022655 ', 5, 3),
+(238, 'user237', 'chinhlt2605@gmail.com ', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N237', 'N3', b'1', 'Lâm Trung Chính ', 20, 'Thôn 4, Nghĩa Lâm, Tư Nghĩa, Quảng Ngãi ', '0903070371 ', 5, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `group_ifi`
+--
+
+CREATE TABLE `group_ifi` (
+  `group_id` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `group_ifi`
+--
+
+INSERT INTO `group_ifi` (`group_id`, `name`) VALUES
+('N1', 'Khối N1'),
+('N2', 'Khối N2'),
+('N3', 'Khối N3'),
+('N4', 'Khối N4');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `overtime`
+--
+
+CREATE TABLE `overtime` (
+  `overtime_id` bigint(20) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `from_hour` varchar(255) DEFAULT NULL,
+  `is_approved` bit(1) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `to_hour` varchar(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `overtime_log`
+--
+
+CREATE TABLE `overtime_log` (
+  `overtime_log_id` bigint(20) NOT NULL,
+  `approved_id` bigint(20) DEFAULT NULL,
+  `disapproved_id` bigint(20) DEFAULT NULL,
+  `next_approve_id` bigint(20) DEFAULT NULL,
+  `overtime_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `overtime_type`
+--
+
+CREATE TABLE `overtime_type` (
+  `overtime_type_id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `project`
+--
+
+CREATE TABLE `project` (
+  `project_id` bigint(20) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `group_id` varchar(5) DEFAULT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `start_date` date NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `end_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `project`
+--
+
+INSERT INTO `project` (`project_id`, `name`, `group_id`, `code`, `status`, `start_date`, `description`, `month`, `year`, `end_date`) VALUES
+(2, 'Android Task Monitoring', 'N1', 'PRO001', 1, '2016-04-15', 'Project 1', 0, 0, NULL),
+(3, 'Online Mobile Recharge Portal Project', 'N1', 'PRO002', 1, '2016-10-23', 'Project 2', 0, 0, NULL),
+(4, 'Detecting E Banking Phishing Websites Using Associative Classification', 'N1', 'PRO003', 1, '2016-06-09', 'Project 3', 0, 0, NULL),
+(5, 'Vehicle Tracking Using Driver Mobile Gps Tracking', 'N1', 'PRO004', 1, '2016-04-10', 'Project 4', 0, 0, NULL),
+(6, 'Sentiment Analysis for Product Rating', 'N1', 'PRO005', 1, '2016-08-13', 'Project 5', 0, 0, NULL),
+(7, 'Fingerprint Based ATM System', 'N1', 'PRO006', 1, '2017-12-10', 'Project 6', 0, 0, NULL),
+(8, 'Image Encryption Using AES Algorithm', 'N1', 'PRO007', 1, '2017-02-13', 'Project 7', 0, 0, NULL),
+(9, 'Image Encryption Using Triple DES', 'N1', 'PRO008', 1, '2016-08-20', 'Project 8', 0, 0, NULL),
+(10, 'Extended AES with Custom Configurable Encryption', 'N1', 'PRO009', 1, '2016-10-09', 'Project 9', 0, 0, NULL),
+(11, 'E Commerce Product Rating Based On Customer Review Mining', 'N1', 'PRO010', 1, '2017-10-08', 'Project 10', 0, 0, NULL),
+(12, 'Image Steganography With 3 Way Encryption', 'N1', 'PRO011', 1, '2018-02-05', 'Project 11', 0, 0, NULL),
+(13, 'Canteen Automation System', 'N1', 'PRO012', 1, '2016-03-18', 'Project 12', 0, 0, NULL),
+(14, 'Engineering College Automation and Scheduling System', 'N1', 'PRO013', 1, '2017-07-21', 'Project 13', 0, 0, NULL),
+(15, 'Fingerprint Voting System Project', 'N1', 'PRO014', 1, '2016-02-20', 'Project 14', 0, 0, NULL),
+(16, 'Employee Hourly Attendance By Barcode Scan', 'N1', 'PRO015', 1, '2017-12-26', 'Project 15', 0, 0, NULL),
+(17, 'Weather Forecasting Using Data Mining', 'N1', 'PRO016', 1, '2016-11-02', 'Project 16', 0, 0, NULL),
+(18, 'User Web Access Records Mining For Business Intelligence', 'N1', 'PRO017', 1, '2017-03-12', 'Project 17', 0, 0, NULL),
+(19, 'Railway Tracking and Arrival Time Prediction', 'N1', 'PRO018', 1, '2016-05-19', 'Project 18', 0, 0, NULL),
+(20, 'Android Local Train Ticketing Project', 'N1', 'PRO019', 1, '2017-01-28', 'Project 19', 0, 0, NULL),
+(21, 'Android Patient Tracker', 'N1', 'PRO020', 1, '2017-07-07', 'Project 20', 0, 0, NULL),
+(22, 'Opinion Mining For Restaurant Reviews', 'N1', 'PRO021', 1, '2016-02-12', 'Project 21', 0, 0, NULL),
+(23, 'Website Evaluation Using Opinion Mining', 'N1', 'PRO022', 1, '2016-08-20', 'Project 22', 0, 0, NULL),
+(24, 'Opinion Mining For Comment Sentiment Analysis', 'N1', 'PRO023', 1, '2016-03-15', 'Project 23', 0, 0, NULL),
+(25, 'Movie Success Prediction Using Data Mining', 'N1', 'PRO024', 1, '2018-02-25', 'Project 24', 0, 0, NULL),
+(26, 'Android Customer Relationship Management System', 'N1', 'PRO025', 1, '2016-11-16', 'Project 25', 0, 0, NULL),
+(27, 'Android Employee Tracker', 'N1', 'PRO026', 1, '2017-05-23', 'Project 26', 0, 0, NULL),
+(28, 'Monitoring Suspicious Discussions On Online Forums Using Data Mining', 'N1', 'PRO027', 1, '2017-12-13', 'Project 27', 0, 0, NULL),
+(29, 'Android – PC Chatting & Image Sharing System', 'N1', 'PRO028', 1, '2016-10-02', 'Project 28', 0, 0, NULL),
+(30, 'Fake Product Review Monitoring And Removal For Genuine Online Product Reviews Using Opinion Mining', 'N1', 'PRO029', 1, '2017-10-11', 'Project 29', 0, 0, NULL),
+(31, 'Web Data Mining To Detect Online Spread Of Terrorism', 'N1', 'PRO030', 1, '2018-03-02', 'Project 30', 0, 0, NULL),
+(32, 'Opinion Mining For Social Networking Site', 'N1', 'PRO031', 1, '2017-12-17', 'Project 31', 0, 0, NULL),
+(33, 'Biomedical Data Mining For Web Page Relevance Checking', 'N1', 'PRO032', 1, '2016-08-29', 'Project 32', 0, 0, NULL),
+(34, 'Data Mining For Automated Personality Classification', 'N1', 'PRO033', 1, '2018-03-09', 'Project 33', 0, 0, NULL),
+(35, 'Real Estate Search Based On Data Mining', 'N1', 'PRO034', 1, '2017-01-10', 'Project 34', 0, 0, NULL),
+(36, 'Automated Payroll With GPS Tracking And Image Capture', 'N1', 'PRO035', 1, '2016-07-18', 'Project 35', 0, 0, NULL),
+(37, 'Unique User Identification Across Multiple Social Networks', 'N1', 'PRO036', 1, '2017-06-27', 'Project 36', 0, 0, NULL),
+(38, 'College Enquiry Chat Bot', 'N1', 'PRO037', 1, '2017-07-26', 'Project 37', 0, 0, NULL),
+(39, 'Bikers Portal', 'N1', 'PRO038', 1, '2017-07-07', 'Project 38', 0, 0, NULL),
+(40, 'Secure Electronic Fund Transfer Over Internet Using DES', 'N1', 'PRO039', 1, '2017-09-25', 'Project 39', 0, 0, NULL),
+(41, 'Sentiment Based Movie Rating System', 'N1', 'PRO040', 1, '2016-09-26', 'Project 40', 0, 0, NULL),
+(42, 'Advanced Reliable Real Estate Portal', 'N1', 'PRO041', 1, '2016-02-13', 'Project 41', 0, 0, NULL),
+(43, 'Diagnostic Centre Client Coordination System', 'N1', 'PRO042', 1, '2017-12-31', 'Project 42', 0, 0, NULL),
+(44, 'Improved Data Leakage Detection', 'N1', 'PRO043', 1, '2017-02-23', 'Project 43', 0, 0, NULL),
+(45, 'Online Herbs Shopping Project', 'N1', 'PRO044', 1, '2017-09-26', 'Project 44', 0, 0, NULL),
+(46, 'Sending a secure message over a network to a remote site', 'N1', 'PRO045', 1, '2017-06-18', 'Project 45', 0, 0, NULL),
+(47, 'Online Diagnostic Lab Reporting System', 'N1', 'PRO046', 1, '2016-08-15', 'Project 46', 0, 0, NULL),
+(48, 'Online Loan Application & Verification System', 'N1', 'PRO047', 1, '2018-01-01', 'Project 47', 0, 0, NULL),
+(49, 'Multi Website Advertisement Handling System', 'N1', 'PRO048', 1, '2017-01-27', 'Project 48', 0, 0, NULL),
+(50, 'Secure Data Transfer Over Internet Using Image Steganography', 'N1', 'PRO049', 1, '2016-07-19', 'Project 49', 0, 0, NULL),
+(51, 'Airport Network Flight Scheduler', 'N1', 'PRO050', 1, '2016-10-01', 'Project 50', 0, 0, NULL),
+(52, 'Image Encryption For Secure Internet Transfer', 'N1', 'PRO051', 1, '2018-03-19', 'Project 51', 0, 0, NULL),
+(53, 'Public Photography Contest With Live Voting', 'N1', 'PRO052', 1, '2017-12-28', 'Project 52', 0, 0, NULL),
+(54, 'Image Encryption For Secure Internet Transfer', 'N1', 'PRO053', 1, '2017-09-15', 'Project 53', 0, 0, NULL),
+(55, 'Public Photography Contest With Live Voting', 'N1', 'PRO054', 1, '2016-10-27', 'Project 54', 0, 0, NULL),
+(56, 'Criminal Investigation Tracker with Suspect Prediction', 'N1', 'PRO055', 1, '2018-04-28', 'Project 55', 0, 0, NULL),
+(57, 'Distributed Dealership Network Analyzer and Sales Monitor', 'N1', 'PRO056', 1, '2017-01-07', 'Project 56', 0, 0, NULL),
+(58, 'E Healthcare – Online Consultation And Medical Subscription', 'N1', 'PRO057', 1, '2016-11-17', 'Project 57', 0, 0, NULL),
+(59, 'Automated College Timetable Generator', 'N1', 'PRO058', 1, '2017-03-10', 'Project 58', 0, 0, NULL),
+(60, 'Intelligent PC Location Tracking System', 'N1', 'PRO059', 1, '2016-03-21', 'Project 59', 0, 0, NULL),
+(61, 'Secure Remote Communication Using DES Algorithm', 'N1', 'PRO060', 1, '2017-12-07', 'Project 60', 0, 0, NULL),
+(62, 'Remote Java 2 Dotnet Communication Application', 'N1', 'PRO061', 1, '2017-11-28', 'Project 61', 0, 0, NULL),
+(63, 'Internet Based Live Courier Tracking And Delivery System', 'N1', 'PRO062', 1, '2017-06-27', 'Project 62', 0, 0, NULL),
+(64, 'Active Chat Monitoring and Suspicious Chat Detection over Internet', 'N1', 'PRO063', 1, '2017-02-05', 'Project 63', 0, 0, NULL),
+(65, 'Credit Card Fraud Detection', 'N1', 'PRO064', 1, '2016-12-17', 'Project 64', 0, 0, NULL),
+(66, 'Remote User Recognition And Access Provision', 'N1', 'PRO065', 1, '2018-01-04', 'Project 65', 0, 0, NULL),
+(67, 'AI Multi Agent Shopping System', 'N1', 'PRO066', 1, '2017-03-13', 'Project 66', 0, 0, NULL),
+(68, 'Wireless Indoor Positioning System', 'N1', 'PRO067', 1, '2016-09-29', 'Project 67', 0, 0, NULL),
+(69, 'Web Content Trust Rating Prediction Using Evidence Theory', 'N1', 'PRO068', 1, '2016-09-21', 'Project 68', 0, 0, NULL),
+(70, 'Topic Detection Using Keyword Clustering', 'N1', 'PRO069', 1, '2017-04-03', 'Project 69', 0, 0, NULL),
+(71, 'An Adaptive Social Media Recommendation System', 'N2', 'PRO070', 1, '2017-08-23', 'Project 70', 0, 0, NULL),
+(72, 'Tab Based Library Book Availability & Location Finder On Wifi', 'N2', 'PRO071', 1, '2016-01-20', 'Project 71', 0, 0, NULL),
+(73, 'Web Mining For Suspicious Keyword Prominence', 'N2', 'PRO072', 1, '2017-08-25', 'Project 72', 0, 0, NULL),
+(74, 'Web Agent For Learning Content Updating', 'N2', 'PRO073', 1, '2018-04-07', 'Project 73', 0, 0, NULL),
+(75, 'PC Configuration Retrieval System on Online Server', 'N2', 'PRO074', 1, '2017-07-31', 'Project 74', 0, 0, NULL),
+(76, 'Web Server Log Analysis System', 'N2', 'PRO075', 1, '2016-09-15', 'Project 75', 0, 0, NULL),
+(77, 'Customer Behaviour Prediction Using Web Usage Mining', 'N2', 'PRO076', 1, '2017-12-31', 'Project 76', 0, 0, NULL),
+(78, 'Web Server to Client communication for web usage data analysis', 'N2', 'PRO077', 1, '2017-12-09', 'Project 77', 0, 0, NULL),
+(79, 'Network Based Stock Price System', 'N2', 'PRO078', 1, '2017-07-05', 'Project 78', 0, 0, NULL),
+(80, 'Matrimonial Portal Project', 'N2', 'PRO079', 1, '2017-03-28', 'Project 79', 0, 0, NULL),
+(81, 'On Demand Remote PC Monitoring system Through Internet', 'N2', 'PRO080', 1, '2016-12-03', 'Project 80', 0, 0, NULL),
+(82, 'Online AI Shopping With M-Wallet System', 'N2', 'PRO081', 1, '2016-02-26', 'Project 81', 0, 0, NULL),
+(83, 'Military Access Using Card Scanning With OTP', 'N2', 'PRO082', 1, '2017-07-07', 'Project 82', 0, 0, NULL),
+(84, 'Secure ATM Using Card Scanning Plus OTP', 'N2', 'PRO083', 1, '2017-01-31', 'Project 83', 0, 0, NULL),
+(85, 'Secure Lab Access Using Card Scanner Plus Face Recognition', 'N2', 'PRO084', 1, '2016-12-27', 'Project 84', 0, 0, NULL),
+(86, 'Webpage Ranking Search Engine With Seo Suggester', 'N2', 'PRO085', 1, '2017-11-06', 'Project 85', 0, 0, NULL),
+(87, 'Detect Irregular moving objects and tracking based on color and shape in real-time', 'N2', 'PRO086', 1, '2016-10-22', 'Project 86', 0, 0, NULL),
+(88, 'Camera Motion Sensing Project', 'N2', 'PRO087', 1, '2016-10-01', 'Project 87', 0, 0, NULL),
+(89, 'Collective Face Detection Project', 'N2', 'PRO088', 1, '2018-03-22', 'Project 88', 0, 0, NULL),
+(90, 'College automation project', 'N2', 'PRO089', 1, '2016-04-20', 'Project 89', 0, 0, NULL),
+(91, 'Online Election System Project', 'N2', 'PRO090', 1, '2017-04-21', 'Project 90', 0, 0, NULL),
+(92, 'Automated Attendance System', 'N2', 'PRO091', 1, '2016-05-12', 'Project 91', 0, 0, NULL),
+(93, 'Mobile Attendance System Project', 'N2', 'PRO092', 1, '2018-02-19', 'Project 92', 0, 0, NULL),
+(94, 'WiFi Shopping Guide Project', 'N2', 'PRO093', 1, '2017-07-04', 'Project 93', 0, 0, NULL),
+(95, 'Cursor Movement By Hand Gesture Project', 'N2', 'PRO094', 1, '2016-03-28', 'Project 94', 0, 0, NULL),
+(96, 'Mobile Quiz Through WiFi Project', 'N2', 'PRO095', 1, '2016-11-06', 'Project 95', 0, 0, NULL),
+(97, 'The Cibil System Project', 'N2', 'PRO096', 1, '2017-06-13', 'Project 96', 0, 0, NULL),
+(98, 'Android Merchant Application Using Qr', 'N2', 'PRO097', 1, '2016-06-16', 'Project 97', 0, 0, NULL),
+(99, 'Advanced Mobile Store', 'N2', 'PRO098', 1, '2016-12-14', 'Project 98', 0, 0, NULL),
+(100, 'Artificial Intelligence Dietician', 'N2', 'PRO099', 1, '2017-04-21', 'Project 99', 0, 0, NULL),
+(101, 'Look Based Media Player', 'N2', 'PRO100', 1, '2016-08-24', 'Project 100', 0, 0, NULL),
+(102, 'Banking Bot Project', 'N2', 'PRO101', 1, '2016-01-16', 'Project 101', 0, 0, NULL),
+(103, 'Android Voting System', 'N2', 'PRO102', 1, '2016-01-27', 'Project 102', 0, 0, NULL),
+(104, 'Android File finder and Sorting', 'N2', 'PRO103', 1, '2016-08-14', 'Project 103', 0, 0, NULL),
+(105, 'Android Tourist Guide Project', 'N2', 'PRO104', 1, '2018-01-20', 'Project 104', 0, 0, NULL),
+(106, 'Android AI Diet Consultant', 'N2', 'PRO105', 1, '2016-03-18', 'Project 105', 0, 0, NULL),
+(107, 'Android Blood Bank', 'N2', 'PRO106', 1, '2016-01-10', 'Project 106', 0, 0, NULL),
+(108, 'Bus Pass Android Project', 'N2', 'PRO107', 1, '2017-07-09', 'Project 107', 0, 0, NULL),
+(109, 'Android Based Parking Booking System', 'N2', 'PRO108', 1, '2018-02-02', 'Project 108', 0, 0, NULL),
+(110, 'Android Based Furniture Shopping', 'N2', 'PRO109', 1, '2018-03-03', 'Project 109', 0, 0, NULL),
+(111, 'Grocery Shopping Android', 'N2', 'PRO110', 1, '2016-04-06', 'Project 110', 0, 0, NULL),
+(112, 'Face Recognition Attendance System', 'N2', 'PRO111', 1, '2017-02-04', 'Project 111', 0, 0, NULL),
+(113, 'Driver Card With Qr Code Identification', 'N2', 'PRO112', 1, '2018-04-01', 'Project 112', 0, 0, NULL),
+(114, 'Detecting Data Leaks', 'N2', 'PRO113', 1, '2016-08-10', 'Project 113', 0, 0, NULL),
+(115, 'Mobile(location based) Advertisement System', 'N2', 'PRO114', 1, '2017-12-21', 'Project 114', 0, 0, NULL),
+(116, 'Medical Search Engine Project', 'N2', 'PRO115', 1, '2017-01-04', 'Project 115', 0, 0, NULL),
+(117, 'Automatic Answer Checker', 'N2', 'PRO116', 1, '2017-12-16', 'Project 116', 0, 0, NULL),
+(118, 'Document checker and Corrector Project', 'N2', 'PRO117', 1, '2017-08-14', 'Project 117', 0, 0, NULL),
+(119, 'AI Desktop Partner', 'N2', 'PRO118', 1, '2017-11-10', 'Project 118', 0, 0, NULL),
+(120, 'Car Sales And Inventory Store Project', 'N2', 'PRO119', 1, '2018-04-14', 'Project 119', 0, 0, NULL),
+(121, 'Media player Project', 'N2', 'PRO120', 1, '2016-04-21', 'Project 120', 0, 0, NULL),
+(122, 'Education Assignment Dashboard', 'N2', 'PRO121', 1, '2017-01-13', 'Project 121', 0, 0, NULL),
+(123, 'LED display generator project', 'N2', 'PRO122', 1, '2017-07-04', 'Project 122', 0, 0, NULL),
+(124, 'Human Speed Detection Project', 'N2', 'PRO123', 1, '2016-11-21', 'Project 123', 0, 0, NULL),
+(125, 'Cargo Booking Software', 'N2', 'PRO124', 1, '2017-10-08', 'Project 124', 0, 0, NULL),
+(126, 'Mobile Banking Project', 'N2', 'PRO125', 1, '2017-03-17', 'Project 125', 0, 0, NULL),
+(127, 'Facial Expression Recognition', 'N2', 'PRO126', 1, '2016-06-18', 'Project 126', 0, 0, NULL),
+(128, 'Graphical Password By Image Segmentation', 'N2', 'PRO127', 1, '2017-11-07', 'Project 127', 0, 0, NULL),
+(129, 'Video Surveillance Project', 'N2', 'PRO128', 1, '2017-09-03', 'Project 128', 0, 0, NULL),
+(130, 'Image Mining Project', 'N2', 'PRO129', 1, '2016-10-04', 'Project 129', 0, 0, NULL),
+(131, 'Smart Health Consulting Project', 'N2', 'PRO130', 1, '2016-09-04', 'Project 130', 0, 0, NULL),
+(132, 'Farming Assistance Web Service', 'N2', 'PRO131', 1, '2017-09-21', 'Project 131', 0, 0, NULL),
+(133, 'Corporate Dashboard Project', 'N2', 'PRO132', 1, '2017-06-26', 'Project 132', 0, 0, NULL),
+(134, 'iPad Restaurant Application', 'N2', 'PRO133', 1, '2017-03-17', 'Project 133', 0, 0, NULL),
+(135, 'Detecting Edges Using Image Processor', 'N2', 'PRO134', 1, '2018-04-04', 'Project 134', 0, 0, NULL),
+(136, 'Mobile(location based) Advertisement System', 'N2', 'PRO135', 1, '2017-03-21', 'Project 135', 0, 0, NULL),
+(137, 'Sql Injection Prevention Project', 'N2', 'PRO136', 1, '2017-10-30', 'Project 136', 0, 0, NULL),
+(138, 'Smart Health consulting system', 'N2', 'PRO137', 1, '2017-01-20', 'Project 137', 0, 0, NULL),
+(139, 'Wireless Data Handling And Management', 'N2', 'PRO138', 1, '2016-03-14', 'Project 138', 0, 0, NULL),
+(140, 'Android Anti-Virus Application', 'N2', 'PRO139', 1, '2016-09-13', 'Project 139', 0, 0, NULL),
+(141, 'Storage/Energy efficient Cloud Computing', 'N2', 'PRO140', 1, '2018-04-09', 'Project 140', 0, 0, NULL),
+(142, 'Cloud computing for Rural banking', 'N2', 'PRO141', 1, '2017-08-04', 'Project 141', 0, 0, NULL),
+(143, 'E-Learning Platform using Cloud Computing', 'N2', 'PRO142', 1, '2016-08-02', 'Project 142', 0, 0, NULL),
+(144, 'Automated Canteen Ordering System using Android', 'N2', 'PRO143', 1, '2017-12-31', 'Project 143', 0, 0, NULL),
+(145, 'RFID Based Automatic Traffic Violation Ticketing', 'N2', 'PRO144', 1, '2017-09-09', 'Project 144', 0, 0, NULL),
+(146, 'Android Based Visual Product Identification For The Blind', 'N2', 'PRO145', 1, '2016-03-19', 'Project 145', 0, 0, NULL),
+(147, 'Android Offloading Computation Over Cloud', 'N2', 'PRO146', 1, '2018-03-18', 'Project 146', 0, 0, NULL),
+(148, 'Android Based Universal Ticketing Project', 'N2', 'PRO147', 1, '2016-02-11', 'Project 147', 0, 0, NULL),
+(149, 'Smart Health Prediction Using Data Mining', 'N2', 'PRO148', 1, '2017-02-22', 'Project 148', 0, 0, NULL),
+(150, 'ERP System For Institutes', 'N2', 'PRO149', 1, '2016-11-23', 'Project 149', 0, 0, NULL),
+(151, 'Efficient Doctor Patient Portal', 'N2', 'PRO150', 1, '2017-09-13', 'Project 150', 0, 0, NULL),
+(152, 'Online Bookstore System On Cloud Infrastructure', 'N2', 'PRO151', 1, '2016-03-14', 'Project 151', 0, 0, NULL),
+(153, 'Cloud Based Online Blood Bank System', 'N2', 'PRO152', 1, '2016-04-01', 'Project 152', 0, 0, NULL),
+(154, 'Cloud Based Local Train Ticketing System', 'N2', 'PRO153', 1, '2017-06-03', 'Project 153', 0, 0, NULL),
+(155, 'Cloud Based Bus Pass System', 'N2', 'PRO154', 1, '2016-04-10', 'Project 154', 0, 0, NULL),
+(156, 'Cloud Based Career Guidance System', 'N2', 'PRO155', 1, '2017-11-10', 'Project 155', 0, 0, NULL),
+(157, 'Android Bluetooth Chat', 'N2', 'PRO156', 1, '2017-02-02', 'Project 156', 0, 0, NULL),
+(158, 'Bus Pass with Barcode Card scan', 'N2', 'PRO157', 1, '2017-04-27', 'Project 157', 0, 0, NULL),
+(159, 'Bus Pass with webcam Scan', 'N2', 'PRO158', 1, '2016-01-31', 'Project 158', 0, 0, NULL),
+(160, 'Employee attendance System By Qr Scan', 'N2', 'PRO159', 1, '2016-11-28', 'Project 159', 0, 0, NULL),
+(161, 'Online Printed T-Shirt Designing', 'N2', 'PRO160', 1, '2017-10-07', 'Project 160', 0, 0, NULL),
+(162, 'Online Visiting Card Creation Project', 'N2', 'PRO161', 1, '2017-08-19', 'Project 161', 0, 0, NULL),
+(163, 'Online Ebook Maker Project', 'N2', 'PRO162', 1, '2016-09-16', 'Project 162', 0, 0, NULL),
+(164, 'MLM Project', 'N2', 'PRO163', 1, '2017-05-29', 'Project 163', 0, 0, NULL),
+(165, 'Three Level Password Authentication System', 'N3', 'PRO164', 1, '2018-04-18', 'Project 164', 0, 0, NULL),
+(166, 'Question paper generator system', 'N3', 'PRO165', 1, '2016-06-27', 'Project 165', 0, 0, NULL),
+(167, 'Hotel Management Android Project', 'N3', 'PRO166', 1, '2016-04-10', 'Project 166', 0, 0, NULL),
+(168, 'Intelligent Tourist System Project', 'N3', 'PRO167', 1, '2017-12-09', 'Project 167', 0, 0, NULL),
+(169, 'Android Vehicle Tracking Application', 'N3', 'PRO168', 1, '2016-12-06', 'Project 168', 0, 0, NULL),
+(170, 'Software Piracy Protection Project', 'N3', 'PRO169', 1, '2017-10-19', 'Project 169', 0, 0, NULL),
+(171, 'Multi Coverage Broadcast', 'N3', 'PRO170', 1, '2017-09-07', 'Project 170', 0, 0, NULL),
+(172, 'Mobile Network Stability', 'N3', 'PRO171', 1, '2017-11-04', 'Project 171', 0, 0, NULL),
+(173, 'Attack Source Tracing Project', 'N3', 'PRO172', 1, '2016-08-05', 'Project 172', 0, 0, NULL),
+(174, 'Mobile Networks Load Balancing', 'N3', 'PRO173', 1, '2017-08-10', 'Project 173', 0, 0, NULL),
+(175, 'Graphical Password Strategy', 'N3', 'PRO174', 1, '2016-11-12', 'Project 174', 0, 0, NULL),
+(176, 'Android location alarm', 'N3', 'PRO175', 1, '2016-10-28', 'Project 175', 0, 0, NULL),
+(177, 'College Social Networking Web Project', 'N3', 'PRO176', 1, '2017-04-12', 'Project 176', 0, 0, NULL),
+(178, 'Voice Logger Software Project', 'N3', 'PRO177', 1, '2017-09-26', 'Project 177', 0, 0, NULL),
+(179, 'Seo optimizer and suggester', 'N3', 'PRO178', 1, '2017-12-05', 'Project 178', 0, 0, NULL),
+(180, 'Enhanced Library Management System', 'N3', 'PRO179', 1, '2016-12-22', 'Project 179', 0, 0, NULL),
+(181, 'Custom Web Search With User Centric Map', 'N3', 'PRO180', 1, '2016-04-24', 'Project 180', 0, 0, NULL),
+(182, 'Android Joystick Application', 'N3', 'PRO181', 1, '2016-07-13', 'Project 181', 0, 0, NULL),
+(183, 'Storage/Energy efficient Cloud Computing', 'N3', 'PRO182', 1, '2016-10-23', 'Project 182', 0, 0, NULL),
+(184, 'Image Editor Project', 'N3', 'PRO183', 1, '2018-02-13', 'Project 183', 0, 0, NULL),
+(185, 'Net Tracer (ACTIVE NETWORK MONITORING)', 'N3', 'PRO184', 1, '2016-02-12', 'Project 184', 0, 0, NULL),
+(186, 'Mobile Ticketing Project', 'N3', 'PRO185', 1, '2016-06-24', 'Project 185', 0, 0, NULL),
+(187, 'Mobile Self Encryption', 'N3', 'PRO186', 1, '2018-03-09', 'Project 186', 0, 0, NULL),
+(188, 'Visual Cryptography (Image encryption and decryption)', 'N3', 'PRO187', 1, '2016-01-17', 'Project 187', 0, 0, NULL),
+(189, 'Video Steganography', 'N3', 'PRO188', 1, '2018-01-25', 'Project 188', 0, 0, NULL),
+(190, 'Lan based discussion forum', 'N3', 'PRO189', 1, '2016-09-29', 'Project 189', 0, 0, NULL),
+(191, 'file encryption using fibonacci series', 'N3', 'PRO190', 1, '2017-12-05', 'Project 190', 0, 0, NULL),
+(192, 'Hybrid AES DES encryption algorithm(any combination of algorithms is available)', 'N3', 'PRO191', 1, '2016-05-28', 'Project 191', 0, 0, NULL),
+(193, 'Stock Market Analysis and Prediction', 'N3', 'PRO192', 1, '2016-02-03', 'Project 192', 0, 0, NULL),
+(194, 'Student Attendance with Fingerprint Reader', 'N3', 'PRO193', 1, '2016-07-21', 'Project 193', 0, 0, NULL),
+(195, 'Online Law System', 'N3', 'PRO194', 1, '2016-07-09', 'Project 194', 0, 0, NULL),
+(196, 'Data Protection Using Hand Gesture Recognition', 'N3', 'PRO195', 1, '2017-03-02', 'Project 195', 0, 0, NULL),
+(197, 'Digital Watermarking Project', 'N3', 'PRO196', 1, '2017-08-29', 'Project 196', 0, 0, NULL),
+(198, 'Improved Honeypot Project', 'N3', 'PRO197', 1, '2017-09-29', 'Project 197', 0, 0, NULL),
+(199, 'Internet Border Patrol', 'N3', 'PRO198', 1, '2017-11-28', 'Project 198', 0, 0, NULL),
+(200, 'Traffic Signal: Management & Control System', 'N3', 'PRO199', 1, '2017-06-08', 'Project 199', 0, 0, NULL),
+(201, 'Download accelerator', 'N3', 'PRO200', 1, '2016-11-17', 'Project 200', 0, 0, NULL),
+(202, 'Intelligent Chat Bot', 'N3', 'PRO201', 1, '2017-07-14', 'Project 201', 0, 0, NULL),
+(203, 'E Governance project', 'N3', 'PRO202', 1, '2016-08-25', 'Project 202', 0, 0, NULL),
+(204, 'Detecting Data Leaks', 'N3', 'PRO203', 1, '2016-10-26', 'Project 203', 0, 0, NULL),
+(205, 'Android location alarm', 'N3', 'PRO204', 1, '2016-08-20', 'Project 204', 0, 0, NULL),
+(206, 'Gps Based Human Tracking', 'N3', 'PRO205', 1, '2018-03-04', 'Project 205', 0, 0, NULL),
+(207, 'Web Filtering Software', 'N3', 'PRO206', 1, '2017-08-07', 'Project 206', 0, 0, NULL),
+(208, 'Lan Messenger Software Project', 'N3', 'PRO207', 1, '2017-06-23', 'Project 207', 0, 0, NULL),
+(209, 'Student Examination Datacard', 'N3', 'PRO208', 1, '2016-07-14', 'Project 208', 0, 0, NULL),
+(210, 'Enhanced Kmeans algorithm', 'N3', 'PRO209', 1, '2017-04-05', 'Project 209', 0, 0, NULL),
+(211, 'Student Attendance System by Barcode Scan', 'N3', 'PRO210', 1, '2016-03-21', 'Project 210', 0, 0, NULL),
+(212, 'Student Attendance System By Qr Scan', 'N3', 'PRO211', 1, '2018-02-25', 'Project 211', 0, 0, NULL),
+(213, 'Hotel Reservation Android', 'N3', 'PRO212', 1, '2016-07-28', 'Project 212', 0, 0, NULL),
+(214, 'Festival Calendar System with Business Promotion', 'N3', 'PRO213', 1, '2017-07-30', 'Project 213', 0, 0, NULL),
+(215, 'Online book recommendation system using Collaborative filtering', 'N3', 'PRO214', 1, '2017-05-30', 'Project 214', 0, 0, NULL),
+(216, 'Diabetes Prediction Using Data Mining', 'N3', 'PRO215', 1, '2016-12-30', 'Project 215', 0, 0, NULL),
+(217, 'Data Mining for Sales Prediction in Tourism Industry', 'N3', 'PRO216', 1, '2016-01-31', 'Project 216', 0, 0, NULL),
+(218, 'Higher Education Access Prediction Software', 'N3', 'PRO217', 1, '2016-12-11', 'Project 217', 0, 0, NULL),
+(219, 'Hotel Recommendation System Based on Hybrid Recommendation Model', 'N3', 'PRO218', 1, '2017-07-04', 'Project 218', 0, 0, NULL),
+(220, 'Detecting Fraud Apps Using Sentiment Analysis', 'N3', 'PRO219', 1, '2016-09-02', 'Project 219', 0, 0, NULL),
+(221, 'Personality Prediction System Through CV Analysis', 'N3', 'PRO220', 1, '2016-05-22', 'Project 220', 0, 0, NULL),
+(222, 'TV Show Popularity Analysis Using Data Mining', 'N3', 'PRO221', 1, '2018-03-04', 'Project 221', 0, 0, NULL),
+(223, 'Twitter Trend Analysis Using Latent Dirichlet Allocation', 'N3', 'PRO222', 1, '2016-03-22', 'Project 222', 0, 0, NULL),
+(224, 'Your Personal Nutritionist Using FatSecret API', 'N3', 'PRO223', 1, '2016-02-09', 'Project 223', 0, 0, NULL),
+(225, 'Secure E Learning Using Data Mining Techniques', 'N3', 'PRO224', 1, '2016-11-27', 'Project 224', 0, 0, NULL),
+(226, 'Price Negotiator Ecommerce ChatBot System', 'N3', 'PRO225', 1, '2016-04-11', 'Project 225', 0, 0, NULL),
+(227, 'Predicting User Behavior Through Sessions Web Mining', 'N3', 'PRO226', 1, '2017-01-29', 'Project 226', 0, 0, NULL),
+(228, 'Online Book Recommendation Using Collaborative Filtering', 'N3', 'PRO227', 1, '2017-06-23', 'Project 227', 0, 0, NULL),
+(229, 'Movie Success Prediction Using Data Mining Php', 'N3', 'PRO228', 1, '2016-09-16', 'Project 228', 0, 0, NULL),
+(230, 'Monitoring Suspicious Discussions On Online Forums Php', 'N3', 'PRO229', 1, '2017-08-02', 'Project 229', 0, 0, NULL),
+(231, 'Fake Product Review Monitoring & Removal For Genuine Ratings Php', 'N3', 'PRO230', 1, '2018-04-05', 'Project 230', 0, 0, NULL),
+(232, 'Detecting E Banking Phishing Using Associative Classification', 'N3', 'PRO231', 1, '2017-01-28', 'Project 231', 0, 0, NULL),
+(233, 'A Commodity Search System For Online Shopping Using Web Mining', 'N3', 'PRO232', 1, '2018-04-18', 'Project 232', 0, 0, NULL),
+(234, 'Detecting Phishing Websites Using Machine Learning', 'N3', 'PRO233', 1, '2016-01-07', 'Project 233', 0, 0, NULL),
+(235, 'Student Information Chatbot Project', 'N3', 'PRO234', 1, '2016-06-08', 'Project 234', 0, 0, NULL),
+(236, 'Website Evaluation Using Opinion Mining', 'N3', 'PRO235', 1, '2018-02-14', 'Project 235', 0, 0, NULL),
+(237, 'Filtering political sentiment in social media from textual information', 'N3', 'PRO236', 1, '2016-01-04', 'Project 236', 0, 0, NULL),
+(238, 'Evaluation of Academic Performance of Students with Fuzzy Logic', 'N3', 'PRO237', 1, '2017-06-26', 'Project 237', 0, 0, NULL),
+(239, 'Document Sentiment Analysis Using Opinion Mining', 'N3', 'PRO238', 1, '2018-02-27', 'Project 238', 0, 0, NULL),
+(240, 'Crime Rate Prediction Using K Means', 'N3', 'PRO239', 1, '2017-10-02', 'Project 239', 0, 0, NULL),
+(241, 'Cooking Recipe Rating Based On Sentiment Analysis', 'N3', 'PRO240', 1, '2017-12-09', 'Project 240', 0, 0, NULL),
+(242, 'Social Media Community Using Optimized Clustering Algorithm', 'N3', 'PRO241', 1, '2016-11-29', 'Project 241', 0, 0, NULL),
+(243, 'Online user Behavior Analysis On Graphical Model', 'N3', 'PRO242', 1, '2017-11-24', 'Project 242', 0, 0, NULL),
+(244, 'Student Grade Prediction Using C4.5 Decision Tree', 'N3', 'PRO243', 1, '2016-01-19', 'Project 243', 0, 0, NULL),
+(245, 'Cancer Prediction Using Data Mining', 'N3', 'PRO244', 1, '2017-09-23', 'Project 244', 0, 0, NULL),
+(246, 'Symptom Based Clinical Document Clustering by Matrix Factorization', 'N3', 'PRO245', 1, '2016-11-19', 'Project 245', 0, 0, NULL),
+(247, 'Using Data Mining To Improve Consumer Retailer Connectivity', 'N3', 'PRO246', 1, '2016-09-21', 'Project 246', 0, 0, NULL),
+(248, 'Financial Status Analysis Using Credit Score Rating', 'N3', 'PRO247', 1, '2016-05-11', 'Project 247', 0, 0, NULL),
+(249, 'E Banking Log System', 'N3', 'PRO248', 1, '2016-01-05', 'Project 248', 0, 0, NULL),
+(250, 'Stream Analysis For Career Choice Aptitude Tests', 'N3', 'PRO249', 1, '2017-02-16', 'Project 249', 0, 0, NULL),
+(251, 'Product Review Analysis For Genuine Rating', 'N3', 'PRO250', 1, '2016-04-15', 'Project 250', 0, 0, NULL),
+(252, 'Periodic Census With Graphical Representation', 'N3', 'PRO251', 1, '2016-06-12', 'Project 251', 0, 0, NULL),
+(253, 'Android Smart City Traveler', 'N3', 'PRO252', 1, '2017-07-30', 'Project 252', 0, 0, NULL),
+(254, 'Heart Disease Prediction Project', 'N3', 'PRO253', 1, '2016-04-25', 'Project 253', 0, 0, NULL),
+(255, 'Content Summary Generation Using NLP', 'N3', 'PRO254', 1, '2017-10-04', 'Project 254', 0, 0, NULL),
+(256, 'Monitoring Suspicious Discussions On Online Forums Using Data Mining', 'N3', 'PRO255', 1, '2017-01-07', 'Project 255', 0, 0, NULL),
+(257, 'Opinion Mining For Social Networking Site', 'N3', 'PRO256', 1, '2017-05-04', 'Project 256', 0, 0, NULL),
+(258, 'Web Content Trust Rating Prediction Using Evidence Theory', 'N3', 'PRO257', 1, '2016-02-03', 'Project 257', 0, 0, NULL),
+(259, 'Topic Detection Using Keyword Clustering', 'N3', 'PRO258', 1, '2017-04-18', 'Project 258', 0, 0, NULL),
+(260, 'An Adaptive Social Media Recommendation System', 'N3', 'PRO259', 1, '2017-09-18', 'Project 259', 0, 0, NULL),
+(261, 'Detecting E Banking Phishing Websites Using Associative Classification', 'N3', 'PRO260', 1, '2016-10-06', 'Project 260', 0, 0, NULL),
+(262, 'Canteen Automation System', 'N3', 'PRO261', 1, '2018-03-24', 'Project 261', 0, 0, NULL),
+(263, 'Opinion Mining For Hotel Rating Through Reviews', 'N3', 'PRO262', 1, '2016-05-22', 'Project 262', 0, 0, NULL),
+(264, 'Employee Performance Evaluation For Top Performers & Recruitment', 'N3', 'PRO263', 1, '2016-09-23', 'Project 263', 0, 0, NULL),
+(265, 'Data Mining For Improved Customer Relationship Management', 'N3', 'PRO264', 1, '2017-07-19', 'Project 264', 0, 0, NULL),
+(266, 'Social Network Privacy Using Two Tales Of Privacy Algorithm', 'N3', 'PRO265', 1, '2017-06-20', 'Project 265', 0, 0, NULL),
+(267, 'Impartial Intrusion & Crime Detection Without Gender or Caste Discrimination', 'N3', 'PRO266', 1, '2017-09-11', 'Project 266', 0, 0, NULL),
+(268, 'A neuro-fuzzy agent based group decision HR system for candidate ranking', 'N3', 'PRO267', 1, '2016-09-06', 'Project 267', 0, 0, NULL),
+(269, 'Workload & Resource Consumption Analysis For Online Travel & Booking Site', 'N3', 'PRO268', 1, '2017-09-25', 'Project 268', 0, 0, NULL),
+(270, 'Performance Evaluation in Virtual Organizations Using Data Mining & Opinion Mining', 'N3', 'PRO269', 1, '2016-12-02', 'Project 269', 0, 0, NULL),
+(271, 'Website Evaluation Using Opinion Mining', 'N3', 'PRO270', 1, '2016-06-30', 'Project 270', 0, 0, NULL),
+(272, 'E Commerce Product Rating Based On Customer Review Mining', 'N3', 'PRO271', 1, '2018-04-21', 'Project 271', 0, 0, NULL),
+(273, 'Weather Forecasting Using Data Mining', 'N3', 'PRO272', 1, '2017-11-20', 'Project 272', 0, 0, NULL),
+(274, 'Unique User Identification Across Multiple Social Networks', 'N3', 'PRO273', 1, '2017-07-28', 'Project 273', 0, 0, NULL),
+(275, 'Opinion Mining For Restaurant Reviews', 'N3', 'PRO274', 1, '2016-03-28', 'Project 274', 0, 0, NULL),
+(276, 'Sentiment Analysis for Product Rating', 'N3', 'PRO275', 1, '2017-08-17', 'Project 275', 0, 0, NULL),
+(277, 'Opinion Mining For Comment Sentiment Analysis', 'N3', 'PRO276', 1, '2016-04-17', 'Project 276', 0, 0, NULL),
+(278, 'Movie Success Prediction Using Data Mining', 'N3', 'PRO277', 1, '2016-05-02', 'Project 277', 0, 0, NULL),
+(279, 'Fake Product Review Monitoring And Removal For Genuine Online Product Reviews Using Opinion Mining', 'N3', 'PRO278', 1, '2016-10-22', 'Project 278', 0, 0, NULL),
+(280, 'Biomedical Data Mining For Web Page Relevance Checking', 'N3', 'PRO279', 1, '2017-05-15', 'Project 279', 0, 0, NULL),
+(281, 'Data Mining For Automated Personality Classification', 'N3', 'PRO280', 1, '2017-10-29', 'Project 280', 0, 0, NULL),
+(282, 'Web Data Mining To Detect Online Spread Of Terrorism', 'N3', 'PRO281', 1, '2016-11-05', 'Project 281', 0, 0, NULL),
+(283, 'Real Estate Search Based On Data Mining', 'N3', 'PRO282', 1, '2017-12-30', 'Project 282', 0, 0, NULL),
+(284, 'College Enquiry Chat Bot', 'N3', 'PRO283', 1, '2017-02-20', 'Project 283', 0, 0, NULL),
+(285, 'Bikers Portal', 'N3', 'PRO284', 1, '2018-03-26', 'Project 284', 0, 0, NULL),
+(286, 'Smart Health Prediction Using Data Mining', 'N3', 'PRO285', 1, '2016-03-21', 'Project 285', 0, 0, NULL),
+(287, 'Image Mining Project', 'N3', 'PRO286', 1, '2017-06-05', 'Project 286', 0, 0, NULL),
+(288, 'Advanced Reliable Real Estate Portal', 'N3', 'PRO287', 1, '2016-01-01', 'Project 287', 0, 0, NULL),
+(289, 'User Web Access Records Mining For Business Intelligence', 'N3', 'PRO288', 1, '2018-04-20', 'Project 288', 0, 0, NULL),
+(290, 'Mobile(location based) Advertisement System', 'N3', 'PRO289', 1, '2016-08-04', 'Project 289', 0, 0, NULL),
+(291, 'Smart Health Consulting Project', 'N3', 'PRO290', 1, '2016-01-30', 'Project 290', 0, 0, NULL),
+(292, 'Sentiment Based Movie Rating System', 'N3', 'PRO291', 1, '2018-02-21', 'Project 291', 0, 0, NULL),
+(293, 'Question paper generator system', 'N3', 'PRO292', 1, '2017-06-05', 'Project 292', 0, 0, NULL),
+(294, 'Seo optimizer and suggester', 'N3', 'PRO293', 1, '2017-07-31', 'Project 293', 0, 0, NULL),
+(295, 'Banking Bot Project', 'N3', 'PRO294', 1, '2017-03-06', 'Project 294', 0, 0, NULL),
+(296, 'Web Mining For Suspicious Keyword Prominence', 'N3', 'PRO295', 1, '2017-06-21', 'Project 295', 0, 0, NULL),
+(297, 'Customer Behaviour Prediction Using Web Usage Mining', 'N3', 'PRO296', 1, '2017-05-10', 'Project 296', 0, 0, NULL),
+(298, 'Stock Market Analysis and Prediction', 'N3', 'PRO297', 1, '2017-05-22', 'Project 297', 0, 0, NULL),
+(299, 'Android Offloading Computation Over Cloud', 'N3', 'PRO298', 1, '2017-06-13', 'Project 298', 0, 0, NULL),
+(300, 'Secure Text Transfer Using Diffie Hellman Key Exchange Based on Cloud', 'N3', 'PRO299', 1, '2016-12-30', 'Project 299', 0, 0, NULL),
+(301, 'University Campus Online Automation Using Cloud Computing', 'N3', 'PRO300', 1, '2016-10-07', 'Project 300', 0, 0, NULL),
+(302, 'Intelligent rule-based phishing websites classification Based on URL Features', 'N3', 'PRO301', 1, '2016-05-23', 'Project 301', 0, 0, NULL),
+(303, 'Customized AES using Pad and Chaff Technique And Diffie Hellman Key Exchange', 'N3', 'PRO302', 1, '2016-08-18', 'Project 302', 0, 0, NULL),
+(304, 'Detecting Data Leaks via Sql Injection Prevention on an E-Commerce', 'N3', 'PRO303', 1, '2016-06-01', 'Project 303', 0, 0, NULL),
+(305, 'Cloud Based Attendance System', 'N3', 'PRO304', 1, '2017-08-14', 'Project 304', 0, 0, NULL),
+(306, 'Cloud Based Improved File Handling and Duplication Removal Using MD5', 'N3', 'PRO305', 1, '2018-02-21', 'Project 305', 0, 0, NULL),
+(307, 'Cloud Based Student Information Chatbot Project', 'N3', 'PRO306', 1, '2017-05-15', 'Project 306', 0, 0, NULL),
+(308, 'Secure File Storage On Cloud Using Hybrid Cryptography', 'N3', 'PRO307', 1, '2017-03-06', 'Project 307', 0, 0, NULL),
+(309, 'Secure File Storage On Cloud Using Hybrid Cryptography', 'N3', 'PRO308', 1, '2016-01-23', 'Project 308', 0, 0, NULL),
+(310, 'Online Bookstore System On Cloud Infrastructure', 'N3', 'PRO309', 1, '2017-05-13', 'Project 309', 0, 0, NULL),
+(311, 'Cloud Based Online Blood Bank System', 'N3', 'PRO310', 1, '2016-01-14', 'Project 310', 0, 0, NULL),
+(312, 'Cloud Based Local Train Ticketing System', 'N3', 'PRO311', 1, '2017-05-03', 'Project 311', 0, 0, NULL),
+(313, 'Cloud Based Bus Pass System', 'N3', 'PRO312', 1, '2016-10-26', 'Project 312', 0, 0, NULL),
+(314, 'E-Learning Platform using Cloud Computing', 'N3', 'PRO313', 1, '2018-03-15', 'Project 313', 0, 0, NULL),
+(315, 'Storage and Energy Efficient Cloud Computing Project', 'N3', 'PRO314', 1, '2017-06-16', 'Project 314', 0, 0, NULL),
+(316, 'Cloud computing for Rural banking', 'N3', 'PRO315', 1, '2018-03-01', 'Project 315', 0, 0, NULL),
+(317, 'Data Duplication Removal Using File Checksum', 'N3', 'PRO316', 1, '2016-12-31', 'Project 316', 0, 0, NULL),
+(318, 'Personal Health Tracker iOS Application', 'N3', 'PRO317', 1, '2017-07-31', 'Project 317', 0, 0, NULL),
+(319, 'iOS Task Alerting Application', 'N3', 'PRO318', 1, '2016-11-09', 'Project 318', 0, 0, NULL),
+(320, 'Daily Expense Tracker iOS Application', 'N3', 'PRO319', 1, '2018-01-22', 'Project 319', 0, 0, NULL),
+(321, 'Doctor Appointment Manager iOS App', 'N3', 'PRO320', 1, '2018-02-05', 'Project 320', 0, 0, NULL),
+(322, 'iOS Periodic Bell & Timetable Reminder Application', 'N3', 'PRO321', 1, '2016-05-29', 'Project 321', 0, 0, NULL),
+(323, 'Personal Book iOS Application', 'N3', 'PRO322', 1, '2016-12-10', 'Project 322', 0, 0, NULL),
+(324, 'Secure Notes Storage Using Encryption iOS App', 'N3', 'PRO323', 1, '2017-05-14', 'Project 323', 0, 0, NULL),
+(325, 'Wake Me Up iOS Application', 'N3', 'PRO324', 1, '2016-06-12', 'Project 324', 0, 0, NULL),
+(326, 'Children Safety Tracking iOS Application', 'N3', 'PRO325', 1, '2018-02-02', 'Project 325', 0, 0, NULL),
+(327, 'Daily News Updates iOS Application', 'N3', 'PRO326', 1, '2017-12-26', 'Project 326', 0, 0, NULL),
+(328, 'Delivery Van Tracking Over Internet using iOS', 'N3', 'PRO327', 1, '2017-01-24', 'Project 327', 0, 0, NULL),
+(329, 'Secure Authentication Using Graphical Password iOS', 'N3', 'PRO328', 1, '2018-02-13', 'Project 328', 0, 0, NULL),
+(330, 'Smart Attendance System iOS', 'N3', 'PRO329', 1, '2017-09-03', 'Project 329', 0, 0, NULL),
+(331, 'iOS Based Vote Casting App System', 'N3', 'PRO330', 1, '2016-09-02', 'Project 330', 0, 0, NULL),
+(332, 'iOS Furniture Store Project', 'N3', 'PRO331', 1, '2017-01-01', 'Project 331', 0, 0, NULL),
+(333, 'Smart Diet Monitoring iOS Application', 'N3', 'PRO332', 1, '2017-05-12', 'Project 332', 0, 0, NULL),
+(334, 'Customer Targeted E-Commerce', 'N3', 'PRO333', 1, '2017-10-24', 'Project 333', 0, 0, NULL),
+(335, 'Android General Knowledge Chatbot', 'N3', 'PRO334', 1, '2016-06-09', 'Project 334', 0, 0, NULL),
+(336, 'Customer Focused Ecommerce Site With AI Bot', 'N3', 'PRO335', 1, '2016-05-02', 'Project 335', 0, 0, NULL),
+(337, 'Your Personal Nutritionist Using FatSecret API', 'N3', 'PRO336', 1, '2016-08-13', 'Project 336', 0, 0, NULL),
+(338, 'Price Negotiator Ecommerce ChatBot System', 'N3', 'PRO337', 1, '2016-06-24', 'Project 337', 0, 0, NULL),
+(339, 'Personality Prediction System Through CV Analysis', 'N3', 'PRO338', 1, '2017-04-25', 'Project 338', 0, 0, NULL),
+(340, 'TV Show Popularity Analysis Using Data Mining', 'N3', 'PRO339', 1, '2016-08-25', 'Project 339', 0, 0, NULL),
+(341, 'Twitter Trend Analysis Using Latent Dirichlet Allocation', 'N3', 'PRO340', 1, '2016-07-11', 'Project 340', 0, 0, NULL),
+(342, 'Online Book Recommendation Using Collaborative Filtering', 'N3', 'PRO341', 1, '2017-03-29', 'Project 341', 0, 0, NULL),
+(343, 'Movie Success Prediction Using Data Mining Php', 'N3', 'PRO342', 1, '2018-01-21', 'Project 342', 0, 0, NULL),
+(344, 'Fake Product Review Monitoring & Removal For Genuine Ratings Php', 'N3', 'PRO343', 1, '2017-03-04', 'Project 343', 0, 0, NULL),
+(345, 'A Commodity Search System For Online Shopping Using Web Mining', 'N3', 'PRO344', 1, '2017-04-26', 'Project 344', 0, 0, NULL),
+(346, 'College Enquiry Chat Bot', 'N3', 'PRO345', 1, '2016-08-30', 'Project 345', 0, 0, NULL),
+(347, 'Stream Analysis For Career Choice Aptitude Tests', 'N3', 'PRO346', 1, '2016-05-24', 'Project 346', 0, 0, NULL),
+(348, 'Product Review Analysis For Genuine Rating', 'N3', 'PRO347', 1, '2017-01-01', 'Project 347', 0, 0, NULL),
+(349, 'Android Smart City Traveler', 'N3', 'PRO348', 1, '2016-10-08', 'Project 348', 0, 0, NULL),
+(350, 'Artificial Intelligence Dietician', 'N3', 'PRO349', 1, '2017-09-09', 'Project 349', 0, 0, NULL),
+(351, 'Heart Disease Prediction Project', 'N3', 'PRO350', 1, '2018-02-27', 'Project 350', 0, 0, NULL),
+(352, 'Smart Health Consulting Project', 'N3', 'PRO351', 1, '2017-08-02', 'Project 351', 0, 0, NULL),
+(353, 'Banking Bot Project', 'N3', 'PRO352', 1, '2016-07-01', 'Project 352', 0, 0, NULL),
+(354, 'Sentiment Based Movie Rating System', 'N3', 'PRO353', 1, '2016-04-11', 'Project 353', 0, 0, NULL),
+(355, 'Online AI Shopping With M-Wallet System', 'N3', 'PRO354', 1, '2018-02-27', 'Project 354', 0, 0, NULL),
+(356, 'Question paper generator system', 'N3', 'PRO355', 1, '2017-05-29', 'Project 355', 0, 0, NULL),
+(357, 'Student Information Chatbot Project', 'N3', 'PRO356', 1, '2016-08-21', 'Project 356', 0, 0, NULL),
+(358, 'Website Evaluation Using Opinion Mining', 'N3', 'PRO357', 1, '2016-10-31', 'Project 357', 0, 0, NULL),
+(359, 'Android Attendance System', 'N3', 'PRO358', 1, '2017-06-22', 'Project 358', 0, 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `project_manager`
+--
+
+CREATE TABLE `project_manager` (
+  `project_manager_id` bigint(20) NOT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `manager_id` bigint(20) DEFAULT NULL,
+  `manager_role` varchar(255) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `project_members`
+--
+
+CREATE TABLE `project_members` (
+  `project_members_id` bigint(20) NOT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `project_members`
+--
+
+INSERT INTO `project_members` (`project_members_id`, `employee_id`, `priority`, `project_id`) VALUES
+(1, 2, 2, 56),
+(2, 3, 3, 56),
+(3, 4, 4, 56),
+(4, 5, 5, 56),
+(5, 196, 6, 56),
+(6, 34, 5, 56),
+(8, 24, 5, 56),
+(12, 198, 3, 56);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `roles`
+--
+
+CREATE TABLE `roles` (
+  `role_id` int(11) NOT NULL,
+  `role_name` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES
+(1, 'ROLE_ADMIN'),
+(5, 'ROLE_EMPLOYEE'),
+(2, 'ROLE_LEADER_A'),
+(3, 'ROLE_LEADER_B'),
+(4, 'ROLE_LEADER_C');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `types`
+--
+
+CREATE TABLE `types` (
+  `type_id` int(11) NOT NULL,
+  `type_name` varchar(60) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `types`
+--
+
+INSERT INTO `types` (`type_id`, `type_name`) VALUES
+(5, 'BA'),
+(2, 'BACK_END'),
+(3, 'FRONT_END'),
+(1, 'FULLSTACK'),
+(4, 'TESTER');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vacation`
+--
+
+CREATE TABLE `vacation` (
+  `vacation_id` bigint(20) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `employee_id` bigint(20) DEFAULT NULL,
+  `from_date` datetime DEFAULT NULL,
+  `is_approved` bit(1) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `to_date` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `vacation_type` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vacation_approved`
+--
+
+CREATE TABLE `vacation_approved` (
+  `vacation_approved_id` bigint(20) NOT NULL,
+  `manager_id` bigint(20) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `vacation_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vacation_log`
+--
+
+CREATE TABLE `vacation_log` (
+  `vacation_log_id` bigint(20) NOT NULL,
+  `approved_id` bigint(20) DEFAULT NULL,
+  `disapproved_id` bigint(20) DEFAULT NULL,
+  `next_approve_id` bigint(20) DEFAULT NULL,
+  `vacation_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vacation_type`
+--
+
+CREATE TABLE `vacation_type` (
+  `vacation_type_id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `allocation`
+--
+ALTER TABLE `allocation`
+  ADD PRIMARY KEY (`allocation_id`),
+  ADD KEY `allocation_project_FK2_idx` (`project_id`),
+  ADD KEY `allocation_employee_FK2_idx` (`employee_id`);
+
+--
+-- Chỉ mục cho bảng `allocation_detail`
+--
+ALTER TABLE `allocation_detail`
+  ADD PRIMARY KEY (`allocation_detail_id`);
+
+--
+-- Chỉ mục cho bảng `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`employee_id`),
+  ADD UNIQUE KEY `UKim8flsuftl52etbhgnr62d6wh` (`username`),
+  ADD KEY `employee_role_FK` (`role_id`),
+  ADD KEY `employee_type_FK` (`type_id`),
+  ADD KEY `employee_group_FK_idx` (`group_id`);
+
+--
+-- Chỉ mục cho bảng `group_ifi`
+--
+ALTER TABLE `group_ifi`
+  ADD PRIMARY KEY (`group_id`);
+
+--
+-- Chỉ mục cho bảng `overtime`
+--
+ALTER TABLE `overtime`
+  ADD PRIMARY KEY (`overtime_id`);
+
+--
+-- Chỉ mục cho bảng `overtime_log`
+--
+ALTER TABLE `overtime_log`
+  ADD PRIMARY KEY (`overtime_log_id`);
+
+--
+-- Chỉ mục cho bảng `overtime_type`
+--
+ALTER TABLE `overtime_type`
+  ADD PRIMARY KEY (`overtime_type_id`);
+
+--
+-- Chỉ mục cho bảng `project`
+--
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`project_id`),
+  ADD KEY `project_FK1_idx` (`group_id`);
+
+--
+-- Chỉ mục cho bảng `project_manager`
+--
+ALTER TABLE `project_manager`
+  ADD PRIMARY KEY (`project_manager_id`);
+
+--
+-- Chỉ mục cho bảng `project_members`
+--
+ALTER TABLE `project_members`
+  ADD PRIMARY KEY (`project_members_id`);
+
+--
+-- Chỉ mục cho bảng `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`role_id`),
+  ADD UNIQUE KEY `role_name_UNIQUE` (`role_name`),
+  ADD UNIQUE KEY `APP_ROLE_UK` (`role_name`);
+
+--
+-- Chỉ mục cho bảng `types`
+--
+ALTER TABLE `types`
+  ADD PRIMARY KEY (`type_id`),
+  ADD UNIQUE KEY `employee_type_UK` (`type_name`);
+
+--
+-- Chỉ mục cho bảng `vacation`
+--
+ALTER TABLE `vacation`
+  ADD PRIMARY KEY (`vacation_id`);
+
+--
+-- Chỉ mục cho bảng `vacation_approved`
+--
+ALTER TABLE `vacation_approved`
+  ADD PRIMARY KEY (`vacation_approved_id`);
+
+--
+-- Chỉ mục cho bảng `vacation_log`
+--
+ALTER TABLE `vacation_log`
+  ADD PRIMARY KEY (`vacation_log_id`);
+
+--
+-- Chỉ mục cho bảng `vacation_type`
+--
+ALTER TABLE `vacation_type`
+  ADD PRIMARY KEY (`vacation_type_id`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `allocation`
+--
+ALTER TABLE `allocation`
+  MODIFY `allocation_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+--
+-- AUTO_INCREMENT cho bảng `allocation_detail`
+--
+ALTER TABLE `allocation_detail`
+  MODIFY `allocation_detail_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT cho bảng `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `employee_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
+--
+-- AUTO_INCREMENT cho bảng `overtime`
+--
+ALTER TABLE `overtime`
+  MODIFY `overtime_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `overtime_log`
+--
+ALTER TABLE `overtime_log`
+  MODIFY `overtime_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `overtime_type`
+--
+ALTER TABLE `overtime_type`
+  MODIFY `overtime_type_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `project_manager`
+--
+ALTER TABLE `project_manager`
+  MODIFY `project_manager_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `project_members`
+--
+ALTER TABLE `project_members`
+  MODIFY `project_members_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT cho bảng `types`
+--
+ALTER TABLE `types`
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT cho bảng `vacation`
+--
+ALTER TABLE `vacation`
+  MODIFY `vacation_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `vacation_approved`
+--
+ALTER TABLE `vacation_approved`
+  MODIFY `vacation_approved_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `vacation_log`
+--
+ALTER TABLE `vacation_log`
+  MODIFY `vacation_log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT cho bảng `vacation_type`
+--
+ALTER TABLE `vacation_type`
+  MODIFY `vacation_type_id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- Các ràng buộc cho các bảng đã đổ
+--
+
+--
+-- Các ràng buộc cho bảng `allocation`
+--
+ALTER TABLE `allocation`
+  ADD CONSTRAINT `allocation_employee_FK2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `allocation_project_FK2` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Các ràng buộc cho bảng `employee`
+--
+ALTER TABLE `employee`
+  ADD CONSTRAINT `employee_group_FK` FOREIGN KEY (`group_id`) REFERENCES `group_ifi` (`group_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_role_FK` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`),
+  ADD CONSTRAINT `employee_type_FK` FOREIGN KEY (`type_id`) REFERENCES `types` (`type_id`);
+
+--
+-- Các ràng buộc cho bảng `project`
+--
+ALTER TABLE `project`
+  ADD CONSTRAINT `project_FK1` FOREIGN KEY (`group_id`) REFERENCES `group_ifi` (`group_id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -10,7 +10,7 @@ public interface AllocationDAO {
 
 	List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize);
 
-	List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize);
+	List<Allocation> getAllocatedOfManager  (final long employee_id, final int page, final int pageSize);
 
 	public Boolean saveAllocation(final Allocation allocation);
 

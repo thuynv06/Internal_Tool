@@ -58,7 +58,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
-
 		return employeeDAO.getListEmployeeInProject(project_id, page, pageSize);
 	}
 

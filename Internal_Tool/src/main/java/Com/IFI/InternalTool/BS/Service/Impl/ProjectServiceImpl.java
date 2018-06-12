@@ -115,6 +115,13 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
 		return projectDAO.getProjectAllocatedIn(employee_id, page, pageSize);
 	}
+	
+	
+
+	@Override
+	public Long NumerRecordsProjectAllocatedIn(long employee_id) {	
+		return projectDAO.NumerRecordsProjectAllocatedIn(employee_id);
+	}
 
 	@Override
 	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {

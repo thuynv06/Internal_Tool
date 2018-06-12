@@ -18,10 +18,10 @@ public interface VacationService {
 	void saveVacationApproved(Vacation_Approved vacation_approved);
 	List<Vacation_Type> getAllVacationType();
 	Vacation_Type getVacationTypeById(long vacation_type_id);
-	List<Vacation> searchVacation(Long manager_id,int page, int pageSize,String sortedColumn,Boolean desc,VacationSearch vacationSearch);
-	Long CountSearchVacation(Long manager_id,VacationSearch vacationSearch);
-	List<Vacation> searchVacationP2(Long employee_id,int page, int pageSize,String sortedColumn,Boolean desc,VacationSearch vacationSearch);
-	Long CountSearchVacationP2(Long employee_id,VacationSearch vacationSearch);
+	List<Vacation> searchVacation(Long manager_id,int page, int pageSize,String sortedColumn,Boolean desc,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch);
+	Long CountSearchVacation(Long manager_id,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch);
+	List<Vacation> searchVacationP2(Long employee_id,int page, int pageSize,String sortedColumn,Boolean desc,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch);
+	Long CountSearchVacationP2(Long employee_id,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch);
 	int getMaxPriority(long vacation_id);
 	int getPriority(long manager_id,long vacation_id);
 	List<Vacation> getAllVacationByEmp2(long manager_id,int page, int pageSize,String sortedColumn,Boolean desc);

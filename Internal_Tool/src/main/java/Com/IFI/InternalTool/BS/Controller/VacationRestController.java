@@ -59,7 +59,7 @@ public class VacationRestController {
 	@GetMapping("/vacations/employee")
 	public @ResponseBody Payload getVacationByEmp(@RequestParam("page") int page,
 			@RequestParam("pageSize") int pageSize, @RequestParam(required = false) String sortedColumn,
-			@RequestParam(required = false) Boolean desc, @RequestParam(required = false) Boolean is_approved,
+			@RequestParam(required = false) Boolean desc, Boolean is_approved,
 			@RequestParam List<Integer> status) throws ParseException {
 		Payload message = new Payload();
 	
@@ -113,7 +113,7 @@ public class VacationRestController {
 			message.setMessage("Vacation by employee not found!");
 			message.setCode("CODE OK!");
 			message.setStatus("OK!");
-		}
+		} 
 
 		return message;
 	}
@@ -366,8 +366,8 @@ public class VacationRestController {
 			}
 		} else {
 			message.setMessage("Can not delete, vacation not found");
-			message.setCode("CODE OK!");
-			message.setStatus("OK!");
+			message.setCode("Error");
+			message.setStatus("Error");
 		}
 		return message;
 	}
@@ -544,8 +544,8 @@ public class VacationRestController {
 				message.setMessage("Approve Vacation successfully! ");
 				break;
 			} else {
-				message.setCode("OK");
-				message.setStatus("OK");
+				message.setCode("Error");
+				message.setStatus("Error");
 				message.setMessage("You don't have permission to approve this vacation!");
 			}
 		}
@@ -575,8 +575,8 @@ public class VacationRestController {
 				message.setMessage("Disapprove Vacation successfully! ");
 				break;
 			} else {
-				message.setCode("OK");
-				message.setStatus("OK");
+				message.setCode("Error");
+				message.setStatus("Error");
 				message.setMessage("You don't have permission to disapprove this vacation!");
 			}
 		}
@@ -588,11 +588,13 @@ public class VacationRestController {
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@PostMapping("/vacations/searchv1")
 	public @ResponseBody Payload searchVacation(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
-			@RequestParam("sortedColumn") String sortedColumn, @RequestParam("desc") Boolean desc,
+			@RequestParam(required = false) String sortedColumn, @RequestParam(required = false) Boolean desc,
+			@RequestParam Boolean is_approved,
+			@RequestParam List<Integer> status,
 			@RequestBody VacationSearch vacationSearch) {
 		Payload message = new Payload();
 		Long manager_id = employeeService.getEmployeeIdAuthenticated();
-		List<Vacation> list = vacationService.searchVacation(manager_id, page, pageSize, sortedColumn, desc,
+		List<Vacation> list = vacationService.searchVacation(manager_id, page, pageSize, sortedColumn, desc,is_approved,status,
 				vacationSearch);
 		if (list.size() > 0) {
 			for(Vacation v:list) {
@@ -620,7 +622,7 @@ public class VacationRestController {
 				v.setDisapproved_manager(disapproved_manager);
 				v.setNext_approve_manager(next_approve_manager);
 			}
-			Long count = vacationService.CountSearchVacation(manager_id, vacationSearch);
+			Long count = vacationService.CountSearchVacation(manager_id,is_approved,status, vacationSearch);
 			int pages = (int) (count / pageSize);
 			if (count % pageSize > 0) {
 				pages++;
@@ -643,11 +645,14 @@ public class VacationRestController {
 	// search page employee
 	@PostMapping("/vacations/searchv2")
 	public @ResponseBody Payload searchVacationP2(@RequestParam("page") int page,
-			@RequestParam("pageSize") int pageSize, @RequestParam("sortedColumn") String sortedColumn,
-			@RequestParam("desc") Boolean desc, @RequestBody VacationSearch vacationSearch) {
+			@RequestParam("pageSize") int pageSize, @RequestParam(required = false) String sortedColumn,
+			@RequestParam(required = false) Boolean desc,
+			@RequestParam Boolean is_approved,
+			@RequestParam List<Integer> status,
+			@RequestBody VacationSearch vacationSearch) {
 		Payload message = new Payload();
 		Long employee_id = employeeService.getEmployeeIdAuthenticated();
-		List<Vacation> list = vacationService.searchVacationP2(employee_id, page, pageSize, sortedColumn, desc,
+		List<Vacation> list = vacationService.searchVacationP2(employee_id, page, pageSize, sortedColumn, desc,is_approved,status,
 				vacationSearch);
 		if (list.size() > 0) {
 			for(Vacation v:list) {
@@ -684,7 +689,7 @@ public class VacationRestController {
 				v.setDisapproved_manager(disapproved_manager);
 				v.setNext_approve_manager(next_approve_manager);
 			}
-			Long count = vacationService.CountSearchVacationP2(employee_id, vacationSearch);
+			Long count = vacationService.CountSearchVacationP2(employee_id,is_approved,status, vacationSearch);
 			int pages = (int) (count / pageSize);
 			if (count % pageSize > 0) {
 				pages++;

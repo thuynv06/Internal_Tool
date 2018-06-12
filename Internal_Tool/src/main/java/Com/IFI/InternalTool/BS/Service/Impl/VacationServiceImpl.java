@@ -45,12 +45,12 @@ public class VacationServiceImpl implements VacationService{
 		return vacationDAO.getAllVacationType();
 	}
 	@Override
-	public List<Vacation> searchVacationP2(Long employee_id,int page, int pageSize,String sortedColumn,Boolean desc,VacationSearch vacationSearch) {
-		return vacationDAO.searchVacationP2(employee_id,page, pageSize, sortedColumn, desc,vacationSearch);
+	public List<Vacation> searchVacationP2(Long employee_id,int page, int pageSize,String sortedColumn,Boolean desc,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch) {
+		return vacationDAO.searchVacationP2(employee_id,page, pageSize, sortedColumn, desc,is_approved,status,vacationSearch);
 	}
 	@Override
-	public List<Vacation> searchVacation(Long manager_id,int page, int pageSize,String sortedColumn,Boolean desc,VacationSearch vacationSearch) {
-		return vacationDAO.searchVacation(manager_id,page, pageSize, sortedColumn, desc,vacationSearch);
+	public List<Vacation> searchVacation(Long manager_id,int page, int pageSize,String sortedColumn,Boolean desc,Boolean is_approved,List<Integer> status,VacationSearch vacationSearch) {
+		return vacationDAO.searchVacation(manager_id,page, pageSize, sortedColumn, desc,is_approved,status,vacationSearch);
 	}
 	@Override
 	public int getMaxPriority(long vacation_id) {
@@ -118,12 +118,12 @@ public class VacationServiceImpl implements VacationService{
 		
 	}
 	@Override
-	public Long CountSearchVacation(Long manager_id, VacationSearch vacationSearch) {
-		return vacationDAO.CountSearchVacation(manager_id, vacationSearch);
+	public Long CountSearchVacation(Long manager_id,Boolean is_approved,List<Integer> status, VacationSearch vacationSearch) {
+		return vacationDAO.CountSearchVacation(manager_id,is_approved,status,vacationSearch);
 	}
 	@Override
-	public Long CountSearchVacationP2(Long employee_id, VacationSearch vacationSearch) {
-		return vacationDAO.CountSearchVacationP2(employee_id, vacationSearch);
+	public Long CountSearchVacationP2(Long employee_id,Boolean is_approved,List<Integer> status, VacationSearch vacationSearch) {
+		return vacationDAO.CountSearchVacationP2(employee_id,is_approved,status, vacationSearch);
 	}
 	@Override
 	public Long countAllVacationByEmp2(long manager_id) {

@@ -12,7 +12,6 @@ public class VacationSearch implements Serializable{
 	private Date from_date;
 	@JsonFormat(pattern="MM/dd/yyyy hh:mm a")
 	private Date to_date;
-	private int status;
 	
 	
 	public String getEmp_name() {
@@ -39,22 +38,15 @@ public class VacationSearch implements Serializable{
 	public void setTo_date(Date to_date) {
 		this.to_date = to_date;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
 	public VacationSearch() {
 		super();
 	}
-	public VacationSearch(String emp_name, String pro_name, Date from_date, Date to_date, int status) {
+	public VacationSearch(String emp_name, String pro_name, Date from_date, Date to_date) {
 		super();
 		this.emp_name = emp_name;
 		this.pro_name = pro_name;
 		this.from_date = from_date;
 		this.to_date = to_date;
-		this.status = status;
 	}
 	
 	

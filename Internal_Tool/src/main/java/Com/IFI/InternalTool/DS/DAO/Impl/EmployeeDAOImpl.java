@@ -32,9 +32,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Employee emp = getEmployeeById(employee_id);
   
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM Employee emp where emp.group_id = :group_id and emp.type_id = :type_id";
+		String hql = "SELECT emp FROM Employee emp ";
 		if (!hasRoleEmployee) {
-			hql += " and emp.role_id > :role_id order by role_id ";
+			hql += " where emp.group_id = :group_id and emp.type_id = :type_id and emp.role_id > :role_id order by role_id ";
 		}
 		Query query = session.createQuery(hql);
 		if (!hasRoleEmployee) {

@@ -64,4 +64,12 @@ public class Business {
 		sb.append(year);
 		return sb.toString();
 	}
+
+	public static final int getTotalsPages(final long count, final int pageSize) {
+		int pages = (int) (count / pageSize);
+		if (count % pageSize > 0) {
+			pages++;
+		}
+		return pages;
+	}
 }

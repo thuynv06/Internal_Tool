@@ -29,6 +29,7 @@ import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
+import Com.IFI.InternalTool.Utils.Business;
 
 @RestController
 @RequestMapping("/api/allocations")
@@ -157,11 +158,7 @@ public class AllocationController {
 		try {
 			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
 			Long count = allocationService.NumRecordsAllocationByEmployeeID(employee_id);
-			int pages = (int) (count / pageSize);
-			if (count % pageSize > 0) {
-				pages++;
-			}
-			message.setPages(pages);
+			message.setPages(Business.getTotalsPages(count, pageSize));
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());

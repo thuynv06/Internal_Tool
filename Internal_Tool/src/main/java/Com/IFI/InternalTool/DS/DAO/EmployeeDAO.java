@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.Roles;
 
 @Repository
 public interface EmployeeDAO {
@@ -36,6 +37,7 @@ public interface EmployeeDAO {
 
 	List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize);
 
+	Roles getRolesByID(final int role_id);
 
 
 

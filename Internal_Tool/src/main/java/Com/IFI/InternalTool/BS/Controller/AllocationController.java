@@ -151,10 +151,18 @@ public class AllocationController {
 
 	@GetMapping("/findAllocationByEmployeeID")
 	public @ResponseBody Payload findAllocationByEmployeeID(@RequestParam("employee_id") int employee_id,
-			@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("search Allcation With Employee ID ... ");
 		try {
 			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
+			Long count = allocationService.NumRecordsAllocationByEmployeeID(employee_id);
+			int pages = (int) (count / pageSize);
+			if (count % pageSize > 0) {
+				pages++;
+			}
+			message.setPages(pages);
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),

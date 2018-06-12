@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import Com.IFI.InternalTool.DS.DAO.EmployeeDAO;
 import Com.IFI.InternalTool.DS.DAO.RoleDAO;
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.Roles;
 import Com.IFI.InternalTool.DS.Model.Types;
 import Com.IFI.InternalTool.Utils.AppConstants;
 import Com.IFI.InternalTool.Utils.Business;
@@ -26,6 +27,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private ProjectMembersDAOImpl projectMembersDAO;
+	
+	
+	
+	
+	@Override
+	public Roles getRolesByID(int role_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Roles where role_id=:role_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("role_id", role_id);
+		Roles role = (Roles) query.uniqueResult();
+		session.close();
+		return role;
+	}
+
 	@Override
 	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
 			int pageSize) {

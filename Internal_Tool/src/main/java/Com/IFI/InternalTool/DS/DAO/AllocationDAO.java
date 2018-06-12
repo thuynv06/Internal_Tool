@@ -1,7 +1,5 @@
 package Com.IFI.InternalTool.DS.DAO;
 
-
-
 import java.sql.Date;
 import java.util.List;
 import Com.IFI.InternalTool.DS.Model.Allocation;
@@ -9,8 +7,12 @@ import Com.IFI.InternalTool.DS.Model.Allocation;
 public interface AllocationDAO {
 
 	List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize);
+	// trung lap
+	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize);
+	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 
 	List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize);
+	
 
 	public Boolean saveAllocation(final Allocation allocation);
 
@@ -22,15 +24,12 @@ public interface AllocationDAO {
 
 	public Date findMaxEndDate(final long employee_id);
 
-	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize);
-
 	public List<Allocation> searchAllocationWithTime(final int year, final int month, final int page,
 			final int pageSize);
 
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
-	//tim kiem allocation tu ngay den ngay
+
+	// tim kiem allocation tu ngay den ngay
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);
 
 }
-
-

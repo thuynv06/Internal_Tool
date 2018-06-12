@@ -32,7 +32,7 @@ public interface AllocationService {
 
 	// find AllocationByEmPloyeeID
 	List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize);
-
+	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 	// find AllocationByProjectID
 	List<Allocation> findAllocationByProjectID(final long employee_id, final int page, final int pageSize);
 

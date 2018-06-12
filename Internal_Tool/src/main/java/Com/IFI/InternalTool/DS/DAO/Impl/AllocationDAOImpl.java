@@ -222,6 +222,17 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
+	public Long NumRecordsAllocationByEmployeeID(long employee_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select count(*) FROM Allocation a where a.employee_id = :employee_id ";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
+	}
+
+	@Override
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "select a FROM Allocation a where a.project_id = :project_id";

@@ -90,17 +90,12 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public List<Allocation> getAllocations(final long employee_id, int page, int pageSize) {
-		List<Allocation> list = allocationDAO.getAllocations(employee_id, page, pageSize);
-		for (Allocation item : list) {
-			item.setEmployee_Name(employeeDAO.getEmployeeById(item.getEmployee_id()).getFullname());
-			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
-		}
-		return list;
+		return convertAllocation(allocationDAO.getAllocations(employee_id, page, pageSize));
 	}
 
 	@Override
 	public List<Allocation> getAllocatedofManager(final long employee_id, int page, int pageSize) {
-		return allocationDAO.getAllocatedOfManager(employee_id, page, pageSize);
+		return convertAllocation(allocationDAO.getAllocatedOfManager(employee_id, page, pageSize));
 
 	}
 
@@ -123,13 +118,20 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> SearchAllocationWithTime(int year, int month, int page, int pageSize) {
 
-		return allocationDAO.searchAllocationWithTime(year, month, page, pageSize);
+		return convertAllocation(allocationDAO.searchAllocationWithTime(year, month, page, pageSize));
 	}
 
 	@Override
 	public List<Allocation> findAllocationByEmployeeID(long employee_id, int page, int pageSize) {
 
-		return allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize);
+		return convertAllocation(allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize));
+	}
+	
+
+	@Override
+	public 	Long NumRecordsAllocationByEmployeeID(long employee_id) {
+		
+		return allocationDAO.NumRecordsAllocationByEmployeeID(employee_id);
 	}
 
 	@Override
@@ -147,7 +149,15 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize) {
 
-		return allocationDAO.findAllocationFromDateToDate(fromDate, toDate, page, pageSize);
+		return convertAllocation(allocationDAO.findAllocationFromDateToDate(fromDate, toDate, page, pageSize));
+	}
+
+	public List<Allocation> convertAllocation(final List<Allocation> list) {
+		for (Allocation item : list) {
+			item.setEmployee_Name(employeeDAO.getEmployeeById(item.getEmployee_id()).getFullname());
+			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
+		}
+		return list;
 	}
 
 }

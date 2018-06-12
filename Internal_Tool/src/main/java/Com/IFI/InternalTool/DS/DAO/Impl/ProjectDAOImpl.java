@@ -24,26 +24,14 @@ public class ProjectDAOImpl implements ProjectDAO {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	private AllocationDAOImpl allocationDaoImpl;
-	
-	
-	
+	@Autowired
+	private ProjectMembersDAOImpl projectMemberDaoImpl;
+
 	@Override
 	public List<Project> getAllProject() {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Project";
 		Query query = session.createQuery(hql);
-		List<Project> list = query.list();
-		session.close();
-		return list;
-	}
-
-	@Override
-	public List<Project> getAllProjects(int page, int pageSize) {
-		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project WHERE status = 1";
-		Query query = session.createQuery(hql);
-		query.setFirstResult((page - 1) * pageSize);
-		query.setMaxResults(pageSize);
 		List<Project> list = query.getResultList();
 		session.close();
 		return list;
@@ -74,8 +62,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		for (Allocation allocation : allocationDaoImpl.findAllocationByProjectID(project_id, 1, Integer.MAX_VALUE)) {
 			allocationDaoImpl.deleteById(allocation.getAllocation_id());
 		}
-		// xoa cac project manager
-
+		// xoa cac project member		
+		
 		String hql = "Delete from Project where project_id=:project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
@@ -93,7 +81,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Project getProjectById(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where project_id=:project_id and status = 1";
+		String hql = "FROM Project where project_id=:project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		Project pro = (Project) query.uniqueResult();
@@ -125,7 +113,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectsOfGroup(String group_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where group_id = :group_id and status = 1";
+		String hql = "FROM Project where group_id = :group_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
 		query.setFirstResult((page - 1) * pageSize);

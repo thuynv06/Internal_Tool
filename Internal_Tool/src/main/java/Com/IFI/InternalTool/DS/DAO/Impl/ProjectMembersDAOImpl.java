@@ -93,4 +93,19 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		return query.getResultList();
 	}
 
+	@Override
+	public Boolean deleteAllProjectMember(long project_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "delete from ProjectMembers where project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", project_id);
+		int row = query.executeUpdate();
+		session.close();
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

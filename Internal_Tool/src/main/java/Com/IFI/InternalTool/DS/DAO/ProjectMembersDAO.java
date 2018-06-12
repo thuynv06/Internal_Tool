@@ -14,4 +14,6 @@ public interface ProjectMembersDAO {
 	
 	List<Long> ListEmPloyeesIdInProject(final long project_id);
 	
+	Boolean deleteAllProjectMember(final long project_id);
+	
 }

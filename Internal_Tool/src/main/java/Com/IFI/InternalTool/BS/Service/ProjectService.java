@@ -9,9 +9,8 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectService {
 	// lay tat ca project
-	List<Project> getAllProjects(int page, int pageSize);
-	
 	List<Project> getAllProject();
+	
 	// luu project
 	public void saveProject(Project project);
 

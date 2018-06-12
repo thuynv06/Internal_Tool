@@ -31,11 +31,6 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectMembersDAOImpl projectMemberDAO;
 
 	@Override
-	public List<Project> getAllProjects(int page, int pageSize) {
-		return projectDAO.getAllProjects(page, pageSize);
-	}
-
-	@Override
 	public List<Project> getAllProject() {
 		return projectDAO.getAllProject();
 	}
@@ -51,7 +46,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean deleteProject(long project_id) {
-		return projectDAO.deleteProject(project_id);
+		//neu khong co allocation hoac status cua project la offline thi cho phep xoa
+		if (allocationServiceImpl.findAllocationByProjectID(project_id, 1, 1) == null || getListProjectOutOfDate(1, Integer.MAX_VALUE).contains(getProjectById(project_id))) {
+			return projectDAO.deleteProject(project_id);
+		}else {
+			return false;			
+		}		
 	}
 
 	@Override

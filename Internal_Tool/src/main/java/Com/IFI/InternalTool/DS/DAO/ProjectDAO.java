@@ -49,6 +49,7 @@ public interface ProjectDAO {
 
 	// tim kiem project cua nhan vien tham gia vao
 	List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize);
+	Long NumerRecordsProjectAllocatedIn(long employee_id);
 
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);

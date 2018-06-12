@@ -94,7 +94,7 @@ public class AllocationController {
 	}
 
 	// Find Allocation By Id
-	@GetMapping("/findAllocationById/{allocation_id}")
+	@GetMapping("/{allocation_id}")
 	public @ResponseBody Payload findAllocationById(@PathVariable Long allocation_id) {
 		logger.info("Find Allocation By Id ... ");
 

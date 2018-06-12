@@ -254,7 +254,7 @@ public class ProjectController {
 		return message;
 	}
 
-	// lay cac project ma nhan vien do duoc phan cong
+	// tim kiem project cua nhan vien tham gia vao
 	@GetMapping("/getProjectAllocatedIn")
 	public @ResponseBody Payload getProjectAllocatedIn(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
@@ -263,12 +263,17 @@ public class ProjectController {
 		boolean hasUserRole = currentUser.getAuthorities().stream()
 				.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info(hasUserRole + " role");
-		
-		
-		hasUserRole = true;
+
+	//	hasUserRole = true;
 		try {
 			if (hasUserRole) {
 				data = projectService.getProjectAllocatedIn(currentUser.getId(), page, pageSize);
+				long count = projectService.NumerRecordsProjectAllocatedIn(currentUser.getId());
+				int pages = (int) (count / pageSize);
+				if (count % pageSize > 0) {
+					pages++;
+				}
+				message.setPages(pages);
 			}
 
 		} catch (Exception e) {
@@ -295,6 +300,7 @@ public class ProjectController {
 		try {
 			if (hasUserRole) {
 				data = projectService.getProjectAllocateTo(currentUser.getId(), page, pageSize);
+				
 			}
 
 		} catch (Exception e) {

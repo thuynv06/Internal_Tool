@@ -10,8 +10,9 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 public interface ProjectService {
 	// lay tat ca project
 	List<Project> getAllProjects(int page, int pageSize);
-	
+
 	List<Project> getAllProject();
+
 	// luu project
 	public void saveProject(Project project);
 
@@ -49,9 +50,11 @@ public interface ProjectService {
 	// lay project nhan vien duoc phan cong vao
 	List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize);
 
+	Long NumerRecordsProjectAllocatedIn(long employee_id);
+
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
-	
+
 	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);
 
 	List<Long> getProjectByEmp(long employee_id);

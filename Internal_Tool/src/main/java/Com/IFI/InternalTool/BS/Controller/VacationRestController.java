@@ -140,101 +140,116 @@ public class VacationRestController {
 	public @ResponseBody Payload saveVacation(@RequestBody Vacation vacation) {
 		Payload message = new Payload();
 		Long employee_id = employeeService.getEmployeeIdAuthenticated();
+		List<Long> check=projectService.getProjectByEmp(employee_id);
+		if(check.size() > 0) {
 		List<ProjectManager> pm = projectService.getProjectManagerByEmp(employee_id, vacation.getProject_id());
-		for (ProjectManager u : pm) {
-			Project p = projectService.getProjectById(u.getProject_id());// get project to check date
-			if (p.getEnd_date() != null) {
-				Date end_date = p.getEnd_date();
-				Date start_date = p.getStart_date();
-				Date from_date = vacation.getFrom_date();
-				Date to_date = vacation.getTo_date();
-				if (from_date.compareTo(start_date) > 0 && from_date.compareTo(end_date) < 0
-						&& to_date.compareTo(start_date) > 0 && to_date.compareTo(end_date) < 0
-						&& from_date.compareTo(to_date) < 0) {
-					Date date = new java.util.Date();
-					vacation.setEmployee_id(employee_id);
-					vacation.setCreated_at(date);
-					vacation.setUpdated_at(date);
-					vacation.setStatus(1);
-					vacation.setIs_approved(null);
-					vacationService.saveVacation(vacation);
-					//get more info
-					String next_approve_manager=null;
-					if(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())!=null) {
-						next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())).getFullname();
+			if(pm.size()>0) {	
+				for (ProjectManager u : pm) {
+					Project p = projectService.getProjectById(u.getProject_id());// get project to check date
+					if (p.getEnd_date() != null) {
+						Date end_date = p.getEnd_date();
+						Date start_date = p.getStart_date();
+						Date from_date = vacation.getFrom_date();
+						Date to_date = vacation.getTo_date();
+						if (from_date.compareTo(start_date) > 0 && from_date.compareTo(end_date) < 0
+								&& to_date.compareTo(start_date) > 0 && to_date.compareTo(end_date) < 0
+								&& from_date.compareTo(to_date) < 0) {
+							Date date = new java.util.Date();
+							vacation.setEmployee_id(employee_id);
+							vacation.setCreated_at(date);
+							vacation.setUpdated_at(date);
+							vacation.setStatus(1);
+							vacation.setIs_approved(null);
+							vacationService.saveVacation(vacation);
+							//get more info
+							String next_approve_manager=null;
+							if(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())!=null) {
+								next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())).getFullname();
+							}
+							vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
+							vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
+							vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
+					
+							Vacation_Approved va = new Vacation_Approved();
+							va.setVacation_id(vacation.getVacation_id());
+							va.setManager_id(u.getManager_id());
+							va.setPriority(u.getPriority());
+							vacationService.saveVacationApproved(va);
+							List<Long> listManagerId = vacationService.getManagerByVacationId(vacation.getVacation_id());
+							Vacation_Log v = new Vacation_Log();
+							for (Long a : listManagerId) {
+								v.setVacation_id(vacation.getVacation_id());
+								v.setNext_approve_id(a);
+								vacationService.saveVacationLog(v);
+							}
+							message.setMessage("Save vacation successfully");
+							message.setCode("CODE OK!");
+							message.setStatus("OK!");
+							message.setData(vacation);
+						} else {
+							message.setMessage("Wrong Date");
+							message.setCode("Error!");
+							message.setStatus("Error");
+						}
 					}
-					vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
-					vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
-					vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
-			
-					Vacation_Approved va = new Vacation_Approved();
-					va.setVacation_id(vacation.getVacation_id());
-					va.setManager_id(u.getManager_id());
-					va.setPriority(u.getPriority());
-					vacationService.saveVacationApproved(va);
-					List<Long> listManagerId = vacationService.getManagerByVacationId(vacation.getVacation_id());
-					Vacation_Log v = new Vacation_Log();
-					for (Long a : listManagerId) {
-						v.setVacation_id(vacation.getVacation_id());
-						v.setNext_approve_id(a);
-						vacationService.saveVacationLog(v);
+		
+					if (p.getEnd_date() == null) {
+						Date start_date = p.getStart_date();
+						Date from_date = vacation.getFrom_date();
+						Date to_date = vacation.getTo_date();
+						if (from_date.compareTo(start_date) > 0 && to_date.compareTo(start_date) > 0
+								&& from_date.compareTo(to_date) < 0) {
+							Date date = new java.util.Date();
+							vacation.setEmployee_id(employee_id);
+							vacation.setCreated_at(date);
+							vacation.setUpdated_at(date);
+							vacation.setStatus(1);
+							vacationService.saveVacation(vacation);
+							
+							//get more info
+							String next_approve_manager=null;
+							if(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())!=null) {
+								next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())).getFullname();
+							}
+							vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
+							vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
+							vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
+							
+							Vacation_Approved va = new Vacation_Approved();
+							va.setVacation_id(vacation.getVacation_id());
+							va.setManager_id(u.getManager_id());
+							va.setPriority(u.getPriority());
+							vacationService.saveVacationApproved(va);
+							List<Long> listManagerId = vacationService.getManagerByVacationId(vacation.getVacation_id());
+							Vacation_Log v = new Vacation_Log();
+							for (Long a : listManagerId) {
+								v.setVacation_id(vacation.getVacation_id());
+								v.setNext_approve_id(a);
+								vacationService.saveVacationLog(v);
+							}
+							message.setMessage("Save vacation successfully");
+							message.setCode("CODE OK!");
+							message.setStatus("OK!");
+							message.setData(vacation);
+						} else {
+							message.setMessage("Wrong Date");
+							message.setCode("Error!");
+							message.setStatus("Error");
+						}
 					}
-					message.setMessage("Save vacation successfully");
-					message.setCode("CODE OK!");
-					message.setStatus("OK!");
-					message.setData(vacation);
-				} else {
-					message.setMessage("Wrong Date");
-					message.setCode("Error!");
-					message.setStatus("Error");
+		
 				}
 			}
-
-			if (p.getEnd_date() == null) {
-				Date start_date = p.getStart_date();
-				Date from_date = vacation.getFrom_date();
-				Date to_date = vacation.getTo_date();
-				if (from_date.compareTo(start_date) > 0 && to_date.compareTo(start_date) > 0
-						&& from_date.compareTo(to_date) < 0) {
-					Date date = new java.util.Date();
-					vacation.setEmployee_id(employee_id);
-					vacation.setCreated_at(date);
-					vacation.setUpdated_at(date);
-					vacation.setStatus(1);
-					vacationService.saveVacation(vacation);
-					
-					//get more info
-					String next_approve_manager=null;
-					if(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())!=null) {
-						next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(employee_id, vacation.getProject_id(), vacation.getStatus())).getFullname();
-					}
-					vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
-					vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
-					vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
-					
-					Vacation_Approved va = new Vacation_Approved();
-					va.setVacation_id(vacation.getVacation_id());
-					va.setManager_id(u.getManager_id());
-					va.setPriority(u.getPriority());
-					vacationService.saveVacationApproved(va);
-					List<Long> listManagerId = vacationService.getManagerByVacationId(vacation.getVacation_id());
-					Vacation_Log v = new Vacation_Log();
-					for (Long a : listManagerId) {
-						v.setVacation_id(vacation.getVacation_id());
-						v.setNext_approve_id(a);
-						vacationService.saveVacationLog(v);
-					}
-					message.setMessage("Save vacation successfully");
-					message.setCode("CODE OK!");
-					message.setStatus("OK!");
-					message.setData(vacation);
-				} else {
-					message.setMessage("Wrong Date");
-					message.setCode("Error!");
-					message.setStatus("Error");
-				}
+			else {
+				message.setMessage("You dont belong to this project");
+				message.setCode("Error");
+				message.setStatus("Error");
 			}
-
+		}
+		else {
+			message.setMessage("You are the highest level management or You dont belong to any project");
+			message.setCode("Error");
+			message.setStatus("Error");
 		}
 
 		return message;
@@ -247,16 +262,47 @@ public class VacationRestController {
 		Vacation v = vacationService.getVacationById(vacation.getVacation_id());
 		if (v.getStatus() == 1) {
 			List<ProjectManager> pm = projectService.getProjectManagerByEmp(employeeService.getEmployeeIdAuthenticated(), vacation.getProject_id());
-			for (ProjectManager u : pm) {
-				Project p = projectService.getProjectById(u.getProject_id());// get project to check date
-				if (p.getEnd_date() != null) {
-					Date end_date = p.getEnd_date();
-					Date start_date = p.getStart_date();
-					Date from_date = vacation.getFrom_date();
-					Date to_date = vacation.getTo_date();
-					if (from_date.compareTo(start_date) > 0 && from_date.compareTo(end_date) < 0
-							&& to_date.compareTo(start_date) > 0 && to_date.compareTo(end_date) < 0
-							&& from_date.compareTo(to_date) < 0) {
+			if(pm.size()>0) {
+					for (ProjectManager u : pm) {
+						Project p = projectService.getProjectById(u.getProject_id());// get project to check date
+						if (p.getEnd_date() != null) {
+							Date end_date = p.getEnd_date();
+							Date start_date = p.getStart_date();
+							Date from_date = vacation.getFrom_date();
+							Date to_date = vacation.getTo_date();
+							if (from_date.compareTo(start_date) > 0 && from_date.compareTo(end_date) < 0
+									&& to_date.compareTo(start_date) > 0 && to_date.compareTo(end_date) < 0
+									&& from_date.compareTo(to_date) < 0) {
+											Date date = new java.util.Date();
+											vacation.setCreated_at(v.getCreated_at());
+											vacation.setStatus(v.getStatus());
+											vacation.setUpdated_at(date);
+											vacation.setEmployee_id(employeeService.getEmployeeIdAuthenticated());
+											vacationService.saveVacation(vacation);
+											//get more info
+											String next_approve_manager=null;
+											if(vacationService.getManagerIdByEmpProAndStatus(v.getEmployee_id(), v.getProject_id(), v.getStatus())!=null) {
+												next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(v.getEmployee_id(), v.getProject_id(), v.getStatus())).getFullname();
+											}
+											vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
+											vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
+											vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
+											message.setMessage("Edit project successfully");
+											message.setCode("CODE OK!");
+											message.setStatus("OK!");
+											message.setData(vacation);
+										}
+									else {
+										message.setStatus("Error!");
+										message.setMessage("Wrong date, can not edit");
+									}
+							}
+						if (p.getEnd_date() == null) {
+							Date start_date = p.getStart_date();
+							Date from_date = vacation.getFrom_date();
+							Date to_date = vacation.getTo_date();
+							if (from_date.compareTo(start_date) > 0 && to_date.compareTo(start_date) > 0
+									&& from_date.compareTo(to_date) < 0) {
 									Date date = new java.util.Date();
 									vacation.setCreated_at(v.getCreated_at());
 									vacation.setStatus(v.getStatus());
@@ -276,47 +322,25 @@ public class VacationRestController {
 									message.setStatus("OK!");
 									message.setData(vacation);
 								}
-							else {
-								message.setStatus("Error!");
-								message.setMessage("Wrong date, can not edit");
+								else {
+									message.setStatus("Error!");
+									message.setMessage("Wrong date,can not edit");
+								}
 							}
+						
 					}
-				if (p.getEnd_date() == null) {
-					Date start_date = p.getStart_date();
-					Date from_date = vacation.getFrom_date();
-					Date to_date = vacation.getTo_date();
-					if (from_date.compareTo(start_date) > 0 && to_date.compareTo(start_date) > 0
-							&& from_date.compareTo(to_date) < 0) {
-							Date date = new java.util.Date();
-							vacation.setCreated_at(v.getCreated_at());
-							vacation.setStatus(v.getStatus());
-							vacation.setUpdated_at(date);
-							vacation.setEmployee_id(employeeService.getEmployeeIdAuthenticated());
-							vacationService.saveVacation(vacation);
-							//get more info
-							String next_approve_manager=null;
-							if(vacationService.getManagerIdByEmpProAndStatus(v.getEmployee_id(), v.getProject_id(), v.getStatus())!=null) {
-								next_approve_manager=employeeService.getEmployeeById(vacationService.getManagerIdByEmpProAndStatus(v.getEmployee_id(), v.getProject_id(), v.getStatus())).getFullname();
-							}
-							vacation.setNext_approve_manager(next_approve_manager);//get next_approve manager
-							vacation.setProject_name(projectService.getProjectById(vacation.getProject_id()).getName());//get project name
-							vacation.setVacation_type_name(vacationService.getVacationTypeById(vacation.getVacation_type()).getName());//vacation type name
-							message.setMessage("Edit project successfully");
-							message.setCode("CODE OK!");
-							message.setStatus("OK!");
-							message.setData(vacation);
-						}
-						else {
-							message.setStatus("Error!");
-							message.setMessage("Wrong date,can not edit");
-						}
-					}
-				
 			}
+					else {
+						message.setMessage("You dont belong to this project");
+						message.setCode("Error!");
+						message.setStatus("Error");
+					}
+					
 		}
 
 			 else {
 				message.setStatus("Error!");
+				message.setCode("Error!");
 				message.setMessage("Vacation is processing, You can not update");
 			 }
 		return message;

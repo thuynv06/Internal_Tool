@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDAO extends JpaRepository<Employee, Long> {
 	
-	Optional<Employee> findById(Long employee_Id);
+	Optional<Employee> findById(Long employee_id);
 	
 	Optional<Employee> findByEmail(String email);
 

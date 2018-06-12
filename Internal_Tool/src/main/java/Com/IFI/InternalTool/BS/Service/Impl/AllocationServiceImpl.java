@@ -40,7 +40,7 @@ public class AllocationServiceImpl implements AllocationService {
 	private static final Logger logger = LoggerFactory.getLogger(AllocationServiceImpl.class);
 
 	@Override
-	public boolean createAllocation(Allocation allocation) {
+	public boolean createAllocation(final long currentUserID, Allocation allocation) {
 		LocalDate start_date = allocation.getStart_date().toLocalDate();
 		LocalDate end_date = allocation.getEnd_date().toLocalDate();
 
@@ -49,6 +49,11 @@ public class AllocationServiceImpl implements AllocationService {
 			return false;
 		}
 
+		int roleCurrentUser = employeeDAO.getEmployeeById(currentUserID).getRole_id();
+		int roleEmployeeAllocated = employeeDAO.getEmployeeById(allocation.getEmployee_id()).getRole_id();
+		if (roleCurrentUser >= roleEmployeeAllocated) {
+			return false;
+		}
 		// get maxEndDate Allocation in History
 		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
 		logger.info(maxEndDate + " max end_date in history");
@@ -90,18 +95,18 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public List<Allocation> getAllocations(final long employee_id, int page, int pageSize) {
-		List<Allocation> list = allocationDAO.getAllocations(employee_id, page, pageSize);
-		for (Allocation item : list) {
-			item.setEmployee_Name(employeeDAO.getEmployeeById(item.getEmployee_id()).getFullname());
-			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
-		}
-		return list;
+		return convertAllocation(allocationDAO.getAllocations(employee_id, page, pageSize));
 	}
 
 	@Override
 	public List<Allocation> getAllocatedofManager(final long employee_id, int page, int pageSize) {
-		return allocationDAO.getAllocatedOfManager(employee_id, page, pageSize);
+		return convertAllocation(allocationDAO.getAllocatedOfManager(employee_id, page, pageSize));
 
+	}
+
+	@Override
+	public Long NumRecordsAllocatedofManager(long employee_id) {
+		return allocationDAO.NumRecordsAllocatedOfManager(employee_id);
 	}
 
 	@Override
@@ -123,18 +128,29 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> SearchAllocationWithTime(int year, int month, int page, int pageSize) {
 
-		return allocationDAO.searchAllocationWithTime(year, month, page, pageSize);
+		return convertAllocation(allocationDAO.searchAllocationWithTime(year, month, page, pageSize));
 	}
 
 	@Override
 	public List<Allocation> findAllocationByEmployeeID(long employee_id, int page, int pageSize) {
 
-		return allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize);
+		return convertAllocation(allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize));
+	}
+
+	@Override
+	public Long NumRecordsAllocationByEmployeeID(long employee_id) {
+
+		return allocationDAO.NumRecordsAllocationByEmployeeID(employee_id);
 	}
 
 	@Override
 	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize) {
 		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize);
+	}
+
+	@Override
+	public Long NumRecordsAllocationByProjectID(long project_id) {
+		return allocationDAO.NumRecordsAllocationByProjectID(project_id);
 	}
 
 	@Override
@@ -147,7 +163,20 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize) {
 
-		return allocationDAO.findAllocationFromDateToDate(fromDate, toDate, page, pageSize);
+		return convertAllocation(allocationDAO.findAllocationFromDateToDate(fromDate, toDate, page, pageSize));
+	}
+
+	public List<Allocation> convertAllocation(final List<Allocation> list) {
+		for (Allocation item : list) {
+			item.setEmployee_Name(employeeDAO.getEmployeeById(item.getEmployee_id()).getFullname());
+			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
+		}
+		return list;
+	}
+
+	@Override
+	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate) {
+		return allocationDAO.NumRecordsllocationFromDateToDate(fromDate, toDate);
 	}
 
 }

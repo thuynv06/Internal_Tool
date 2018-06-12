@@ -17,6 +17,7 @@ import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
+import Com.IFI.InternalTool.Utils.Business;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -27,7 +28,7 @@ public class EmployeeController {
 	Payload message = new Payload();
 	Object data = "";
 
-	private static final Logger logger = LoggerFactory.getLogger(Group_IFIController.class);
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
 	@GetMapping
 	public @ResponseBody Payload getEmployees(@CurrentUser UserPrincipal currentUser,
@@ -79,6 +80,8 @@ public class EmployeeController {
 		logger.info("Find Employees Name Like ... ");
 		try {
 			data = employeeService.findEmployeeNameLike(nameLike, page, pageSize);
+			Long count = employeeService.NumRecordsEmployeeNameLike(nameLike);
+			message.setPages(Business.getTotalsPages(count, pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
@@ -91,12 +94,14 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/findEmployeeByGroupId/{group_id}")
-	public @ResponseBody Payload findEmployeeByGroupId(@RequestParam(value = "group_id") String group_id,
+	public @ResponseBody Payload findEmployeeByGroupId(@PathVariable(value = "group_id") String group_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees By Group ID ... ");
 		try {
 			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
+			Long count = employeeService.NumRecordsEmployeeInGroup(group_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -109,19 +114,44 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/getListEmployeeInProject")
-	public @ResponseBody Payload getListEmployeeInProject(@RequestParam(value = "group_id") String group_id,
+	public @ResponseBody Payload getListEmployeeInProject(@RequestParam(value = "project_id") long project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
-		logger.info("Find Employees By Group ID ... ");
+		logger.info("Find Employees IN Project ... ... ");
 		try {
-			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
+			data = employeeService.getListEmployeeInProject(project_id, page, pageSize);
+			Long count = employeeService.NumRecordsEmployeeInProject(project_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees By Group ID ... ",
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees IN Project ... ... ",
+				true);
+		return message;
+	}
+
+	@GetMapping("/getListEmployeeNotInProject")
+	public @ResponseBody Payload getListEmployeeInProject(@CurrentUser UserPrincipal currentUser,
+			@RequestParam(value = "project_id") long project_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Find Employees Not IN Project ... ");
+		try {
+			data = employeeService.getListEmployeeNotInProject(currentUser.getId(), project_id, page, pageSize);
+			Long count = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees Not IN Project ... ",
 				true);
 		return message;
 	}

@@ -56,9 +56,8 @@ public class AllocationDAOImpl implements AllocationDAO {
 
 	@Override
 	public List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize) {
-
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select a FROM Allocation a where a.project_id in (select pm.project_id from ProjectManager pm where pm.manager_id = :employee_id)";
+		String hql = "Select a FROM Allocation a where a.project_id in (select pm.project_id from ProjectMembers pm where pm.manager_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);
@@ -67,6 +66,17 @@ public class AllocationDAOImpl implements AllocationDAO {
 		session.close();
 		return list;
 
+	}
+
+	@Override
+	public Long NumRecordsAllocatedOfManager(long employee_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "Select count(*) FROM Allocation a where a.project_id in (select pm.project_id from ProjectMembers pm where pm.manager_id = :employee_id)";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
 	}
 
 	@Override
@@ -84,6 +94,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 				if ((start_date.getDayOfWeek() != DayOfWeek.SATURDAY
 						&& start_date.getDayOfWeek() != DayOfWeek.SUNDAY)) {
 					AllocationDetail a = new AllocationDetail();
+					a.setAllocation_id(allocation.getAllocation_id());
 					a.setEmployee_id(allocation.getEmployee_id());
 					a.setDate((Date) (Date.valueOf(start_date)));
 					a.setTime(8);
@@ -210,7 +221,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize) {
 
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select a FROM Allocation a where a.employee_id = :employee_id ";
+		String hql = "select a FROM Allocation a where a.employee_id = :employee_id order by a.allocation_id desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);
@@ -222,9 +233,20 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
+	public Long NumRecordsAllocationByEmployeeID(long employee_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select count(*) FROM Allocation a where a.employee_id = :employee_id ";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
+	}
+
+	@Override
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select a FROM Allocation a where a.project_id = :project_id";
+		String hql = "select a FROM Allocation a where a.project_id = :project_id order by a.allocation_id desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 
@@ -237,10 +259,21 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
+	public Long NumRecordsAllocationByProjectID(long project_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select count(*) FROM Allocation a where a.project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", project_id);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
+	}
+
+	@Override
 	public List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page,
 			final int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "from Allocation where allocation_id in (select allocation_id from AllocationDetail where date between :fromDate and :toDate)";
+		String hql = "from Allocation where allocation_id in (select allocation_id from AllocationDetail where date between :fromDate and :toDate) order by allocation_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("fromDate", fromDate);
 		query.setParameter("toDate", fromDate);
@@ -251,6 +284,18 @@ public class AllocationDAOImpl implements AllocationDAO {
 		List<Allocation> list = query.getResultList();
 		session.close();
 		return list;
+	}
+
+	@Override
+	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "from Allocation where allocation_id in (select allocation_id from AllocationDetail where date between :fromDate and :toDate)";
+		Query query = session.createQuery(hql);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", fromDate);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
 	}
 
 }

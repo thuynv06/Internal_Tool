@@ -29,6 +29,7 @@ import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.AppConstants;
+import Com.IFI.InternalTool.Utils.Business;
 
 @RestController
 @RequestMapping("/api/allocations")
@@ -37,26 +38,25 @@ public class AllocationController {
 	@Autowired
 	private AllocationServiceImpl allocationService;
 
-	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AllocationController .class);
 
 	Payload message = new Payload();
 	Object data = "";
 
-	@GetMapping
+	// get Allocation With Employee ID
+	@GetMapping(("/allocations"))
 	public @ResponseBody Payload getAllocations(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
-		logger.info(hasUserRole + " role");
+		// boolean hasUserRole = currentUser.getAuthorities().stream()
+		// .anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
+		// logger.info(hasUserRole + " role");
 
 		try {
-			if (hasUserRole) {
-				data = allocationService.getAllocations(currentUser.getId(), page, pageSize);
-			} else {
-				data = allocationService.getAllocatedofManager(currentUser.getId(), page, pageSize);
-			}
+			data = allocationService.getAllocations(currentUser.getId(), page, pageSize);
+			Long count = allocationService.NumRecordsAllocationByEmployeeID(currentUser.getId());
+			message.setPages(Business.getTotalsPages(count, pageSize));
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
@@ -69,12 +69,35 @@ public class AllocationController {
 		return message;
 	}
 
+	// get Allocated OF Manager
+	@GetMapping("/allocated")
+	public @ResponseBody Payload getAllocatedofManager(@CurrentUser UserPrincipal currentUser,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		try {
+			data = allocationService.getAllocatedofManager(currentUser.getId(), page, pageSize);
+			Long count = allocationService.NumRecordsAllocatedofManager(currentUser.getId());
+			message.setPages(Business.getTotalsPages(count, pageSize));
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+				"Get Allocated By Manager Successfull", true);
+		return message;
+	}
+
+	// create Allocation
 	@PostMapping("/create")
-	public @ResponseBody Payload createAllocation(@Valid @RequestBody Allocation allocation) {
+	public @ResponseBody Payload createAllocation(@CurrentUser UserPrincipal currentUser,
+			@Valid @RequestBody Allocation allocation) {
 		logger.info("Create allocation ... ");
 
 		try {
-			if (allocationService.createAllocation(allocation)) {
+			if (allocationService.createAllocation(currentUser.getId(), allocation)) {
 				message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
 						"Create Allocation By ID Successfull", true);
 			} else {
@@ -151,10 +174,14 @@ public class AllocationController {
 
 	@GetMapping("/findAllocationByEmployeeID")
 	public @ResponseBody Payload findAllocationByEmployeeID(@RequestParam("employee_id") int employee_id,
-			@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("search Allcation With Employee ID ... ");
 		try {
 			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
+			Long count = allocationService.NumRecordsAllocationByEmployeeID(employee_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
@@ -173,6 +200,9 @@ public class AllocationController {
 		logger.info("find Allcation By Project ID ... ");
 		try {
 			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);
+			Long count = allocationService.NumRecordsAllocationByProjectID(project_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -192,6 +222,8 @@ public class AllocationController {
 		logger.info("findAllocationFromDateToDate ... ");
 		try {
 			data = allocationService.findAllocationFromDateToDate(from_date, to_date, page, pageSize);
+			Long count = allocationService.NumRecordsllocationFromDateToDate(from_date, to_date);
+			message.setPages(Business.getTotalsPages(count, pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

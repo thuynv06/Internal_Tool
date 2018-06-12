@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.EmployeeService;
 import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.TypeDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 
@@ -19,6 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	EmployeeDAOImpl employeeDAO;
+	@Autowired
+	TypeDAOImpl TypesDAO;
 
 	@Override
 	public List<Employee> getAllEmployees(final boolean hasRoleEmPloyee, long employee_id, int page, int pageSize) {
@@ -37,7 +40,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployeeById(long employee_id) {
-		return employeeDAO.getEmployeeById(employee_id);
+		Employee emp = employeeDAO.getEmployeeById(employee_id);
+		emp.setType_name(TypesDAO.getTypeByID(emp.getType_id()).getType_name().name());
+		emp.setRole_name(employeeDAO.getRolesByID(emp.getRole_id()).getName().name());
+		return emp;
 	}
 
 	@Override
@@ -47,23 +53,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> findEmployeeNameLike(String name, int page, int pageSize) {
-		return employeeDAO.findEmployeeNameLike(name, page, pageSize);
+		return convertList(employeeDAO.findEmployeeNameLike(name, page, pageSize));
 	}
 
 	@Override
 	public List<Employee> findEmployeeByGroupId(String group_id, int page, int pageSize) {
-		// TODO Auto-generated method stub
-		return employeeDAO.findEmployeeByGroupId(group_id, page, pageSize);
+		return convertList(employeeDAO.findEmployeeByGroupId(group_id, page, pageSize));
 	}
 
 	@Override
 	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
-		return employeeDAO.getListEmployeeInProject(project_id, page, pageSize);
+
+		return convertList(employeeDAO.getListEmployeeInProject(project_id, page, pageSize));
 	}
 
 	@Override
 	public List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize) {
-		return employeeDAO.getListEmployeeNotInProject(employee_id, project_id, page, pageSize);
+		return convertList(employeeDAO.getListEmployeeNotInProject(employee_id, project_id, page, pageSize));
 	}
 
 	@Override
@@ -77,7 +83,36 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getListSubEmployee(long employee_id) {
-		return employeeDAO.getListSubEmployees(employee_id);
+		return convertList(employeeDAO.getListSubEmployees(employee_id));
+	}
+
+	public List<Employee> convertList(final List<Employee> list) {
+		for (Employee item : list) {
+			item.setType_name(TypesDAO.getTypeByID(item.getType_id()).getType_name().name());
+			item.setRole_name(employeeDAO.getRolesByID(item.getRole_id()).getName().name());
+		}
+		return list;
+	}
+
+	@Override
+	public Long NumRecordsEmployeeInProject(long project_id) {
+
+		return employeeDAO.NumRecordsEmployeeInProject(project_id);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeNotInProject(long employee_id, long project_id) {
+		return employeeDAO.NumRecordsEmployeeNotInProject(employee_id, project_id);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeNameLike(String name) {
+		return employeeDAO.NumRecordsEmployeeNameLike(name);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeInGroup(String group_id) {
+		return employeeDAO.NumRecordsEmployeeInGroup(group_id);
 	}
 
 }

@@ -48,6 +48,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	@Override
 	public Boolean addMemberToProject(ProjectMembers projectMember) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		
 		if (isMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
 			return false;
 		}

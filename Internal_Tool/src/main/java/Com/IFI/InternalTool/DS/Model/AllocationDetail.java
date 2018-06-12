@@ -1,7 +1,5 @@
 package Com.IFI.InternalTool.DS.Model;
 
-
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,6 +19,8 @@ public class AllocationDetail {
 
 	// @Column(name = "project_id")
 	// private long project_id;
+	@Column(name = "allocation_id")
+	private long allocation_id;
 	@Column(name = "employee_id")
 	private long employee_id;
 	@Column(name = "date")
@@ -54,8 +54,17 @@ public class AllocationDetail {
 	// public void setProject_id(long project_id) {
 	// this.project_id = project_id;
 	// }
+
 	public long getEmployee_id() {
 		return employee_id;
+	}
+
+	public long getAllocation_id() {
+		return allocation_id;
+	}
+
+	public void setAllocation_id(long allocation_id) {
+		this.allocation_id = allocation_id;
 	}
 
 	public void setEmployee_id(long employee_id) {

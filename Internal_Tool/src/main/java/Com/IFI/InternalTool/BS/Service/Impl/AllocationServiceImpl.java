@@ -40,7 +40,7 @@ public class AllocationServiceImpl implements AllocationService {
 	private static final Logger logger = LoggerFactory.getLogger(AllocationServiceImpl.class);
 
 	@Override
-	public boolean createAllocation(Allocation allocation) {
+	public boolean createAllocation(final long currentUserID, Allocation allocation) {
 		LocalDate start_date = allocation.getStart_date().toLocalDate();
 		LocalDate end_date = allocation.getEnd_date().toLocalDate();
 
@@ -49,6 +49,11 @@ public class AllocationServiceImpl implements AllocationService {
 			return false;
 		}
 
+		int roleCurrentUser = employeeDAO.getEmployeeById(currentUserID).getRole_id();
+		int roleEmployeeAllocated = employeeDAO.getEmployeeById(allocation.getEmployee_id()).getRole_id();
+		if (roleCurrentUser >= roleEmployeeAllocated) {
+			return false;
+		}
 		// get maxEndDate Allocation in History
 		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
 		logger.info(maxEndDate + " max end_date in history");
@@ -100,6 +105,11 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
+	public Long NumRecordsAllocatedofManager(long employee_id) {
+		return allocationDAO.NumRecordsAllocatedOfManager(employee_id);
+	}
+
+	@Override
 	public Allocation findById(long allocation_id) {
 		Allocation a = allocationDAO.findById(allocation_id);
 		a.setEmployee_Name(employeeDAO.getEmployeeById(a.getEmployee_id()).getFullname());
@@ -126,17 +136,21 @@ public class AllocationServiceImpl implements AllocationService {
 
 		return convertAllocation(allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize));
 	}
-	
 
 	@Override
-	public 	Long NumRecordsAllocationByEmployeeID(long employee_id) {
-		
+	public Long NumRecordsAllocationByEmployeeID(long employee_id) {
+
 		return allocationDAO.NumRecordsAllocationByEmployeeID(employee_id);
 	}
 
 	@Override
 	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize) {
 		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize);
+	}
+
+	@Override
+	public Long NumRecordsAllocationByProjectID(long project_id) {
+		return allocationDAO.NumRecordsAllocationByProjectID(project_id);
 	}
 
 	@Override
@@ -158,6 +172,11 @@ public class AllocationServiceImpl implements AllocationService {
 			item.setProject_Name(projectDAO.getProjectById(item.getProject_id()).getName());
 		}
 		return list;
+	}
+
+	@Override
+	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate) {
+		return allocationDAO.NumRecordsllocationFromDateToDate(fromDate, toDate);
 	}
 
 }

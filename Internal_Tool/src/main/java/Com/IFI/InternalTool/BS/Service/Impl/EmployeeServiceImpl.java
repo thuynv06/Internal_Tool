@@ -93,4 +93,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return list;
 	}
+
+	@Override
+	public Long NumRecordsEmployeeInProject(long project_id) {
+
+		return employeeDAO.NumRecordsEmployeeInProject(project_id);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeNotInProject(long employee_id, long project_id) {
+		return employeeDAO.NumRecordsEmployeeNotInProject(employee_id, project_id);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeNameLike(String name) {
+		return employeeDAO.NumRecordsEmployeeNameLike(name);
+	}
+
+	@Override
+	public Long NumRecordsEmployeeInGroup(String group_id) {
+		return employeeDAO.NumRecordsEmployeeInGroup(group_id);
+	}
+
 }

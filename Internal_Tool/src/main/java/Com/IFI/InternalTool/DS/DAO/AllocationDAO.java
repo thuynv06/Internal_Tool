@@ -12,7 +12,7 @@ public interface AllocationDAO {
 	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 
 	List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize);
-	
+	Long NumRecordsAllocatedOfManager(final long employee_id);
 
 	public Boolean saveAllocation(final Allocation allocation);
 
@@ -28,8 +28,8 @@ public interface AllocationDAO {
 			final int pageSize);
 
 	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
-
+	Long NumRecordsAllocationByProjectID(final long project_id);
 	// tim kiem allocation tu ngay den ngay
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);
-
+	Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 }

@@ -3,10 +3,7 @@ package Com.IFI.InternalTool.DS.DAO.Impl;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
 
@@ -23,9 +20,6 @@ import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
-import Com.IFI.InternalTool.Payloads.AllocationResponse;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-
 @Repository("AllocationDAO")
 @Transactional
 public class AllocationDAOImpl implements AllocationDAO {
@@ -35,9 +29,6 @@ public class AllocationDAOImpl implements AllocationDAO {
 
 	@Autowired
 	AllocationDetailDAOImpl allocationDetailDAO;
-	@Autowired
-	private ProjectManagerDAO projectManagerDAO;
-
 	private boolean success = false;
 
 	@Override

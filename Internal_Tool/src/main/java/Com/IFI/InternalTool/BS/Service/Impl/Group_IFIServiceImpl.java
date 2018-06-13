@@ -1,19 +1,11 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
-import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import Com.IFI.InternalTool.BS.Service.Group_IFIService;
-import Com.IFI.InternalTool.DS.DAO.Group_IFIDAO;
 import Com.IFI.InternalTool.DS.DAO.Impl.Group_IFIDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Group_IFI;
-import Com.IFI.InternalTool.Payloads.PagedResponse;
-//import Com.IFI.InternalTool.Utils.ModelMapper;
-
 @Service
 public class Group_IFIServiceImpl implements Group_IFIService {
 

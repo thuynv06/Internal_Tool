@@ -22,13 +22,24 @@ public class ProjectMembers {
 
 	@Column(name = "priority")
 	private int priority;
+	@Column(name = "leader_id")
+	private long leader_id;
 
-	public ProjectMembers(long project_members_id, long employee_id, long project_id, int priority) {
+	public ProjectMembers(long project_members_id, long employee_id, long project_id, int priority, long leader_id) {
 		super();
 		this.project_members_id = project_members_id;
 		this.employee_id = employee_id;
 		this.project_id = project_id;
 		this.priority = priority;
+		this.leader_id = leader_id;
+	}
+
+	public long getLeader_id() {
+		return leader_id;
+	}
+
+	public void setLeader_id(long leader_id) {
+		this.leader_id = leader_id;
 	}
 
 	public long getProject_members_id() {

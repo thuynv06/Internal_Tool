@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -49,6 +50,11 @@ public class Project  {
 	@Column(name="year")
 	private int year;
 	
+	@Column(name="manager_id")
+	private long manger_id;
+	@Transient
+	private String Manager_Name;
+	
 	public Long getProject_id() {
 		return project_id;
 	}
@@ -62,6 +68,25 @@ public class Project  {
 		this.name = name;
 	}
 	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public long getManger_id() {
+		return manger_id;
+	}
+	public void setManger_id(long manger_id) {
+		this.manger_id = manger_id;
+	}
+	public String getManager_Name() {
+		return Manager_Name;
+	}
+	public void setManager_Name(String manager_Name) {
+		Manager_Name = manager_Name;
+	}
 	@ManyToOne(cascade = CascadeType.ALL)
 	public String getGroup_id() {
 		return group_id;

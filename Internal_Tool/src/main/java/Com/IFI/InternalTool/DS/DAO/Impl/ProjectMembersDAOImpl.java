@@ -23,7 +23,6 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
-
 	@Autowired
 	private AllocationDAOImpl allocationDAO;
 
@@ -48,7 +47,6 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	@Override
 	public Boolean addMemberToProject(ProjectMembers projectMember) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		
 		if (isMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
 			return false;
 		}
@@ -72,7 +70,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		boolean success = false;
 		Transaction tx = null;
 		tx = session.beginTransaction();
-		String hql = "Delete from ProjectMembers where project_members_id = :project_members_id";
+		String hql = "Delete from ProjectMembers where project_members_id = :project_members_id amd ";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_members_id", projectMemberId);
 		int row = query.executeUpdate();
@@ -93,6 +91,29 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		return query.getResultList();
+	}
+
+	@Override
+	public boolean deleteAllMemberInProject(long projectId) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		Transaction tx = null;
+		tx = session.beginTransaction();
+		// xoa tat ca allocation cua project do
+		for (Allocation allocation : allocationDAO.findAllocationByProjectID(projectId, 1, Integer.MAX_VALUE)) {
+			allocationDAO.deleteById(allocation.getAllocation_id());
+		}
+		//xoa tat ca nhan vien trong project
+		String hql = "Delete from ProjectMembers where project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", projectId);
+		int row = query.executeUpdate();
+		tx.commit();
+		session.close();
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

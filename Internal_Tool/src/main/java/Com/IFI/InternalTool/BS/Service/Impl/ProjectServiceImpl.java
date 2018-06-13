@@ -41,12 +41,19 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void saveProject(Project project) {
+	public void saveProject(long managerId, Project project) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(project.getStart_date());
 		project.setMonth(calendar.MONTH);
 		project.setYear(calendar.YEAR);
 		projectDAO.saveProject(project);
+		//tu dong them manager vao bang
+		ProjectMembers projectMembers = new ProjectMembers();
+		projectMembers.setEmployee_id(managerId);
+		//da co ham get priority ben employee 
+		//can sua lai
+		projectMembers.setPriority(employeeServiceImpl.getEmployeeById(managerId).getRole_id());
+		projectMemberDAO.addMemberToProject(projectMembers);
 	}
 
 	@Override
@@ -56,7 +63,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Project getProjectById(Long project_id) {
-		return projectDAO.getProjectById(project_id);
+		Project project = projectDAO.getProjectById(project_id);
+		project.setManager_Name(employeeServiceImpl.getEmployeeById(project.getManger_id()).getFullname());
+		return project;
+		
 	}
 
 	@Override
@@ -73,10 +83,18 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> getProjectsOfGroup(String group_id, int page, int pageSize) {
 		return projectDAO.getProjectsOfGroup(group_id, page, pageSize);
 	}
+	@Override
+	public Long NumerRecordsProjectsOfGroup(String group_id) {
+		return projectDAO.NumerRecordsProjectsOfGroup(group_id);
+	}
 
 	@Override
 	public List<Project> findProjectNameLike(String projectName, int page, int pageSize) {
 		return projectDAO.findProjectNameLike(projectName, page, pageSize);
+	}
+	@Override
+	public Long NumerRecordsProjectNameLike(String projectName) {
+		return projectDAO.NumerRecordsProjectNameLike(projectName);
 	}
 
 	@Override
@@ -102,6 +120,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> getListProjectOutOfDate(int page, int pageSize) {
 		return projectDAO.getListProjectOutOfDate(page, pageSize);
 	}
+	@Override
+	public Long NumerRecordsListProjectOutOfDate() {
+		return projectDAO.NumerRecordsListProjectOutOfDate();
+	}
+
 
 	@Override
 	public List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize) {
@@ -110,13 +133,15 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return projectDAO.getProjectByMonthYear(month, year, page, pageSize);
 	}
+	@Override
+	public Long NumerRecordsProjectByMonthYear(int month, int year) {
+		return projectDAO.NumerRecordsProjectByMonthYear(month, year);
+	}
 
 	@Override
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
 		return projectDAO.getProjectAllocatedIn(employee_id, page, pageSize);
 	}
-	
-	
 
 	@Override
 	public Long NumerRecordsProjectAllocatedIn(long employee_id) {	
@@ -127,13 +152,20 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {
 		return projectDAO.getProjectAllocateTo(employee_id, page, pageSize);
 	}
+	@Override
+	public Long NumerRecordsProjectAllocateTo(long employee_id) {
+		return projectDAO.NumerRecordsProjectAllocateTo(employee_id);
+	}
 
 	@Override
 	public Boolean addMemberToProject(long currentEmployeeId, ProjectMembers projectMember) {
-		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
+		Employee subEmployee = employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id());
 		// kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
-		if (employeeServiceImpl.getListSubEmployee(projectMember.getEmployee_id()).contains(currentEmployee)) {
+		if (employeeServiceImpl.getListSubEmployee(currentEmployeeId).contains(subEmployee)) {
+			//da co service lay role id
+			//can sua lai
 			projectMember.setPriority(employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id()).getRole_id());
+			projectMember.setLeader_id(currentEmployeeId);
 			return projectMemberDAO.addMemberToProject(projectMember);
 		} else {
 			return false;
@@ -142,13 +174,10 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Boolean removeMemberOfProject(long currentEmployeeId, long projectMemberId) {
-		Employee currentEmployee = employeeServiceImpl.getEmployeeById(currentEmployeeId);
-		// kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
-		// va nhan vien do co allocation chua
-		if (employeeServiceImpl.getListSubEmployee(projectMemberId).contains(currentEmployee)
-				&& allocationServiceImpl.findAllocationByEmployeeID(projectMemberId, 1, 1) == null) {
-			return projectMemberDAO.removeMemberOfProject(projectMemberId);
+	public Boolean removeMemberOfProject(long currentEmployeeId, ProjectMembers projectMember) {
+		// kiem tra nhan vien xoa co phai duoc them boi nhan vien hien tai khong
+		if (projectMember.getLeader_id() == currentEmployeeId) {
+			return projectMemberDAO.removeMemberOfProject(projectMember.getProject_members_id());
 		} else {
 			return false;
 		}

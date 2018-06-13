@@ -14,7 +14,7 @@ public interface ProjectService {
 	List<Project> getAllProject();
 
 	// luu project
-	public void saveProject(Project project);
+	public void saveProject(long managerId, Project project);
 
 	// xoa project
 	boolean deleteProject(long project_id);
@@ -25,8 +25,12 @@ public interface ProjectService {
 	// lay danh sach project theo group
 	List<Project> getProjectsOfGroup(String group_id, int page, int pageSize);
 
+	Long NumerRecordsProjectsOfGroup(String group_id);
+
 	// tim kiem theo ten
 	List<Project> findProjectNameLike(String projectName, int page, int pageSize);
+
+	Long NumerRecordsProjectNameLike(String projectName);
 
 	// tim kiem id manager cao nhat
 	Employee getBigestManager(long project_id);
@@ -39,13 +43,17 @@ public interface ProjectService {
 
 	Boolean addMemberToProject(final long currentEmployeeId, final ProjectMembers projectMember);
 
-	Boolean removeMemberOfProject(final long currentEmployeeId, final long projectMemberId);
+	Boolean removeMemberOfProject(final long currentEmployeeId, final ProjectMembers projectMember);
 
 	// tim kiem cac project da off
 	List<Project> getListProjectOutOfDate(int page, int pageSize);
 
+	Long NumerRecordsListProjectOutOfDate();
+
 	// tim kiem theo nam thang
 	List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize);
+
+	Long NumerRecordsProjectByMonthYear(int month, int year);
 
 	// lay project nhan vien duoc phan cong vao
 	List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize);
@@ -54,6 +62,8 @@ public interface ProjectService {
 
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
+
+	Long NumerRecordsProjectAllocateTo(long employee_id);
 
 	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);
 

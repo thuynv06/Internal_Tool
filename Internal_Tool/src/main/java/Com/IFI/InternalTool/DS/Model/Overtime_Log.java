@@ -1,7 +1,5 @@
 package Com.IFI.InternalTool.DS.Model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="overtime_log")
-public class Overtime_Log implements Serializable{
+public class Overtime_Log {
 	@Id
 	@Column(name = "overtime_log_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +52,10 @@ public class Overtime_Log implements Serializable{
 	public void setDisapproved_id(long disapproved_id) {
 		this.disapproved_id = disapproved_id;
 	}
-	public Overtime_Log(long overtime_id, long next_approve_id, long approved_id, long disapproved_id) {
+	public Overtime_Log(long overtime_log_id, long overtime_id, long next_approve_id, long approved_id,
+			long disapproved_id) {
 		super();
+		this.overtime_log_id = overtime_log_id;
 		this.overtime_id = overtime_id;
 		this.next_approve_id = next_approve_id;
 		this.approved_id = approved_id;
@@ -63,9 +63,9 @@ public class Overtime_Log implements Serializable{
 	}
 	public Overtime_Log() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	
 	
 	
 }

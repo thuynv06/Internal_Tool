@@ -33,6 +33,8 @@ public interface VacationDAO {
 		List<Long> countVacationByStatus(Long employee_id);
 		List<Long> countVacationByStatusMng(Long manager_id);
 		List<Long> getApprovedIdVacationLogByMng(long manager_id,int page, int pageSize);
+		Long countApprovedVacationByMng(long manager_id);
 		List<Long> getDisapproveIdVacationLogByMng(long manager_id,int page, int pageSize);
+		Long countDisApprovedVacationByMng(long manager_id);
 		Long getManagerIdByEmpProAndStatus(long employee_id,long project_id,int status);
 }

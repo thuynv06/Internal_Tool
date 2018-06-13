@@ -503,5 +503,27 @@ public class VacationDAOImpl implements VacationDAO {
 	
 	}
 
+	@Override
+	public Long countApprovedVacationByMng(long manager_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "Select count(v.vacation_log_id) From Vacation_Log v where v.approved_id=:manager_id ORDER BY v.vacation_log_id DESC";
+		Query query = session.createQuery(hql);
+		query.setParameter("manager_id", manager_id);
+		Long result=(Long) query.uniqueResult();
+		session.close();
+		return result;
+	}
+
+	@Override
+	public Long countDisApprovedVacationByMng(long manager_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "Select count(v.vacation_log_id) From Vacation_Log v where v.disapproved_id=:manager_id ORDER BY v.vacation_log_id DESC";
+		Query query = session.createQuery(hql);
+		query.setParameter("manager_id", manager_id);
+		Long result=(Long) query.uniqueResult();
+		session.close();
+		return result;
+	}
+
 	
 }

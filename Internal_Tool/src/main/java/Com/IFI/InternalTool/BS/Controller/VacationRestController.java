@@ -372,7 +372,7 @@ public class VacationRestController {
 		return message;
 	}
 
-	// get vacation ( manager/leader page)
+	// get vacation to approve( manager/leader page)
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager")
 	public @ResponseBody Payload getEmployeeVacationByManager(@RequestParam("page") int page,
@@ -441,8 +441,9 @@ public class VacationRestController {
 	//get vacation approved by manager
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager/approved")
-	public List<Vacation> getApprovedVacationLogByMng(@RequestParam("page") int page,
+	public @ResponseBody Payload getApprovedVacationLogByMng(@RequestParam("page") int page,
 													  @RequestParam("pageSize") int pageSize	){
+		Payload message=new Payload();
 		List<Vacation> result=new ArrayList<Vacation>();
 		List<Long> list=vacationService.getApprovedIdVacationLogByMng(employeeService.getEmployeeIdAuthenticated(),page,pageSize);
 		for(Long i:list) {
@@ -472,14 +473,26 @@ public class VacationRestController {
 			v.setApproved_manager(approved_manager);
 			v.setDisapproved_manager(disapproved_manager);
 			v.setNext_approve_manager(next_approve_manager);
+			
 		}
-		return result;
+		Long count = vacationService.countApprovedVacationByMng(employeeService.getEmployeeIdAuthenticated());
+		int pages = (int) (count / pageSize);
+		if (count % pageSize > 0) {
+			pages++;
+		}
+		message.setPages(pages);
+		message.setCode("OK");
+		message.setStatus("OK");
+		message.setData(result);
+		message.setMessage("Get Vacation successfully! ");
+		return message;
 	}
 	//get vacation disapproved by manager
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")
 	@GetMapping("/vacations/manager/disapproved")
-	public List<Vacation> getDisApprovedVacationLogByMng(@RequestParam("page") int page,
+	public @ResponseBody Payload getDisApprovedVacationLogByMng(@RequestParam("page") int page,
 			  											 @RequestParam("pageSize") int pageSize){
+		Payload message=new Payload();
 		List<Vacation> result=new ArrayList<Vacation>();
 		List<Long> list=vacationService.getDisapproveIdVacationLogByMng(employeeService.getEmployeeIdAuthenticated(),page,pageSize);
 		for(Long i:list) {
@@ -510,7 +523,17 @@ public class VacationRestController {
 			v.setDisapproved_manager(disapproved_manager);
 			v.setNext_approve_manager(next_approve_manager);
 		}
-		return result;
+		Long count = vacationService.countDisApprovedVacationByMng(employeeService.getEmployeeIdAuthenticated());
+		int pages = (int) (count / pageSize);
+		if (count % pageSize > 0) {
+			pages++;
+		}
+		message.setPages(pages);
+		message.setCode("OK");
+		message.setStatus("OK");
+		message.setData(result);
+		message.setMessage("Get Vacation successfully! ");
+		return message;
 	}
 	// approve a request
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C')")

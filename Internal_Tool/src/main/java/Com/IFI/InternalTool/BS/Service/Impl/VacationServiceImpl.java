@@ -129,5 +129,13 @@ public class VacationServiceImpl implements VacationService{
 	public Long countAllVacationByEmp2(long manager_id) {
 		return vacationDAO.countAllVacationByEmp2(manager_id);
 	}
+	@Override
+	public Long countApprovedVacationByMng(long manager_id) {
+		return vacationDAO.countApprovedVacationByMng(manager_id);
+	}
+	@Override
+	public Long countDisApprovedVacationByMng(long manager_id) {
+		return vacationDAO.countDisApprovedVacationByMng(manager_id);
+	}
 
 }

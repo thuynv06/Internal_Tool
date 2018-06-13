@@ -90,7 +90,7 @@ public class OvertimeDao {
 	public List<Overtime> getAllOvertimeByEmp2(long manager_id, int page, int pageSize, String sortedColumn,
 			Boolean desc) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select o FROM Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager AS pm ON (o.employee_id=pm.employee_id and o.project_id=pm.project_id  and o.status=pm.priority)  where  pm.manager_id=:manager_id ";
+		String hql = "Select o FROM Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager AS pm ON (o.employee_id=pm.employee_id and o.project_id=pm.project_id  and o.status=pm.priority)  where  pm.manager_id=:manager_id ";
 		if (sortedColumn != null && desc != null) {
 			String order = "";
 			if (desc) {
@@ -164,7 +164,7 @@ public class OvertimeDao {
 	public Long getManagerIDByEmpProAndStatus(long employee_id, long project_id, int status) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 
-		String hql = "Select pm.manager_id from Project_Manager pm where pm.employee_id =: employee_id and pm.project_id=: project_id and pm.priority=: status";
+		String hql = "Select pm.manager_id from ProjectManager pm where pm.employee_id =: employee_id and pm.project_id=: project_id and pm.priority=: status";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setParameter("project_id", project_id);
@@ -196,7 +196,7 @@ public class OvertimeDao {
 	//a
 	public Long countAllOvertimeByEmp2(long manager_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select count(o) FROM Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager AS pm ON (o.employee_id=pm.employee_id and o.project_id=pm.project_id  and o.status=pm.priority)  where  pm.manager_id=:manager_id ";
+		String hql = "Select count(o) FROM Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager AS pm ON (o.employee_id=pm.employee_id and o.project_id=pm.project_id  and o.status=pm.priority)  where  pm.manager_id=:manager_id ";
 		Query query = session.createQuery(hql);
 		query.setParameter("manager_id", manager_id);
 		query.setReadOnly(true);
@@ -284,7 +284,7 @@ public class OvertimeDao {
 			OvertimeSearch overtimeSearch) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		if(status.contains(-1)) {
-			String hql = "Select o from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id  and pm.priority=o.status ) ";
+			String hql = "Select o from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id  and pm.priority=o.status ) ";
 			hql += "WHERE (:emp_name IS NULL OR e.fullname LIKE CONCAT('%', :emp_name, '%')) ";
 			hql += "AND (:pro_name IS NULL OR p.name LIKE CONCAT('%', :pro_name, '%')) ";
 			hql += "AND ((:from_hour IS NULL and ( :to_hour IS NOT NULL and (:to_hour>= o.to_hour) or (:to_hour < o.to_hour and :to_hour>=o.from_hour))) ";
@@ -322,7 +322,7 @@ public class OvertimeDao {
 			session.close();
 			return list;
 		}else {
-		String hql = "Select o from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id  and pm.priority=o.status ) ";
+		String hql = "Select o from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id  and pm.priority=o.status ) ";
 		hql += "WHERE (:emp_name IS NULL OR e.fullname LIKE CONCAT('%', :emp_name, '%')) ";
 		hql += "AND (:pro_name IS NULL OR p.name LIKE CONCAT('%', :pro_name, '%')) ";
 		hql += "AND ((:from_hour IS NULL and ( :to_hour IS NOT NULL and (:to_hour>= o.to_hour) or (:to_hour < o.to_hour and :to_hour>=o.from_hour))) ";
@@ -367,7 +367,7 @@ public class OvertimeDao {
 	public Long CountSearchOvertimeManager(Long manager_id,Boolean is_approved,List<Integer> status,OvertimeSearch overtimeSearch) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		if(status.contains(-1)) {
-			String hql = "Select count(o) from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id and pm.priority=o.status) ";
+			String hql = "Select count(o) from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id and pm.priority=o.status) ";
 			hql += "WHERE (:emp_name IS NULL OR e.fullname LIKE CONCAT('%', :emp_name, '%')) ";
 			hql += "AND (:pro_name IS NULL OR p.name LIKE CONCAT('%', :pro_name, '%')) ";
 			hql += "AND ((:from_hour IS NULL and ( :to_hour IS NOT NULL and (:to_hour>= o.to_hour) or (:to_hour < o.to_hour and :to_hour>=o.from_hour))) ";
@@ -391,7 +391,7 @@ public class OvertimeDao {
 			session.close();
 			return result;
 		}else {
-		String hql = "Select count(o) from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN Project_Manager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id and pm.priority=o.status) ";
+		String hql = "Select count(o) from Overtime o INNER JOIN Employee AS e ON o.employee_id= e.employee_id INNER JOIN Project AS p ON o.project_id=p.project_id INNER JOIN ProjectManager pm ON (pm.employee_id=o.employee_id and pm.project_id=o.project_id and pm.priority=o.status) ";
 		hql += "WHERE (:emp_name IS NULL OR e.fullname LIKE CONCAT('%', :emp_name, '%')) ";
 		hql += "AND (:pro_name IS NULL OR p.name LIKE CONCAT('%', :pro_name, '%')) ";
 		hql += "AND ((:from_hour IS NULL and ( :to_hour IS NOT NULL and (:to_hour>= o.to_hour) or (:to_hour < o.to_hour and :to_hour>=o.from_hour))) ";

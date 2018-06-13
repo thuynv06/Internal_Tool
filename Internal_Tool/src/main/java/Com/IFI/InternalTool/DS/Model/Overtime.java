@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="overtime")
 public class Overtime {
@@ -24,10 +26,10 @@ public class Overtime {
 	
 	@Column(name="project_id")
 	public long project_id;
-	
+	@JsonFormat(pattern="MM/dd/yyyy hh:mm a")
 	@Column(name="from_hour")
 	public Date from_hour;
-	
+	@JsonFormat(pattern="MM/dd/yyyy hh:mm a")
 	@Column(name="to_hour")
 	public Date to_hour;
 	
@@ -39,10 +41,10 @@ public class Overtime {
 	
 	@Column(name="status")
 	public int status;
-	
+	@JsonFormat(pattern="MM/dd/yyyy hh:mm a")
 	@Column(name="created_at")
 	public Date created_at;
-	
+	@JsonFormat(pattern="MM/dd/yyyy hh:mm a")
 	@Column(name="updated_at")
 	public Date updated_at;
 	

@@ -11,15 +11,16 @@ public interface EmployeeService {
 	public List<Employee> getAllEmployees(final boolean hasRoleEmPloyee, final long employee_id, final int page,
 			final int pageSize);
 
-	// save employess
-	public Boolean saveEmployee(final Employee employee);
+	// get employss by ID
+	public Employee getEmployeeById(final long employee_id);
+
+	Boolean createEmployee(final long currentUserID, final Employee emp);
+
+	public Boolean EditEmployee(Employee employee);
 
 	// delete employees by id
 	@PreAuthorize("hasRole('ADMIN')")
 	public Boolean deleteEmployee(final long employee_id);
-
-	// get employss by ID
-	public Employee getEmployeeById(final long employee_id);
 
 	// find Employees Name Like
 	public List<Employee> findEmployeeNameLike(final String name, int page, int pageSize);

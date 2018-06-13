@@ -121,7 +121,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 		try {
 			tx = session.beginTransaction();
 			Allocation currentAllocation = session.get(Allocation.class, allocation.getAllocation_id());
-			currentAllocation.setAllocation_plan(allocation.getAllocation_plan());
+			//currentAllocation.setAllocation_plan(allocation.getAllocation_plan());
 			currentAllocation.setEmployee_id(allocation.getEmployee_id());
 			currentAllocation.setEnd_date(allocation.getEnd_date());
 			currentAllocation.setMonth(allocation.getMonth());

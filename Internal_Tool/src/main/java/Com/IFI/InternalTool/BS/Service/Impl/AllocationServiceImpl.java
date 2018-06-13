@@ -50,8 +50,8 @@ public class AllocationServiceImpl implements AllocationService {
 		}
 
 		int roleCurrentUser = employeeDAO.getEmployeeById(currentUserID).getRole_id();
-		int roleEmployeeAllocated = employeeDAO.getEmployeeById(allocation.getEmployee_id()).getRole_id();
-		if (roleCurrentUser >= roleEmployeeAllocated) {
+		int roleEmployeeInAllocated = employeeDAO.getEmployeeById(allocation.getEmployee_id()).getRole_id();
+		if (roleCurrentUser >= roleEmployeeInAllocated) {
 			return false;
 		}
 		// get maxEndDate Allocation in History
@@ -91,6 +91,16 @@ public class AllocationServiceImpl implements AllocationService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public Boolean updateAllocation(long currentUserID, Allocation allocation) {
+		int roleCurrentUser = employeeDAO.getEmployeeById(currentUserID).getRole_id();
+		int roleEmployeeInAllocated = employeeDAO.getEmployeeById(allocation.getEmployee_id()).getRole_id();
+		if (roleCurrentUser >= roleEmployeeInAllocated) {
+			return false;
+		}
+		return allocationDAO.updateAllocation(allocation);
 	}
 
 	@Override

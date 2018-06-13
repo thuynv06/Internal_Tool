@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.EmployeeService;
@@ -17,7 +18,8 @@ import Com.IFI.InternalTool.Security.UserPrincipal;
 
 @Service("EmployeeService")
 public class EmployeeServiceImpl implements EmployeeService {
-
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@Autowired
 	EmployeeDAOImpl employeeDAO;
 	@Autowired
@@ -29,8 +31,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Boolean saveEmployee(Employee employee) {
-		return employeeDAO.saveEmployee(employee);
+	public Boolean createEmployee(final long currentUserID, final Employee emp) {
+		return employeeDAO.saveEmployee(emp);
+	}
+
+	@Override
+	public Boolean EditEmployee(Employee employee) {
+		// endcode password
+		employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+		return employeeDAO.EditEmployee(employee);
 	}
 
 	@Override

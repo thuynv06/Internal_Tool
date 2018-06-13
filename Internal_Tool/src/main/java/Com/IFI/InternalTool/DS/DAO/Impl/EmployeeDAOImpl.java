@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import Com.IFI.InternalTool.DS.DAO.EmployeeDAO;
 import Com.IFI.InternalTool.DS.DAO.RoleDAO;
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.Roles;
 import Com.IFI.InternalTool.DS.Model.Types;
 import Com.IFI.InternalTool.Utils.AppConstants;
@@ -77,6 +78,32 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		return success;
 
+	}
+
+	@Override
+	public Boolean EditEmployee(Employee employee) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		boolean success = false;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Employee currentEmp = session.get(Employee.class, employee.getEmployee_id());
+			currentEmp.setFullname(employee.getFullname());
+			currentEmp.setAddress(employee.getAddress());
+			currentEmp.setAge(employee.getAge());
+			currentEmp.setEmail(employee.getAddress());
+			currentEmp.setGroup_id(employee.getGroup_id());
+			currentEmp.setIs_actice(employee.isIs_actice());
+			currentEmp.setPhone(employee.getPhone());
+			currentEmp.setType_id(employee.getType_id());
+			tx.commit();
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
 	}
 
 	@Override

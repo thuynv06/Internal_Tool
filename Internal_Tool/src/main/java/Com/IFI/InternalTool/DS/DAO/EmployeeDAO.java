@@ -15,6 +15,7 @@ public interface EmployeeDAO {
 	// save employees
 	public Boolean saveEmployee(final Employee employee);
 
+	public Boolean EditEmployee(final Employee employee);
 	// delete Employess
 	public Boolean deleteEmployee(final long employee_id);
 

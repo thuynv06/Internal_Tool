@@ -1,18 +1,24 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Com.IFI.InternalTool.BS.Service.Impl.EmployeeServiceImpl;
+import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
@@ -53,7 +59,7 @@ public class EmployeeController {
 	}
 
 	// Find Employee By Id
-	@GetMapping("/findEmployeeById/{employee_id}")
+	@GetMapping("/{employee_id}")
 	// @RolesAllowed("ROLE_USER")
 	public @ResponseBody Payload findEmployeeById(@PathVariable Long employee_id) {
 		logger.info("Find Employee By Id ... ");
@@ -70,6 +76,43 @@ public class EmployeeController {
 				true);
 		return message;
 
+	}
+
+	// create Allocation
+	@PostMapping("/create")
+	public @ResponseBody Payload createEmployee(@CurrentUser UserPrincipal currentUser,
+			@Valid @RequestBody Employee emp) {
+		logger.info("Create Employee ... ");
+		try {
+			employeeService.createEmployee(currentUser.getId(), emp);
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
+			return message;
+		}
+
+		return message;
+
+	}
+
+	@PostMapping("/update")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody Payload updateEmployee(@Valid @RequestBody Employee emp) {
+		logger.info("Update Employee... ");
+
+		try {
+			data = employeeService.EditEmployee(emp);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Employee Successfull",
+				true);
+		return message;
 	}
 
 	// find employees with name likes
@@ -129,13 +172,13 @@ public class EmployeeController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees IN Project ... ... ",
-				true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+				"Find Employees IN Project ... ... ", true);
 		return message;
 	}
 
 	@GetMapping("/getListEmployeeNotInProject")
-	public @ResponseBody Payload getListEmployeeInProject(@CurrentUser UserPrincipal currentUser,
+	public @ResponseBody Payload getListEmployeeNOTInProject(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "project_id") long project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -151,8 +194,8 @@ public class EmployeeController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employees Not IN Project ... ",
-				true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+				"Find Employees Not IN Project ... ", true);
 		return message;
 	}
 

@@ -13,9 +13,14 @@ import Com.IFI.InternalTool.Security.UserPrincipal;
 
 public interface AllocationService {
 
+	// find Allocation By Id
+	Allocation findById(final long allocation_id);
+
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	boolean createAllocation(final long currentUserID, final Allocation allocation);
 
+	public Boolean updateAllocation(final long currentUserID,Allocation allocation);
+	
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	boolean deleteByID(final Long allocation_id);
 
@@ -26,9 +31,6 @@ public interface AllocationService {
 	List<Allocation> getAllocatedofManager(final long employee_id, final int page, final int pageSize);
 
 	Long NumRecordsAllocatedofManager(final long employee_id);
-
-	// find Allocation By Id
-	Allocation findById(final long allocation_id);
 
 	// search allocation with month or year
 	List<Allocation> SearchAllocationWithTime(final int year, final int month, final int page, final int pageSize);

@@ -1,6 +1,5 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.ProjectService;
-import Com.IFI.InternalTool.DS.DAO.ProjectDAO;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectMembersDAOImpl;
-import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.Employee;
-//import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectManager;
 import Com.IFI.InternalTool.DS.Model.ProjectMembers;
@@ -44,14 +40,14 @@ public class ProjectServiceImpl implements ProjectService {
 	public void saveProject(long managerId, Project project) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(project.getStart_date());
-		project.setMonth(calendar.MONTH);
-		project.setYear(calendar.YEAR);
+		project.setMonth(project.getStart_date().toLocalDate().getMonthValue());
+		project.setYear(project.getStart_date().toLocalDate().getYear());
 		projectDAO.saveProject(project);
-		//tu dong them manager vao bang
+		// tu dong them manager vao bang
 		ProjectMembers projectMembers = new ProjectMembers();
 		projectMembers.setEmployee_id(managerId);
-		//da co ham get priority ben employee 
-		//can sua lai
+		// da co ham get priority ben employee
+		// can sua lai
 		projectMembers.setPriority(employeeServiceImpl.getEmployeeById(managerId).getRole_id());
 		projectMemberDAO.addMemberToProject(projectMembers);
 	}
@@ -66,7 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
 		Project project = projectDAO.getProjectById(project_id);
 		project.setManager_Name(employeeServiceImpl.getEmployeeById(project.getManger_id()).getFullname());
 		return project;
-		
+
 	}
 
 	@Override
@@ -81,8 +77,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> getProjectsOfGroup(String group_id, int page, int pageSize) {
-		return projectDAO.getProjectsOfGroup(group_id, page, pageSize);
+		return convertList(projectDAO.getProjectsOfGroup(group_id, page, pageSize));
 	}
+
 	@Override
 	public Long NumerRecordsProjectsOfGroup(String group_id) {
 		return projectDAO.NumerRecordsProjectsOfGroup(group_id);
@@ -90,8 +87,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> findProjectNameLike(String projectName, int page, int pageSize) {
-		return projectDAO.findProjectNameLike(projectName, page, pageSize);
+		return convertList(projectDAO.findProjectNameLike(projectName, page, pageSize));
 	}
+
 	@Override
 	public Long NumerRecordsProjectNameLike(String projectName) {
 		return projectDAO.NumerRecordsProjectNameLike(projectName);
@@ -102,14 +100,16 @@ public class ProjectServiceImpl implements ProjectService {
 		return employeeServiceImpl.getEmployeeById(projectDAO.getBigestManagerId(project_id));
 	}
 
-	@Override
-	public List<Employee> getListEmployee(long project_id, int page, int pageSize) {
-		List<Employee> listEmployee = new ArrayList<Employee>();
-		for (Long employee_id : projectDAO.getListEmployeeId(project_id, page, pageSize)) {
-			listEmployee.add(employeeServiceImpl.getEmployeeById(employee_id));
-		}
-		return listEmployee;
-	}
+	// @Override
+	// public List<Employee> getListEmployee(long project_id, int page, int
+	// pageSize) {
+	// List<Employee> listEmployee = new ArrayList<Employee>();
+	// for (Long employee_id : projectDAO.getListEmployeeId(project_id, page,
+	// pageSize)) {
+	// listEmployee.add(employeeServiceImpl.getEmployeeById(employee_id));
+	// }
+	// return listEmployee;
+	// }
 
 	@Override
 	public boolean updateProject(Project project) {
@@ -118,21 +118,22 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> getListProjectOutOfDate(int page, int pageSize) {
-		return projectDAO.getListProjectOutOfDate(page, pageSize);
+		return convertList(projectDAO.getListProjectOutOfDate(page, pageSize));
 	}
+
 	@Override
 	public Long NumerRecordsListProjectOutOfDate() {
 		return projectDAO.NumerRecordsListProjectOutOfDate();
 	}
-
 
 	@Override
 	public List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize) {
 		if (year <= 0) {
 			year = Calendar.getInstance().get(Calendar.YEAR);
 		}
-		return projectDAO.getProjectByMonthYear(month, year, page, pageSize);
+		return convertList(projectDAO.getProjectByMonthYear(month, year, page, pageSize));
 	}
+
 	@Override
 	public Long NumerRecordsProjectByMonthYear(int month, int year) {
 		return projectDAO.NumerRecordsProjectByMonthYear(month, year);
@@ -140,18 +141,19 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
-		return projectDAO.getProjectAllocatedIn(employee_id, page, pageSize);
+		return convertList(projectDAO.getProjectAllocatedIn(employee_id, page, pageSize));
 	}
 
 	@Override
-	public Long NumerRecordsProjectAllocatedIn(long employee_id) {	
+	public Long NumerRecordsProjectAllocatedIn(long employee_id) {
 		return projectDAO.NumerRecordsProjectAllocatedIn(employee_id);
 	}
 
 	@Override
 	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {
-		return projectDAO.getProjectAllocateTo(employee_id, page, pageSize);
+		return convertList(projectDAO.getProjectAllocateTo(employee_id, page, pageSize));
 	}
+
 	@Override
 	public Long NumerRecordsProjectAllocateTo(long employee_id) {
 		return projectDAO.NumerRecordsProjectAllocateTo(employee_id);
@@ -162,8 +164,8 @@ public class ProjectServiceImpl implements ProjectService {
 		Employee subEmployee = employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id());
 		// kiem tra id nhan vien them vao co thuoc danh sach subEmployee khong
 		if (employeeServiceImpl.getListSubEmployee(currentEmployeeId).contains(subEmployee)) {
-			//da co service lay role id
-			//can sua lai
+			// da co service lay role id
+			// can sua lai
 			projectMember.setPriority(employeeServiceImpl.getEmployeeById(projectMember.getEmployee_id()).getRole_id());
 			projectMember.setLeader_id(currentEmployeeId);
 			return projectMemberDAO.addMemberToProject(projectMember);
@@ -181,6 +183,13 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			return false;
 		}
+	}
+
+	public List<Project> convertList(final List<Project> list) {
+		for (Project item : list) {
+			item.setManager_Name(employeeServiceImpl.getEmployeeById(item.getManger_id()).getFullname());
+		}
+		return list;
 	}
 
 }

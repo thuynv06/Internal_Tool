@@ -3,6 +3,7 @@ package Com.IFI.InternalTool.BS.Service.Impl;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -137,7 +138,9 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public List<Allocation> SearchAllocationWithTime(int year, int month, int page, int pageSize) {
-
+		if (year <= 0) {
+			year = Calendar.getInstance().get(Calendar.YEAR);
+		}
 		return convertAllocation(allocationDAO.searchAllocationWithTime(year, month, page, pageSize));
 	}
 

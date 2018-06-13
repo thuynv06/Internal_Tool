@@ -35,8 +35,8 @@ public interface ProjectService {
 	// tim kiem id manager cao nhat
 	Employee getBigestManager(long project_id);
 
-	// tim kiem danh sach nhan vien trong project
-	List<Employee> getListEmployee(long project_id, int page, int pageSize);
+//	// tim kiem danh sach nhan vien trong project
+//	List<Employee> getListEmployee(long project_id, int page, int pageSize);
 
 	// update project
 	boolean updateProject(final Project project);

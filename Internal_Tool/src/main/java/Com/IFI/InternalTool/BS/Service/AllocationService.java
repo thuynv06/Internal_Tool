@@ -52,4 +52,10 @@ public interface AllocationService {
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
+	
+	public List<Allocation> searchAllocation(final int year, final int month,final long project_id,final long employee_id, final int page,
+			final int pageSize);
+	Long NumRecordssearchAllocation(final int year, final int month, final long project_id, final long employee_id);
+	
+	public Date findMaxEndDate(final long employee_id);
 }

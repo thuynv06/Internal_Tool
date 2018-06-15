@@ -191,5 +191,25 @@ public class AllocationServiceImpl implements AllocationService {
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate) {
 		return allocationDAO.NumRecordsllocationFromDateToDate(fromDate, toDate);
 	}
+	
+	@Override
+	public List<Allocation> searchAllocation(int year, int month, long project_id, long employee_id, int page,
+			int pageSize) {
+
+		return allocationDAO.searchAllocation(year, month, project_id, employee_id, page, pageSize);
+	}
+
+	@Override
+	public Long NumRecordssearchAllocation(int year, int month, long project_id, long employee_id) {
+
+		return allocationDAO.NumRecordssearchAllocation(year, month, project_id, employee_id);
+	}
+
+	@Override
+	public Date findMaxEndDate(long employee_id) {
+		return allocationDAO.findMaxEndDate(employee_id);
+	}
+	
+	
 
 }

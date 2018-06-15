@@ -23,6 +23,9 @@ public interface AllocationDAO {
 	public Allocation findById(final long allocation_id);
 
 	public Date findMaxEndDate(final long employee_id);
+	
+	public Date findMaxEndDateInPoint(long employee_id, final Date datePoint);
+	public Date findMinStartDateInPoint(long employee_id, final Date datePoint);
 
 	public List<Allocation> searchAllocationWithTime(final int year, final int month, final int page,
 			final int pageSize);
@@ -32,4 +35,10 @@ public interface AllocationDAO {
 	// tim kiem allocation tu ngay den ngay
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);
 	Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
+	
+	
+	public List<Allocation> searchAllocation(final int year, final int month, final long project_id,
+			final long employee_id, final int page, final int pageSize);
+
+	Long NumRecordssearchAllocation(final int year, final int month, final long project_id, final long employee_id);
 }

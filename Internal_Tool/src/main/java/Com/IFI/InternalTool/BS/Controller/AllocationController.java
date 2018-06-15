@@ -1,6 +1,7 @@
 package Com.IFI.InternalTool.BS.Controller;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import javax.validation.Valid;
 
@@ -32,7 +33,7 @@ public class AllocationController {
 	@Autowired
 	private AllocationServiceImpl allocationService;
 
-	private static final Logger logger = LoggerFactory.getLogger(AllocationController .class);
+	private static final Logger logger = LoggerFactory.getLogger(AllocationController.class);
 
 	Payload message = new Payload();
 	Object data = "";
@@ -108,6 +109,60 @@ public class AllocationController {
 
 		return message;
 
+	}
+
+	// get AllocationPlan
+	@GetMapping("/getAllocationPlan")
+	public @ResponseBody Payload getAllocationPlan(@RequestParam(value = "start_date") Date start_date,
+			@RequestParam("end_date") Date end_date) {
+		logger.info("get Allcation Plan ... ");
+		try {
+
+			if (start_date.toLocalDate().isAfter(end_date.toLocalDate())) {
+				message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+						"ERROR: Start_Date must be smaller End_Date ", false);
+			} else {
+				int month = start_date.toLocalDate().getMonthValue();
+				logger.info("Month: " + month);
+				int year = start_date.toLocalDate().getYear();
+				// get distance Time between start_date vs end_date not set Weekends;
+				int distanceTime = Business.getDistanceTime(start_date.toLocalDate(), end_date.toLocalDate());
+				logger.info("distance Time: " + distanceTime);
+				// get number days of month // get nums days weekend of month
+				int numDaysOfMonth = start_date.toLocalDate().getDayOfMonth();
+				
+				logger.info("numDaysOfMonth: " + numDaysOfMonth);
+				int numDaysWeekOfMonth = Business.numberWeekendOfMonth(month, year);
+				logger.info("numDaysWeekOfMonth: " + numDaysWeekOfMonth);
+				double plan = Business.getAllocation_Plan(numDaysOfMonth, numDaysWeekOfMonth, distanceTime);
+				logger.info("Plan: " + plan);
+
+				data = plan;
+			}
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "get Allcation Plan ", true);
+		return message;
+	}
+
+	@GetMapping("/getMaxEndDate")
+	public @ResponseBody Payload getMaxEndDate(@RequestParam(value = "employee_id") long employee_id) {
+		logger.info("get Allocation Allcation Plan ... ");
+		try {
+			data = allocationService.findMaxEndDate(employee_id).toLocalDate().plusDays(1);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "get Allocation Allcation Plan ",
+				true);
+		return message;
 	}
 
 	// Find Allocation By Id
@@ -226,6 +281,36 @@ public class AllocationController {
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
 				"find Allcation By Project ID  ID Successfull", true);
+		return message;
+	}
+
+	@GetMapping("/searchAllocation")
+	public @ResponseBody Payload searchAllocation(@RequestParam(value = "year", defaultValue = "0") int year,
+			@RequestParam(value = "month", defaultValue = "0") int month,
+			@RequestParam(value = "project_id", defaultValue = "0") long project_id,
+			@RequestParam(value = "employee_id", defaultValue = "0") long employee_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Search Allocation ... ");
+		try {
+			if (year <= 0) {
+				year = Calendar.getInstance().get(Calendar.YEAR);
+			}
+			if (month <= 0) {
+				month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+				logger.info(month + " month now");
+			}
+			data = allocationService.searchAllocation(year, month, project_id, employee_id, page, pageSize);
+			Long count = allocationService.NumRecordssearchAllocation(year, month, project_id, employee_id);
+			message.setPages(Business.getTotalsPages(count, pageSize));
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Search Allocation Successfull",
+				true);
 		return message;
 	}
 

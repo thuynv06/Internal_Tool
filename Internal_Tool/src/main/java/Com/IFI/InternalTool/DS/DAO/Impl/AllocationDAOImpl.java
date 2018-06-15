@@ -20,6 +20,7 @@ import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+
 @Repository("AllocationDAO")
 @Transactional
 public class AllocationDAOImpl implements AllocationDAO {
@@ -112,7 +113,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 		try {
 			tx = session.beginTransaction();
 			Allocation currentAllocation = session.get(Allocation.class, allocation.getAllocation_id());
-			//currentAllocation.setAllocation_plan(allocation.getAllocation_plan());
+			// currentAllocation.setAllocation_plan(allocation.getAllocation_plan());
 			currentAllocation.setEmployee_id(allocation.getEmployee_id());
 			currentAllocation.setEnd_date(allocation.getEnd_date());
 			currentAllocation.setMonth(allocation.getMonth());
@@ -287,6 +288,91 @@ public class AllocationDAOImpl implements AllocationDAO {
 		Long count = (Long) query.uniqueResult();
 		session.close();
 		return count;
+	}
+
+	@Override
+	public List<Allocation> searchAllocation(int year, int month, long project_id, long employee_id, int page,
+			int pageSize) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select a FROM Allocation a where a.year = :year";
+		if (month >= 1 && month <= 12) {
+			hql += " and a.month = :month ";
+		}
+		if (project_id > 0) {
+			hql += " and a.project_id =: project_id";
+		}
+		if (employee_id > 0) {
+			hql += " and a.employee_id =: employee_id";
+		}
+		Query query = session.createQuery(hql);
+		query.setParameter("year", year);
+		if (month >= 1 && month <= 12) {
+			query.setParameter("month", month);
+		}
+		if (project_id > 0) {
+			query.setParameter("project_id", project_id);
+		}
+		if (employee_id > 0) {
+			query.setParameter("employee_id", employee_id);
+		}
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		List<Allocation> list = query.getResultList();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public Long NumRecordssearchAllocation(int year, int month, long project_id, long employee_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select count(*) FROM Allocation where year = :year";
+		if (month >= 1 && month <= 12) {
+			hql += " and month = :month ";
+		}
+		if (project_id > 0) {
+			hql += " and project_id =: project_id";
+		}
+		if (employee_id > 0) {
+			hql += " and employee_id =: employee_id";
+		}
+		Query query = session.createQuery(hql);
+		query.setParameter("year", year);
+		if (month >= 1 && month <= 12) {
+			query.setParameter("month", month);
+		}
+		if (project_id > 0) {
+			query.setParameter("project_id", project_id);
+		}
+		if (employee_id > 0) {
+			query.setParameter("employee_id", employee_id);
+		}
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
+	}
+
+	@Override
+	public Date findMaxEndDateInPoint(final long employee_id, final Date datePoint) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "SELECT MAX(a.end_date) FROM Allocation a where a.employee_id = :employee_id  and end_date < :datePoint";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		if (query.uniqueResult() != null) {
+			return (Date) query.uniqueResult();
+		}
+		return null;
+	}
+
+	@Override
+	public Date findMinStartDateInPoint(long employee_id, Date datePoint) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "SELECT MIN(a.start_date) FROM Allocation a where a.employee_id = :employee_id  and start_date > :datePoint";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employee_id);
+		if (query.uniqueResult() != null) {
+			return (Date) query.uniqueResult();
+		}
+		return null;
 	}
 
 }

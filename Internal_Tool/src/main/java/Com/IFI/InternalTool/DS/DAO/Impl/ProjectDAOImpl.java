@@ -70,7 +70,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		Transaction tx = null;
 		tx = session.beginTransaction();		
-		// xoa cac project manager
+		// xoa cac project member
 		projectMemberDAOImpl.deleteAllMemberInProject(project_id);
 		String hql = "Delete from Project where project_id=:project_id";
 		Query query = session.createQuery(hql);
@@ -168,7 +168,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long getBigestManagerId(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select manager_id FROM ProjectMembers where project_id = :project_id";
+		String hql = "select manager_id FROM Project where project_id = :project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		Long result = (Long) query.uniqueResult();
@@ -187,7 +187,18 @@ public class ProjectDAOImpl implements ProjectDAO {
 		List<Long> list = query.getResultList();
 		session.close();
 		return list;
-	}
+	}	
+
+	@Override
+	public Long NumerRecordsListEmployeeId(long project_id) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select count(*) FROM ProjectMembers where project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", project_id);
+		Long count = (Long) query.uniqueResult();
+		session.close();
+		return count;
+	}	
 
 	@Override
 	public boolean updateProject(Project project) {
@@ -240,7 +251,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where status = 1 and year = :year";
+		String hql = "FROM Project where year = :year";
 		if (month >= 1 && month <= 12) {
 			hql += " and month = :month";
 		}
@@ -259,7 +270,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectByMonthYear(int month, int year) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) FROM Project where status = 1 and year = :year";
+		String hql = "select count(*) FROM Project where year = :year";
 		if (month >= 1 && month <= 12) {
 			hql += " and month = :month";
 		}
@@ -314,7 +325,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectAllocateTo(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) from Project where project_id in (select distinct project_id from ProjectMembers where leader_id = :employee_id)";
+		String hql = "select count(*) from Project where project_id in (select project_id from ProjectMembers where leader_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		Long count = (Long) query.uniqueResult();

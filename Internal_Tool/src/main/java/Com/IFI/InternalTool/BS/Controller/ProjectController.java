@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +37,13 @@ public class ProjectController {
 	AuthenticationManager authenticationManager;
 	Payload message = new Payload();
 	Object data = "";
+	boolean success = false;
 
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
 	// lay tat ca project
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public @ResponseBody Payload getAllProjects(
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -59,19 +62,28 @@ public class ProjectController {
 	// tao project
 	@PostMapping(value = { "/create" })
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public @ResponseBody Payload createProject(@CurrentUser UserPrincipal currentUser,
-			@Valid @RequestBody Project projectRequest) {
+	public @ResponseBody Payload createProject(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody Project projectRequest,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Create Project ... ");
 
 		try {
-			projectService.saveProject(currentUser.getId(), projectRequest);
+			//sua kieu boolean cho update
+			success = projectService.saveProject(currentUser.getId(), projectRequest);
+			data = projectService.getAllProjects(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Project Successfull", true);
+		// kiem tra viec thanh cong
+		if (!success) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE,	"Create Project Doesn't Successfull", false);
+		} else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Project Successfull",
+					true);
+		}
 		return message;
 	}
 
@@ -102,43 +114,49 @@ public class ProjectController {
 
 		try {
 			data = projectService.findProjectNameLike(projectName, page, pageSize);
-			message.setPages(
-					Business.getTotalsPages(projectService.NumerRecordsProjectNameLike(projectName), pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-				"Find Project Like Name Successfull", true);
-		if (!"".equals(data)) {
-			// message.setPages(projectService.NumerRecordsProjectNameLike(projectName));
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,	"Find Project Like Name Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsProjectNameLike(projectName, pageSize));
 		}
 		return message;
 
 	}
 
 	// xoa project
-	@DeleteMapping("/delete")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload deleteProject(@RequestParam("project_id") long projectId) {
+	@DeleteMapping("/deleteProject")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public @ResponseBody Payload deleteProject(@RequestParam("project_id") long projectId,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Delete Project ... ");
 
 		try {
-			data = projectService.deleteProject(projectId);
+			success = projectService.deleteProject(projectId);
+			data = projectService.getAllProjects(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Delete Project Successfull", true);
+		//kiem tra viec thanh cong
+		if (!success) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Delete Project Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Delete Project Successfull", true);
+		}
+		
 		return message;
 	}
 
 	// lay danh sach project cua mot group
-	@GetMapping("/ProjectsInGroup")
+	@GetMapping("/getProjectsOfGroup")
 	public @ResponseBody Payload getProjectsOfGroup(@RequestParam("group_id") String groupId,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -146,21 +164,21 @@ public class ProjectController {
 
 		try {
 			data = projectService.getProjectsOfGroup(groupId, page, pageSize);
-			message.setPages(Business.getTotalsPages(projectService.NumerRecordsProjectsOfGroup(groupId), pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-				"Get List Project Of Group Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Project Of Group Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsProjectsOfGroup(groupId, pageSize));
+		}
 		return message;
 	}
 
 	// lay quan ly cao nhat
 	@GetMapping("/getBigestManager")
-	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload getBigestManager(@RequestParam("project_id") long project_id) {
 		logger.info("Get Bigest Manager... ");
 
@@ -178,52 +196,57 @@ public class ProjectController {
 	}
 
 	// lya danh sach nhan vien trong project
-	// @GetMapping("/getListEmployee")
-	// // @PreAuthorize("hasRole('ROLE_USER')")
-	// public @ResponseBody Payload getListEmployee(@RequestParam("project_id") long
-	// project_id,
-	// @RequestParam(value = "page", defaultValue =
-	// AppConstants.DEFAULT_PAGE_NUMBER) int page,
-	// @RequestParam(value = "pageSize", defaultValue =
-	// AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
-	// logger.info("Get List Employee... ");
-	//
-	// try {
-	// data = projectService.getListEmployee(project_id, page, pageSize);
-	// } catch (Exception e) {
-	// logger.error("ERROR: Get connection error", e);
-	// message.setPayLoad("Failed", AppConstants.STATUS_KO,
-	// AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
-	// false);
-	// return message;
-	// }
-	// message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-	// "Get List Employee Successfull",
-	// true);
-	// return message;
-	// }
+	@GetMapping("/getListEmployee")
+	public @ResponseBody Payload getListEmployee(@RequestParam("project_id") long project_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("Get List Employee... ");
+
+		try {
+			data = projectService.getListEmployee(project_id, page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get List Employee Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsListEmployee(project_id, pageSize));
+		}
+		return message;
+	}
 
 	// update project
-	@PostMapping("/updateProject")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload updateProject(@Valid @RequestBody Project project) {
+	@PutMapping("/updateProject")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public @ResponseBody Payload updateProject(@Valid @RequestBody Project project,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Update Project... ");
 
 		try {
-			data = projectService.updateProject(project);
+			success = projectService.updateProject(project);
+			data = projectService.getAllProjects(page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Projectt Successfull",
-				true);
+		
+		//kiem tra thanh cong
+		if (!success) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Update Project Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Project Successfull", true);
+		}
 		return message;
 	}
 
 	// lay danh sach project off
 	@GetMapping("/getListProjectOutOfDate")
+	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload getListProjectOutOfDate(
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -237,13 +260,16 @@ public class ProjectController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-				"Get List Project Out Of Date Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,	"Get List Project Out Of Date Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsListProjectOutOfDate(pageSize));
+		}
 		return message;
 	}
 
 	// lay danh sach project theo nam thang
 	@GetMapping("/getProjectByMonthYear")
+	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload getProjectByMonthYear(@RequestParam("year") int year, @RequestParam("month") int month,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -251,16 +277,16 @@ public class ProjectController {
 
 		try {
 			data = projectService.getProjectByMonthYear(month, year, page, pageSize);
-			message.setPages(
-					Business.getTotalsPages(projectService.NumerRecordsProjectByMonthYear(month, year), pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-				"Get Project By Month Year Successfull", true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,	"Get Project By Month Year Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsProjectByMonthYear(month, year,  pageSize));
+		}
 		return message;
 	}
 
@@ -270,16 +296,13 @@ public class ProjectController {
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+		boolean hasUserRole = currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info(hasUserRole + " role");
 
-		// hasUserRole = true;
+	//	hasUserRole = true;
 		try {
 			if (hasUserRole) {
 				data = projectService.getProjectAllocatedIn(currentUser.getId(), page, pageSize);
-				message.setPages(Business
-						.getTotalsPages(projectService.NumerRecordsProjectAllocatedIn(currentUser.getId()), pageSize));
 			}
 
 		} catch (Exception e) {
@@ -288,8 +311,10 @@ public class ProjectController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull",
-				true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsProjectAllocatedIn(currentUser.getId(), pageSize));
+		}
 		return message;
 	}
 
@@ -299,25 +324,25 @@ public class ProjectController {
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_LEADER"));
+		boolean hasUserRole = currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info(hasUserRole + " role");
 
 		try {
 			if (hasUserRole) {
 				data = projectService.getProjectAllocateTo(currentUser.getId(), page, pageSize);
-				message.setPages(Business
-						.getTotalsPages(projectService.NumerRecordsProjectAllocateTo(currentUser.getId()), pageSize));
-
+				
 			}
+
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull",
-				true);
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocations Successfull", true);
+		if (!"".equals(data) || data != null) {
+			message.setPages(projectService.NumerRecordsProjectAllocateTo(currentUser.getId(), pageSize));
+		}
 		return message;
 	}
 
@@ -327,9 +352,9 @@ public class ProjectController {
 			@Valid @RequestBody ProjectMembers projectMember) {
 
 		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_LEADER_A"));
-
+				.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info("Add Member To Project... ");
+
 		try {
 			if (hasUserRole) {
 				data = projectService.addMemberToProject(currentUser.getId(), projectMember);
@@ -340,29 +365,38 @@ public class ProjectController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Add Member To Project Successfull",
-				true);
+		
+		if (data.equals(Boolean.FALSE)) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Add Member To Project Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Add Member To Project Successfull", true);
+		}
 		return message;
 	}
-
+	
 	@DeleteMapping("/RemoveMemberOfProject")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser,
-			@Valid @RequestBody ProjectMembers projectMember) {
+			@RequestParam long projectMemberId) {
+
+		boolean hasUserRole = currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info("Remove Member in Project... ");
+
 		try {
-			if (projectService.removeMemberOfProject(currentUser.getId(), projectMember)) {
-				message.setPayLoad("Success", AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
-						"Remove  Member in Project Successfull", true);
-			} else {
-				message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
-						"ERROR: This Employee had allocated ", false);
+			if (hasUserRole) {
+				data = projectService.removeMemberOfProject(currentUser.getId(), projectMemberId);
 			}
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
+		}
+		
+		if (data.equals(Boolean.FALSE)) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "The Employee not exist or You don't have permitsion to delete", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Remove Member in Project Successfull", true);
 		}
 		return message;
 	}

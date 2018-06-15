@@ -72,4 +72,10 @@ public class Business {
 		}
 		return pages;
 	}
+
+	// tinh tong so page
+	public static int getTotalPage(final long totalResult, final int pageSize) {
+		double total = (double) totalResult;
+		return (int) Math.ceil(total / pageSize);
+	}
 }

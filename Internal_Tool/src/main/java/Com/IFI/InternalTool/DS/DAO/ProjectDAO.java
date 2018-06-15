@@ -39,6 +39,7 @@ public interface ProjectDAO {
 
 	// tim kiem danh sach id nhan vien trong project
 	List<Long> getListEmployeeId(long project_id, int page, int pageSize);
+	Long NumerRecordsListEmployeeId(long project_id);
 
 	// update project
 	boolean updateProject(Project project);

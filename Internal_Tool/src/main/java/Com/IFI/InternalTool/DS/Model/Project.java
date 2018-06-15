@@ -51,98 +51,127 @@ public class Project  {
 	private int year;
 	
 	@Column(name="manager_id")
-	private long manger_id;
+	private long manager_id;
 	@Transient
 	private String Manager_Name;
 	
+	public Project(Long project_id, String name, @Size(min = 1, max = 10) String code, String group_id, boolean status,
+			String description, Date start_date, Date end_date, int month, int year, long manager_id,
+			String manager_Name) {
+		super();
+		this.project_id = project_id;
+		this.name = name;
+		this.code = code;
+		this.group_id = group_id;
+		this.status = status;
+		this.description = description;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.month = month;
+		this.year = year;
+		this.manager_id = manager_id;
+		Manager_Name = manager_Name;
+	}
+	
+	public Project() {
+		
+	}
+
 	public Long getProject_id() {
 		return project_id;
 	}
+
 	public void setProject_id(Long project_id) {
 		this.project_id = project_id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public long getManger_id() {
-		return manger_id;
-	}
-	public void setManger_id(long manger_id) {
-		this.manger_id = manger_id;
-	}
-	public String getManager_Name() {
-		return Manager_Name;
-	}
-	public void setManager_Name(String manager_Name) {
-		Manager_Name = manager_Name;
-	}
-	@ManyToOne(cascade = CascadeType.ALL)
 	public String getGroup_id() {
 		return group_id;
 	}
+
 	public void setGroup_id(String group_id) {
 		this.group_id = group_id;
 	}
+
 	public boolean isStatus() {
 		return status;
 	}
+
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public Date getStart_date() {
 		return start_date;
 	}
+
 	public void setStart_date(Date start_date) {
 		this.start_date = start_date;
 	}
+
 	public Date getEnd_date() {
 		return end_date;
 	}
+
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
 	}
-	
-	
+
 	public int getMonth() {
 		return month;
 	}
+
 	public void setMonth(int month) {
 		this.month = month;
 	}
+
 	public int getYear() {
 		return year;
 	}
+
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Project(String name, String group_id, boolean status, String description, Date start_date, Date end_date) {
-		super();
-		this.name = name;
-		this.group_id = group_id;
-		this.status = status;
-		this.description = description;
-		this.start_date = start_date;
-		this.end_date = end_date;
+
+	public long getManager_id() {
+		return manager_id;
 	}
-	public Project() {
-		super();
+
+	public void setManager_id(long manager_id) {
+		this.manager_id = manager_id;
 	}
+
+	public String getManager_Name() {
+		return Manager_Name;
+	}
+
+	public void setManager_Name(String manager_Name) {
+		Manager_Name = manager_Name;
+	}
+	
 	
 }

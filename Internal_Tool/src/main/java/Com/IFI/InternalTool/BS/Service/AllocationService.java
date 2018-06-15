@@ -16,7 +16,7 @@ public interface AllocationService {
 	// find Allocation By Id
 	Allocation findById(final long allocation_id);
 
-	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	boolean createAllocation(final long currentUserID, final Allocation allocation);
 
 	public Boolean updateAllocation(final long currentUserID,Allocation allocation);
@@ -50,6 +50,9 @@ public interface AllocationService {
 
 	// tim kiem allocation tu ngay den ngay
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize);
+	
+	//sao chep allocation theo thang
+	List<Allocation> duplicateAllocationByMonth(final long currentUserID, final int month, final int year, final int page, final int pageSize);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 	

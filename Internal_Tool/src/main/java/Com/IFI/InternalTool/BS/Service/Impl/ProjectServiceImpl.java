@@ -223,4 +223,15 @@ public class ProjectServiceImpl implements ProjectService {
 		return false;
 	}
 
+	@Override
+	public Boolean addListMemberToProject(long currentEmployeeId, List<ProjectMembers> listProjectMember) {
+		boolean success = true;
+		for (ProjectMembers projectMembers : listProjectMember) {
+			if (!addMemberToProject(currentEmployeeId, projectMembers)) {
+				success = false;
+			}
+		}
+		return success;
+	}
+
 }

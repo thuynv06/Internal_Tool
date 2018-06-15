@@ -2,6 +2,8 @@ package Com.IFI.InternalTool.BS.Service;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectManager;
@@ -42,9 +44,11 @@ public interface ProjectService {
 	
 	//them nhan vien vao project
 	Boolean addMemberToProject(final long currentEmployeeId, final ProjectMembers projectMember);
-	//Boolean addListMemberToProject(final long currentEmployeeId, final List<ProjectMembers> listProjectMember);
+	// them nhieu nhan vien vao project
+	Boolean addListMemberToProject(final long currentEmployeeId, final List<ProjectMembers> listProjectMember);
 	
 	//xoa nhan vien khoi project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Boolean removeMemberOfProject(final long currentEmployeeId, final long projectMemberId);
 
 	// tim kiem cac project da off

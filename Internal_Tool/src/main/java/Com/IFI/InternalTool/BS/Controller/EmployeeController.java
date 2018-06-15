@@ -198,5 +198,23 @@ public class EmployeeController {
 				"Find Employees Not IN Project ... ", true);
 		return message;
 	}
+	
+	@GetMapping("/getListSubEmployee")
+	public @ResponseBody Payload getListSubEmployee(@RequestParam(value = "employee_id") long employee_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("getListSubEmployee ... ");
+		try {
+			data = employeeService.getListSubEmployee(employee_id);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "getListSubEmployee success ... ",
+				true);
+		return message;
+	}
 
 }

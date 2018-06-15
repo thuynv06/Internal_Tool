@@ -130,7 +130,7 @@ public class AllocationController {
 				logger.info("distance Time: " + distanceTime);
 				// get number days of month // get nums days weekend of month
 				int numDaysOfMonth = start_date.toLocalDate().getDayOfMonth();
-				
+
 				logger.info("numDaysOfMonth: " + numDaysOfMonth);
 				int numDaysWeekOfMonth = Business.numberWeekendOfMonth(month, year);
 				logger.info("numDaysWeekOfMonth: " + numDaysWeekOfMonth);
@@ -310,6 +310,27 @@ public class AllocationController {
 			return message;
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Search Allocation Successfull",
+				true);
+		return message;
+	}
+
+	// duplicateAllocationByMonth
+	@PostMapping(("/duplicateAllocationByMonth"))
+	public @ResponseBody Payload duplicateAllocationByMonth(@CurrentUser UserPrincipal currentUser,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+
+		try {
+			data = allocationService.duplicateAllocationByMonth(currentUser.getId(), month, year, page, pageSize);
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "duplicate Allocation By Month Successfull",
 				true);
 		return message;
 	}

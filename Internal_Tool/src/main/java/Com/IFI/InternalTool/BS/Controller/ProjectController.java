@@ -1,5 +1,7 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -328,11 +330,7 @@ public class ProjectController {
 		logger.info(hasUserRole + " role");
 
 		try {
-			if (hasUserRole) {
 				data = projectService.getProjectAllocateTo(currentUser.getId(), page, pageSize);
-				
-			}
-
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -347,26 +345,21 @@ public class ProjectController {
 	}
 
 	@PostMapping("/AddMemberToProject")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload AddMemberToProject(@CurrentUser UserPrincipal currentUser,
-			@Valid @RequestBody ProjectMembers projectMember) {
+	public @ResponseBody Payload AddMemberToProject(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody ProjectMembers projectMember,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
-		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		logger.info("Add Member To Project... ");
-
 		try {
-			if (hasUserRole) {
-				data = projectService.addMemberToProject(currentUser.getId(), projectMember);
-			}
+			success = projectService.addMemberToProject(currentUser.getId(), projectMember);
+			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
-		}
-		
-		if (data.equals(Boolean.FALSE)) {
+		}		
+		if (!success) {
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Add Member To Project Doesn't Successfull", false);
 		}else {
 			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Add Member To Project Successfull", true);
@@ -375,28 +368,48 @@ public class ProjectController {
 	}
 	
 	@DeleteMapping("/RemoveMemberOfProject")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser,
-			@RequestParam long projectMemberId) {
-
-		boolean hasUserRole = currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser, @RequestParam long projectMemberId,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		
 		logger.info("Remove Member in Project... ");
-
 		try {
-			if (hasUserRole) {
-				data = projectService.removeMemberOfProject(currentUser.getId(), projectMemberId);
-			}
+			success = projectService.removeMemberOfProject(currentUser.getId(), projectMemberId);
+			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);
+			
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(), false);
+			return message;
+		}
+		
+		if (!success) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "The Employee not exist or You don't have permitsion to delete", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Remove Member in Project Successfull", true);
+		}
+		return message;
+	}
+	
+	@PostMapping("/AddListMemberToProject")
+	public @ResponseBody Payload addListMemberToProject(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody List<ProjectMembers> listProjectMember,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+
+		logger.info("Add List Member To Project... ");
+		try {
+			success = projectService.addListMemberToProject(currentUser.getId(), listProjectMember);
+			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
-		}
-		
-		if (data.equals(Boolean.FALSE)) {
-			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "The Employee not exist or You don't have permitsion to delete", false);
+		}		
+		if (!success) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Some Member Cann't Add To Project", false);
 		}else {
-			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Remove Member in Project Successfull", true);
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "All Member had been Add To Project", true);
 		}
 		return message;
 	}

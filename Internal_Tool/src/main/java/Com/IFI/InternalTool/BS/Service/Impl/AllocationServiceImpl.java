@@ -209,6 +209,18 @@ public class AllocationServiceImpl implements AllocationService {
 	public Date findMaxEndDate(long employee_id) {
 		return allocationDAO.findMaxEndDate(employee_id);
 	}
+
+	@Override
+	public List<Allocation> duplicateAllocationByMonth(long currentUserID, int month, int year, int page, int pageSize) {
+		List<Allocation> listDuplicateAllocation = SearchAllocationWithTime(year, month, page, pageSize);
+		for (Allocation allocation : listDuplicateAllocation) {
+			allocation.setMonth(month + 1);	
+			allocation.setStart_date(Business.increaseMonthByOne(allocation.getStart_date()));
+			allocation.setEnd_date(Business.increaseMonthByOne(allocation.getEnd_date()));
+			createAllocation(currentUserID, allocation);			
+		}
+		return listDuplicateAllocation;
+	}
 	
 	
 

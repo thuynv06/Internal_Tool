@@ -2,10 +2,13 @@ package Com.IFI.InternalTool.Utils;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +81,25 @@ public class Business {
 		double total = (double) totalResult;
 		return (int) Math.ceil(total / pageSize);
 	}
+
+	// tang thang len 1
+	public static Date increaseMonthByOne(Date date) {
+		LocalDate localDate = date.toLocalDate();
+		int day = localDate.getDayOfMonth();
+		int month = localDate.getMonthValue();
+		int newMonth = month + 1;
+		int year = localDate.getYear();
+		day = validateEndDayOfMonth(LocalDate.of(year, newMonth, 1), day);
+		LocalDate newDate = LocalDate.of(year, newMonth, day);
+		return java.sql.Date.valueOf(newDate);
+	}
+	//kiem tra su ton tai cua ngay trong thang
+	public static int validateEndDayOfMonth(LocalDate localDate, int day) {
+		int lengOfMonth = localDate.lengthOfMonth();
+		if (day > lengOfMonth) {
+			day = lengOfMonth;
+		}		
+		return day;
+	}
+
 }

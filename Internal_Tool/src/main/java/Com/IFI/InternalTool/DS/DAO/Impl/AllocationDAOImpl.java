@@ -77,7 +77,7 @@ public class AllocationDAOImpl implements AllocationDAO {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.saveOrUpdate(allocation);
+			session.save(allocation);
 
 			// // generic allocationDetail
 			LocalDate start_date = allocation.getStart_date().toLocalDate();

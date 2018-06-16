@@ -19,4 +19,7 @@ public interface ProjectMembersDAO {
 
 	// lay mot project member theo id
 	ProjectMembers getProjectMemberById(final long projectMemberId);
+	
+	// xoa project member theo employee id
+	boolean deleteProjectMemberByEmployeeId(final long employeeId);
 }

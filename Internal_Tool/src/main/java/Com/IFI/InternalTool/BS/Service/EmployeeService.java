@@ -8,8 +8,7 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 
 public interface EmployeeService {
 	// get list employeess and paginations
-	public List<Employee> getAllEmployees(final boolean hasRoleEmPloyee, final long employee_id, final int page,
-			final int pageSize);
+	public List<Employee> getAllEmployees( final long employee_id, final int page, final int pageSize);
 
 	// get employss by ID
 	public Employee getEmployeeById(final long employee_id);
@@ -19,7 +18,7 @@ public interface EmployeeService {
 	public Boolean EditEmployee(Employee employee);
 
 	// delete employees by id
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Boolean deleteEmployee(final long employee_id);
 
 	// find Employees Name Like

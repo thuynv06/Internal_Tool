@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import Com.IFI.InternalTool.BS.Service.AllocationService;
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
+import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
@@ -27,7 +28,7 @@ import Com.IFI.InternalTool.Utils.Business;
 public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
-	private AllocationDAO allocationDAO;
+	private AllocationDAOImpl allocationDAO;
 
 	@Autowired
 	private AllocationDetailDAOImpl allocationDetailDAO;
@@ -129,11 +130,8 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public boolean deleteByID(Long allocation_id) {
-		if (allocationDAO.deleteById(allocation_id)) {
-			return true;
-		}
-		return false;
+	public boolean deleteByID(long allocation_id) {
+		return allocationDAO.deleteById(allocation_id);
 	}
 
 	@Override
@@ -157,8 +155,8 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize) {
-		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize);
+	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize, boolean isDESC) {
+		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize, isDESC);
 	}
 
 	@Override
@@ -225,7 +223,7 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> duplicateAllocationByProject(long currentUserID, long projectId, int month, int year, int page, int pageSize) {
 		// tim kiem list allocation theo project
-		List<Allocation> listDuplicateAllocation = findAllocationByProjectID(projectId, page, pageSize);
+		List<Allocation> listDuplicateAllocation = findAllocationByProjectID(projectId, page, pageSize, false);
 		for (Allocation allocation : listDuplicateAllocation) {
 			if (allocation.getMonth() == month && allocation.getYear() == year) {
 				allocation.setMonth(month + 1);	

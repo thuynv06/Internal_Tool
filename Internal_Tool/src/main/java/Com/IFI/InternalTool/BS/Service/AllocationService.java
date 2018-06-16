@@ -22,7 +22,7 @@ public interface AllocationService {
 	public Boolean updateAllocation(final long currentUserID,Allocation allocation);
 	
 	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
-	boolean deleteByID(final Long allocation_id);
+	boolean deleteByID(final long allocation_id);
 
 	List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize);
 
@@ -41,7 +41,7 @@ public interface AllocationService {
 	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 
 	// find AllocationByProjectID
-	List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
+	List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize, final boolean isDESC);
 
 	Long NumRecordsAllocationByProjectID(final long employee_id);
 

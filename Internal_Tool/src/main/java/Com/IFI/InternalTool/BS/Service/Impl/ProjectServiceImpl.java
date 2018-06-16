@@ -65,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public boolean deleteProject(long project_id) {
 		//co ham dem so allocation, can sua lai
 		//neu project co status la off hoac chua co allocation thi cho phep xoa
-		if (!projectDAO.getProjectById(project_id).isStatus() || allocationServiceImpl.findAllocationByProjectID(project_id, 1, 1).size() == 0) {
+		if (!projectDAO.getProjectById(project_id).isStatus() || allocationServiceImpl.findAllocationByProjectID(project_id, 1, 1, false).size() == 0) {
 			return projectDAO.deleteProject(project_id);
 		}else {
 			return false;

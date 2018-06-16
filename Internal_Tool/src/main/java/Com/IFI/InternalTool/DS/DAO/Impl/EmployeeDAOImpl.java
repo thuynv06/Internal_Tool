@@ -41,21 +41,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, int page,
-			int pageSize) {
-		Employee emp = getEmployeeById(employee_id);
-
+	public List<Employee> getAllEmployees(int page,	int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM Employee emp  where emp.group_id = :group_id";
-		if (!hasRoleEmployee) {
-			hql += " and emp.type_id = :type_id and emp.role_id > :role_id order by role_id ";
-		}
+		String hql = "FROM Employee";
 		Query query = session.createQuery(hql);
-		if (!hasRoleEmployee) {
-			query.setParameter("group_id", emp.getGroup_id());
-			query.setParameter("type_id", emp.getTypes().getType_id());
-			query.setParameter("role_id", emp.getRole().getRole_id());
-		}
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> list = query.getResultList();

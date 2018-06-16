@@ -131,13 +131,14 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public Boolean deleteById(final long allocation_id) {
+	public Boolean deleteById(long allocation_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		Transaction tx = null;
 		tx = session.beginTransaction();
 		// xoa cac detail allocation
 		String hqlDeleteDetail = "delete from AllocationDetail where allocation_id = :allocation_id";
 		Query queryDeleteDetail = session.createQuery(hqlDeleteDetail);
+		queryDeleteDetail.setParameter("allocation_id", allocation_id);
 		queryDeleteDetail.executeUpdate();
 		// xoa allocation
 		String hql = "Delete from Allocation where allocation_id=:allocation_id";
@@ -241,9 +242,14 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize) {
+	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize, boolean isDESC) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select a FROM Allocation a where a.project_id = :project_id order by a.allocation_id desc";
+		String hql = "select a FROM Allocation a where a.project_id = :project_id order by a.allocation_id ";
+		if (isDESC) {
+			hql += "desc";
+		}else {
+			hql += "asc";
+		}
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 

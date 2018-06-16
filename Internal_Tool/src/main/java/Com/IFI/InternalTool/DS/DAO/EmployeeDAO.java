@@ -8,15 +8,14 @@ import Com.IFI.InternalTool.DS.Model.Roles;
 
 @Repository
 public interface EmployeeDAO {
-	// get list employess and paginations
-	List<Employee> getAllEmployees(final boolean hasRoleEmployee, final long employee_id, final int page,
-			final int pageSize);
+	// lay danh sach tat ca nhan vien
+	List<Employee> getAllEmployees(final int page, final int pageSize);
 
 	// save employees
 	public Boolean saveEmployee(final Employee employee);
 
 	public Boolean EditEmployee(final Employee employee);
-	// delete Employess
+	// xoa nhan vien
 	public Boolean deleteEmployee(final long employee_id);
 
 	// get employeess by ID

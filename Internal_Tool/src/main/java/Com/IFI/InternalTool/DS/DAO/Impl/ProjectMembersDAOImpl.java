@@ -70,7 +70,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		boolean success = false;
 		Transaction tx = null;
 		tx = session.beginTransaction();
-		String hql = "Delete from ProjectMembers where project_members_id = :project_members_id amd ";
+		String hql = "Delete from ProjectMembers where project_members_id = :project_members_id and ";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_members_id", projectMemberId);
 		int row = query.executeUpdate();
@@ -99,7 +99,7 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		Transaction tx = null;
 		tx = session.beginTransaction();
 		// xoa tat ca allocation cua project do
-		for (Allocation allocation : allocationDAO.findAllocationByProjectID(projectId, 1, Integer.MAX_VALUE)) {
+		for (Allocation allocation : allocationDAO.findAllocationByProjectID(projectId, 1, Integer.MAX_VALUE, false)) {
 			allocationDAO.deleteById(allocation.getAllocation_id());
 		}
 		//xoa tat ca nhan vien trong project
@@ -126,6 +126,27 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		ProjectMembers result = (ProjectMembers) query.uniqueResult();
 		session.close();
 		return result;
+	}
+
+	@Override
+	public boolean deleteProjectMemberByEmployeeId(long employeeId) {
+
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		boolean success = false;
+		Transaction tx = null;
+		tx = session.beginTransaction();		
+		String hql = "Delete from ProjectMembers where employee_id = :employeeId ";
+		Query query = session.createQuery(hql);
+		query.setParameter("employeeId", employeeId);
+		int row = query.executeUpdate();
+		success = true;
+		tx.commit();
+		session.close();
+		if (row > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -250,7 +250,7 @@ public class AllocationController {
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("find Allcation By Project ID ... ");
 		try {
-			data = allocationService.findAllocationByProjectID(project_id, page, pageSize);
+			data = allocationService.findAllocationByProjectID(project_id, page, pageSize, true);
 			Long count = allocationService.NumRecordsAllocationByProjectID(project_id);
 			message.setPages(Business.getTotalsPages(count, pageSize));
 
@@ -342,9 +342,9 @@ public class AllocationController {
 		return message;
 	}
 
-	// duplicateAllocationProject
-	@PostMapping(("/duplicateAllocationProject"))
-	public @ResponseBody Payload duplicateAllocationProject(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "project_id") long projectId,
+	// duplicatevAllocationByProject
+	@PostMapping(("/duplicateAllocationByProject"))
+	public @ResponseBody Payload duplicateAllocationByProject(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "project_id") long projectId,
 			@RequestParam(value = "year") int year,	@RequestParam("month") int month,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {

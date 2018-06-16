@@ -30,7 +30,7 @@ public interface AllocationDAO {
 	public List<Allocation> searchAllocationWithTime(final int year, final int month, final int page,
 			final int pageSize);
 
-	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize);
+	public List<Allocation> findAllocationByProjectID(final long project_id, final int page, final int pageSize, final boolean isDESC);
 	Long NumRecordsAllocationByProjectID(final long project_id);
 	// tim kiem allocation tu ngay den ngay
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, final int page, final int pageSize);

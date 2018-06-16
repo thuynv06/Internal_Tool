@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,7 @@ public class EmployeeController {
 				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
 
 		try {
-			data = employeeService.getAllEmployees(hasUserRole, currentUser.getId(), page, pageSize);
+			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -214,6 +215,30 @@ public class EmployeeController {
 		}
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "getListSubEmployee success ... ",
 				true);
+		return message;
+	}
+	
+	@DeleteMapping("/deleteEmployee")
+	public @ResponseBody Payload deleteEmployee (@CurrentUser UserPrincipal currentUser,@RequestParam(value = "employee_id") long employee_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("delete Employee ... ");
+		boolean success = false;
+		try {
+			success = employeeService.deleteEmployee(employee_id);
+			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		if (success) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "getListSubEmployee success ... ", true);
+		} else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "getListSubEmployee doesn't success ... ", true);
+		}
+		
 		return message;
 	}
 

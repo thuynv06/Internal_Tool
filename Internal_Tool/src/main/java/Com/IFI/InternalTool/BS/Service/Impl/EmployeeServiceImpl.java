@@ -11,8 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Com.IFI.InternalTool.BS.Service.EmployeeService;
+import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.TypeDAOImpl;
+import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 
@@ -24,10 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	EmployeeDAOImpl employeeDAO;
 	@Autowired
 	TypeDAOImpl TypesDAO;
+	@Autowired
+	AllocationServiceImpl allocationServiceImpl;
 
 	@Override
-	public List<Employee> getAllEmployees(final boolean hasRoleEmPloyee, long employee_id, int page, int pageSize) {
-		return employeeDAO.getAllEmployees(hasRoleEmPloyee, employee_id, page, pageSize);
+	public List<Employee> getAllEmployees(long employee_id, int page, int pageSize) {
+		return employeeDAO.getAllEmployees(page, pageSize);
 	}
 
 	@Override
@@ -44,7 +48,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Boolean deleteEmployee(long employee_id) {
-		return employeeDAO.deleteEmployee(employee_id);
+		//xoa cac allocation
+		List<Allocation> listAllocationOfEmployee = allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, Integer.MAX_VALUE, false);
+		boolean success = true;
+		for (Allocation allocation : listAllocationOfEmployee) {
+			success = allocationServiceImpl.deleteByID(allocation.getAllocation_id());	
+			if (!success) {
+				break;
+			}
+		}
+		// neu xoa tat ca cac allocation cua nhan vien do thanh cong thi xoa nhan vien
+		if (success) {
+			return employeeDAO.deleteEmployee(employee_id);
+		}else {
+			return success;
+		}
+		
 	}
 
 	@Override

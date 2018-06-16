@@ -11,40 +11,53 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectService {
 	// lay tat ca project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> getAllProjects(int page, int pageSize);
 
 	List<Project> getAllProject();
 
 	// luu project
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public boolean saveProject(long managerId, Project project);
 
 	// xoa project
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	boolean deleteProject(long project_id);
 
 	// lay theo id
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Project getProjectById(Long project_id);
 
 	// lay danh sach project theo group
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> getProjectsOfGroup(String group_id, int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsProjectsOfGroup(String group_id, int pageSize);
 	
 	// tim kiem theo ten
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> findProjectNameLike(String projectName, int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsProjectNameLike(String projectName, int pageSize);
 
 	// tim kiem id manager cao nhat
 	Employee getBigestManager(long project_id);
 
 	// tim kiem danh sach nhan vien trong project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Employee> getListEmployee(long project_id, int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsListEmployee(long project_id, int pageSize);
 	
 	// update project
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	boolean updateProject(final Project project);
 	
 	//them nhan vien vao project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Boolean addMemberToProject(final long currentEmployeeId, final ProjectMembers projectMember);
 	// them nhieu nhan vien vao project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Boolean addListMemberToProject(final long currentEmployeeId, final List<ProjectMembers> listProjectMember);
 	
 	//xoa nhan vien khoi project
@@ -52,11 +65,15 @@ public interface ProjectService {
 	Boolean removeMemberOfProject(final long currentEmployeeId, final long projectMemberId);
 
 	// tim kiem cac project da off
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> getListProjectOutOfDate(int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsListProjectOutOfDate(int pageSize);
 
 	// tim kiem theo nam thang
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsProjectByMonthYear(int month, int year, int pageSize);
 
 	// lay project nhan vien duoc phan cong vao
@@ -64,7 +81,9 @@ public interface ProjectService {
 	int NumerRecordsProjectAllocatedIn(long employee_id, int pageSize);
 
 	// lay cac project ma nhan vien do quan ly
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsProjectAllocateTo(long employee_id, int pageSize);
 
 	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);

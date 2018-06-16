@@ -60,21 +60,23 @@ public class EmployeeController {
 	}
 
 	// Find Employee By Id
-	@GetMapping("/{employee_id}")
-	// @RolesAllowed("ROLE_USER")
-	public @ResponseBody Payload findEmployeeById(@PathVariable Long employee_id) {
-		logger.info("Find Employee By Id ... ");
+	@GetMapping("/getEmployeeById")
+	public @ResponseBody Payload getEmployeeById(@RequestParam(value = "employee_id") long employeeId) {
+		logger.info("Get Employee By Id ... ");
 
 		try {
-			data = employeeService.getEmployeeById(employee_id);
+			data = employeeService.getEmployeeById(employeeId);
 		} catch (Exception e) {
 			logger.error("ERROR:", e.getMessage());
-			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
-					false);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(), false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employee By ID Successfull",
-				true);
+		if (data instanceof Employee) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employee By ID Successfull", true);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Find Employee By ID Doesn't Successfull", true);
+		}
+		
 		return message;
 
 	}

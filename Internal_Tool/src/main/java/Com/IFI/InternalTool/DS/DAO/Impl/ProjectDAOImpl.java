@@ -41,7 +41,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getAllProjects(int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project WHERE status = 1";
+		String hql = "FROM Project";
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);

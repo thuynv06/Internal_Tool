@@ -36,7 +36,7 @@ public interface AllocationService {
 	List<Allocation> SearchAllocationWithTime(final int year, final int month, final int page, final int pageSize);
 
 	// find AllocationByEmPloyeeID
-	List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize);
+	List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize, final boolean isDESC);
 
 	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 
@@ -52,7 +52,20 @@ public interface AllocationService {
 	List<Allocation> findAllocationFromDateToDate(Date fromDate, Date toDate, int page, int pageSize);
 	
 	//sao chep allocation theo thang
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Allocation> duplicateAllocationByMonth(final long currentUserID, final int month, final int year, final int page, final int pageSize);
+	
+	//sao chep allocation theo project
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	List<Allocation> duplicateAllocationByProject(final long currentUserID, final long projectId, final int month, final int year, final int page, final int pageSize);
+
+	//sao chep allocation theo employee
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	List<Allocation> duplicateAllocationByEmployee(final long currentUserID, final long employeeId, final int month, final int year, final int page, final int pageSize);
+	
+	//tinh tong so allocation plan theo employee
+	//@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	Double getTotalAllocationPlanByEmployeeId(final long employeeId, final int month, final int year);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 	

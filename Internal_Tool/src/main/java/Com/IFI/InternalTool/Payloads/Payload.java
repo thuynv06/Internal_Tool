@@ -1,5 +1,7 @@
 package Com.IFI.InternalTool.Payloads;
 
+import Com.IFI.InternalTool.Utils.AppConstants;
+
 public class Payload {
 	private String code;
 	private String status;
@@ -9,6 +11,12 @@ public class Payload {
 	private Integer pages;
 
 	public Payload() {
+		code = AppConstants.FAILED_CODE;
+		status = AppConstants.STATUS_KO;
+		message = "";
+		data = "";
+		success = false;
+		pages = 0;
 	}
 
 	public Payload(final Object data, final String status, final String code, final String message,

@@ -145,9 +145,9 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public List<Allocation> findAllocationByEmployeeID(long employee_id, int page, int pageSize) {
+	public List<Allocation> findAllocationByEmployeeID(long employee_id, int page, int pageSize, boolean isDESC) {
 
-		return convertAllocation(allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize));
+		return convertAllocation(allocationDAO.findAllocationByEmployeeID(employee_id, page, pageSize, isDESC));
 	}
 
 	@Override
@@ -220,6 +220,49 @@ public class AllocationServiceImpl implements AllocationService {
 			createAllocation(currentUserID, allocation);			
 		}
 		return listDuplicateAllocation;
+	}
+
+	@Override
+	public List<Allocation> duplicateAllocationByProject(long currentUserID, long projectId, int month, int year, int page, int pageSize) {
+		// tim kiem list allocation theo project
+		List<Allocation> listDuplicateAllocation = findAllocationByProjectID(projectId, page, pageSize);
+		for (Allocation allocation : listDuplicateAllocation) {
+			if (allocation.getMonth() == month && allocation.getYear() == year) {
+				allocation.setMonth(month + 1);	
+				allocation.setStart_date(Business.increaseMonthByOne(allocation.getStart_date()));
+				allocation.setEnd_date(Business.increaseMonthByOne(allocation.getEnd_date()));
+				createAllocation(currentUserID, allocation);
+			}						
+		}
+		return listDuplicateAllocation;
+	}
+
+	@Override
+	public List<Allocation> duplicateAllocationByEmployee(long currentUserID, long employeeId, int month, int year,	int page, int pageSize) {
+		// tim kiem list allocation theo employee
+		List<Allocation> listDuplicateAllocation = findAllocationByEmployeeID(employeeId, page, pageSize, false);
+		for (Allocation allocation : listDuplicateAllocation) {
+			if (allocation.getMonth() == month && allocation.getYear() == year) {
+				allocation.setMonth(month + 1);
+				allocation.setStart_date(Business.increaseMonthByOne(allocation.getStart_date()));
+				allocation.setEnd_date(Business.increaseMonthByOne(allocation.getEnd_date()));
+				createAllocation(currentUserID, allocation);
+			}
+		}
+		return listDuplicateAllocation;
+	}
+
+	@Override
+	public Double getTotalAllocationPlanByEmployeeId(long employeeId, int month, int year) {
+		Double total = 0.0;
+		// tim kiem list allocation theo employee
+		List<Allocation> listDuplicateAllocation = findAllocationByEmployeeID(employeeId, 1, Integer.MAX_VALUE, false);
+		for (Allocation allocation : listDuplicateAllocation) {
+			if (allocation.getMonth() == month && allocation.getYear() == year) {
+				total += allocation.getAllocation_plan();
+			}
+		}
+		return total;
 	}
 	
 	

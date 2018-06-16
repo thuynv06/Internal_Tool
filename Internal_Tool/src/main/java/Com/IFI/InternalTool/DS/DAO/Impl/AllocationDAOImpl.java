@@ -210,10 +210,15 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize) {
+	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize, boolean isDESC) {
 
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select a FROM Allocation a where a.employee_id = :employee_id order by a.allocation_id desc";
+		String hql = "select a FROM Allocation a where a.employee_id = :employee_id order by a.allocation_id ";
+		if (isDESC) {
+			hql += "desc";
+		}else {
+			hql += "asc";
+		}
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);

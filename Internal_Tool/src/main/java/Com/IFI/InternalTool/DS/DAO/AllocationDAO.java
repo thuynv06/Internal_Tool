@@ -8,7 +8,7 @@ public interface AllocationDAO {
 
 	List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize);
 	// trung lap
-	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize);
+	public List<Allocation> findAllocationByEmployeeID(final long employee_id, final int page, final int pageSize, final boolean isDESC);
 	Long NumRecordsAllocationByEmployeeID(final long employee_id);
 
 	List<Allocation> getAllocatedOfManager(final long employee_id, final int page, final int pageSize);

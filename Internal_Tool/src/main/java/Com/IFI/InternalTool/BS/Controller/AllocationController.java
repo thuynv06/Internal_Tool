@@ -1,7 +1,9 @@
 package Com.IFI.InternalTool.BS.Controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -227,7 +229,7 @@ public class AllocationController {
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("search Allcation With Employee ID ... ");
 		try {
-			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize);
+			data = allocationService.findAllocationByEmployeeID(employee_id, page, pageSize, true);
 			Long count = allocationService.NumRecordsAllocationByEmployeeID(employee_id);
 			message.setPages(Business.getTotalsPages(count, pageSize));
 
@@ -320,9 +322,11 @@ public class AllocationController {
 			@RequestParam(value = "year") int year,	@RequestParam("month") int month,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
-
+		
+		List<Allocation> result = new ArrayList<Allocation>();
 		try {
-			data = allocationService.duplicateAllocationByMonth(currentUser.getId(), month, year, page, pageSize);
+			result = allocationService.duplicateAllocationByMonth(currentUser.getId(), month, year, page, pageSize);
+			data = result;
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
@@ -330,8 +334,82 @@ public class AllocationController {
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "duplicate Allocation By Month Successfull",
-				true);
+		if (result.size() == 0) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Month Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Month Successfull", true);
+		}		
+		return message;
+	}
+
+	// duplicateAllocationProject
+	@PostMapping(("/duplicateAllocationProject"))
+	public @ResponseBody Payload duplicateAllocationProject(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "project_id") long projectId,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+
+		List<Allocation> result = new ArrayList<Allocation>();
+		try {
+			result = allocationService.duplicateAllocationByProject(currentUser.getId().longValue(), projectId, month, year, page, pageSize);
+			data = result;
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		if (result.size() == 0) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Project Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Project Successfull", true);
+		}	
+		return message;
+	}
+
+	// duplicateAllocationByEmployee
+	@PostMapping(("/duplicateAllocationByEmployee"))
+	public @ResponseBody Payload duplicateAllocationByEmployee(@CurrentUser UserPrincipal currentUser, @RequestParam("employee_id") int employeeId,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+
+		List<Allocation> result = new ArrayList<Allocation>();
+		try {
+			result = allocationService.duplicateAllocationByEmployee(currentUser.getId().longValue(), employeeId, month, year, page, pageSize);
+			data = result;
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		if (result.size() == 0) {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Employee Doesn't Successfull", false);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Duplicate Allocation By Employee Successfull", true);
+		}	
+		return message;
+	}
+	
+	// getTotalAllocationPlanByEmployeeId
+	@GetMapping(("/getTotalAllocationPlanByEmployeeId"))
+	public @ResponseBody Payload getTotalAllocationPlanByEmployeeId(@CurrentUser UserPrincipal currentUser, @RequestParam("employee_id") int employeeId,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month) {
+
+		try {
+			data = allocationService.getTotalAllocationPlanByEmployeeId(employeeId, month, year);
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Total Allocation Plan By EmployeeId Successfull", true);
 		return message;
 	}
 

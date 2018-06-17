@@ -8,7 +8,7 @@ import Com.IFI.InternalTool.DS.Model.ProjectManager;
 public interface ProjectDAO {
 
 	// lay tat ca project
-	List<Project> getAllProjects(int page, int pageSize);
+	List<Project> getAllProjects(int page, int pageSize, final boolean isDESC);
 	
 	public List<Project> getAllProject() ;
 	// tao hoac chinh sua

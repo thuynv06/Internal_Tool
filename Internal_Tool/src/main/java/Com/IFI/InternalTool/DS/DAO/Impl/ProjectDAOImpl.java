@@ -39,9 +39,14 @@ public class ProjectDAOImpl implements ProjectDAO {
 	}
 
 	@Override
-	public List<Project> getAllProjects(int page, int pageSize) {
+	public List<Project> getAllProjects(int page, int pageSize, boolean isDESC) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project";
+		String hql = "FROM Project ORDER BY project_id ";
+		if (isDESC) {
+			hql += "DESC";
+		}else {
+			hql += "ASC";
+		}
 		Query query = session.createQuery(hql);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);

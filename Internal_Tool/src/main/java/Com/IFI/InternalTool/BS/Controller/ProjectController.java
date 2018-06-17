@@ -50,7 +50,7 @@ public class ProjectController {
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		try {
-			data = projectService.getAllProjects(page, pageSize);
+			data = projectService.getAllProjects(page, pageSize, false);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -72,7 +72,7 @@ public class ProjectController {
 		try {
 			//sua kieu boolean cho update
 			success = projectService.saveProject(currentUser.getId(), projectRequest);
-			data = projectService.getAllProjects(page, pageSize);
+			data = projectService.getAllProjects(page, pageSize, true);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -140,7 +140,7 @@ public class ProjectController {
 
 		try {
 			success = projectService.deleteProject(projectId);
-			data = projectService.getAllProjects(page, pageSize);
+			data = projectService.getAllProjects(page, pageSize, false);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -229,7 +229,7 @@ public class ProjectController {
 
 		try {
 			success = projectService.updateProject(project);
-			data = projectService.getAllProjects(page, pageSize);
+			data = projectService.getAllProjects(page, pageSize, false);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

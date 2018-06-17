@@ -1,5 +1,8 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -41,21 +44,21 @@ public class EmployeeController {
 	public @ResponseBody Payload getEmployees(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
-
-		// logger.info(currentUser.getId()+ " ID Current User");
-
-		boolean hasUserRole = currentUser.getAuthorities().stream()
-				.anyMatch(r -> r.getAuthority().equals("ROLE_EMPLOYEE"));
-
+		List<Employee> listEmployee = new ArrayList<Employee>();
 		try {
-			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
+			listEmployee = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
+			data = listEmployee;
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Employees Successfull", true);
+		if (listEmployee.size() > 0) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Employees Successfull", true);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Get Employees Doesn't Successfull", false);
+		}		
 		return message;
 	}
 
@@ -75,25 +78,30 @@ public class EmployeeController {
 			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Find Employee By ID Successfull", true);
 		}else {
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Find Employee By ID Doesn't Successfull", true);
-		}
-		
+		}		
 		return message;
-
 	}
 
 	// create Allocation
 	@PostMapping("/create")
-	public @ResponseBody Payload createEmployee(@CurrentUser UserPrincipal currentUser,
-			@Valid @RequestBody Employee emp) {
+	public @ResponseBody Payload createEmployee(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody Employee employee,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Create Employee ... ");
+		boolean success = true;
 		try {
-			employeeService.createEmployee(currentUser.getId(), emp);
+			success = employeeService.createEmployee(currentUser.getId(), employee);
+			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
-			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
-					false);
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(), false);
 			return message;
+		}
+		if (success) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Create Employee Success", true);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Create Employee Doesn't Success", true);
 		}
 
 		return message;
@@ -101,20 +109,25 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/update")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	public @ResponseBody Payload updateEmployee(@Valid @RequestBody Employee emp) {
+	public @ResponseBody Payload updateEmployee(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody Employee emp, 
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Update Employee... ");
-
+		boolean success = false;
 		try {
-			data = employeeService.EditEmployee(emp);
+			success = employeeService.EditEmployee(emp);
+			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
 					false);
 			return message;
 		}
-		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Employee Successfull",
-				true);
+		if (success) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Update Employee Successfull", true);
+		}else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Update Employee Doesn't Successfull", false);
+		}		
 		return message;
 	}
 

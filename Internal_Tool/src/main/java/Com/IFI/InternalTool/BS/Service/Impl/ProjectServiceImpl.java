@@ -34,8 +34,8 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectMembersDAOImpl projectMemberDAO;
 
 	@Override
-	public List<Project> getAllProjects(int page, int pageSize) {
-		return projectDAO.getAllProjects(page, pageSize);
+	public List<Project> getAllProjects(int page, int pageSize, boolean isDESC) {
+		return projectDAO.getAllProjects(page, pageSize, isDESC);
 	}
 
 	@Override

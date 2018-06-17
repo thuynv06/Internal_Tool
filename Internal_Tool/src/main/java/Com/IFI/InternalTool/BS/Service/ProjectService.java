@@ -12,7 +12,7 @@ import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 public interface ProjectService {
 	// lay tat ca project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	List<Project> getAllProjects(int page, int pageSize);
+	List<Project> getAllProjects(int page, int pageSize, final boolean isDESC);
 
 	List<Project> getAllProject();
 

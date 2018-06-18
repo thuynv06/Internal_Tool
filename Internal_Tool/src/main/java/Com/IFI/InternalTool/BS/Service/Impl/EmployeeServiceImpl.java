@@ -36,6 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Boolean createEmployee(final long currentUserID, final Employee emp) {
+		
+		emp.setPassword(passwordEncoder.encode(emp.getPassword()));
 		return employeeDAO.saveEmployee(emp);
 	}
 

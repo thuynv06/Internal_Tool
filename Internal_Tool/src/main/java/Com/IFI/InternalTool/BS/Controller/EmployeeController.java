@@ -95,8 +95,8 @@ public class EmployeeController {
 		logger.info("Create Employee ... ");
 		boolean success = true;
 		try {
-			success = employeeService.createEmployee(currentUser.getId(), employee);
-			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
+			success = employeeService.createEmployee(currentUser.getId().longValue(), employee);
+			data = employee;
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());

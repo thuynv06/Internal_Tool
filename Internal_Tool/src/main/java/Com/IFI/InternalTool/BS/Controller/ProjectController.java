@@ -72,7 +72,7 @@ public class ProjectController {
 		try {
 			//sua kieu boolean cho update
 			success = projectService.saveProject(currentUser.getId(), projectRequest);
-			data = projectService.getAllProjects(page, pageSize, true);
+			data = projectRequest;
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

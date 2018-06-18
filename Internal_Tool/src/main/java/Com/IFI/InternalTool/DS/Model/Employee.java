@@ -16,11 +16,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "employee", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 
-@JsonIgnoreProperties(value = { "password" })
 public class Employee implements Serializable {
 
 	@Id
@@ -39,6 +39,7 @@ public class Employee implements Serializable {
 	private String email;
 
 	@NotBlank
+	@JsonProperty
 	@Column(name = "password")
 	private String password;
 
@@ -76,15 +77,27 @@ public class Employee implements Serializable {
 
 	}
 
-	public Employee(String name, String username, String email, String password, Roles role, String group_id) {
-		this.fullname = name;
+	
+
+	public Employee(@NotBlank @Size(max = 15) String username, @NotBlank @Email String email, @NotBlank String password,
+			boolean is_actice, @NotBlank String code, String group_id, @NotBlank String fullname, String address,
+			int age, String phone, int type_id, int role_id) {
+		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.is_actice = is_actice;
+		this.code = code;
 		this.group_id = group_id;
-		this.role = role;
-
+		this.fullname = fullname;
+		this.address = address;
+		this.age = age;
+		this.phone = phone;
+		this.type_id = type_id;
+		this.role_id = role_id;
 	}
+
+
 
 	@Column(name = "type_id")
 	private int type_id;
@@ -183,11 +196,11 @@ public class Employee implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

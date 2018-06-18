@@ -56,5 +56,8 @@ public interface EmployeeService {
 	// lay danh sach nhan vien cap duoi
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Employee> getListSubEmployee(final long employee_id);
+	
+	//lấy danh sách nhân viên trong project nhưng chưa được phân công
+	List<Employee> getListEmployeeInProjectDoNotAllocated(final long currentEmployeeId, final long projectId);
 
 }

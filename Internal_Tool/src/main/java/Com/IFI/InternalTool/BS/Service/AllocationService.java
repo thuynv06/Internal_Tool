@@ -64,6 +64,10 @@ public interface AllocationService {
 	//tinh tong so allocation plan theo employee
 	//@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Double getTotalAllocationPlanByEmployeeId(final long employeeId, final int month, final int year);
+	
+	//tim kiem theo project id va employee id
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	List<Allocation> findAllocationByEmpIdProId(final long employeeId, final long projectId);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 	

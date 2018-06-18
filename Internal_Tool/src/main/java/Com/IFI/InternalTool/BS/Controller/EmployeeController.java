@@ -315,7 +315,30 @@ public class EmployeeController {
 					"getListSubEmployee success ... ", true);
 		} else {
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE,
-					"getListSubEmployee doesn't success ... ", true);
+					"getListSubEmployee doesn't success ... ", false);
+		}
+
+		return message;
+	}
+	
+	@GetMapping("/getListEmployeeInProjectDoNotAllocated")
+	public @ResponseBody Payload getListEmployeeInProjectDoNotAllocated(@CurrentUser UserPrincipal currentUser,
+			@RequestParam(value = "project_id") long projectId) {
+		logger.info("Get List Employee In Project Do Not Allocated ... ");
+		List<Employee> result;
+		try {
+			result = employeeService.getListEmployeeInProjectDoNotAllocated(currentUser.getId().longValue(), projectId);
+			data = result;
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		if (result.size() != 0) {
+			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,	"Get List Employee In Project Do Not Allocated Success ... ", true);
+		} else {
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Get List Employee In Project Do Not Allocated Doesn't Success ... ", false);
 		}
 
 		return message;

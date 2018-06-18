@@ -386,4 +386,16 @@ public class AllocationDAOImpl implements AllocationDAO {
 		return null;
 	}
 
+	@Override
+	public List<Allocation> findAllocationByEmpIdProId(long employeeId, long projectId) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "from Allocation where employee_id = :employee_id and project_id = :project_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("employee_id", employeeId);
+		query.setParameter("project_id", projectId);
+		List<Allocation> result = query.getResultList();
+		session.close();
+		return result;
+	}
+
 }

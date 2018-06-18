@@ -262,6 +262,11 @@ public class AllocationServiceImpl implements AllocationService {
 		}
 		return total;
 	}
+
+	@Override
+	public List<Allocation> findAllocationByEmpIdProId(long employeeId, long projectId) {
+		return allocationDAO.findAllocationByEmpIdProId(employeeId, projectId);
+	}
 	
 	
 

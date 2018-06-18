@@ -1,6 +1,9 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -143,6 +146,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Long NumRecordsEmployeeInGroup(String group_id) {
 		return employeeDAO.NumRecordsEmployeeInGroup(group_id);
+	}
+
+	@Override
+	public List<Employee> getListEmployeeInProjectDoNotAllocated(long currentEmployeeId, long projectId) {
+		List<Employee>  listEmployeeInProject = getListEmployeeInProject(projectId, 1, Integer.MAX_VALUE);
+		List<Employee> listEmployeeInProjectDoNotAllocated = new ArrayList<Employee>();
+		for (Employee employee : listEmployeeInProject) {
+			if (allocationServiceImpl.findAllocationByEmpIdProId(employee.getEmployee_id().longValue(), projectId).size() == 0) {
+				listEmployeeInProjectDoNotAllocated.add(employee);
+			}
+		}
+		return listEmployeeInProjectDoNotAllocated;
 	}
 
 }

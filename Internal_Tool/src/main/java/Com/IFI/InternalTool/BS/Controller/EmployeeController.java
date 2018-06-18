@@ -232,30 +232,38 @@ public class EmployeeController {
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("<manage Employees Project ... ");
+		data = " ";
 		//
 		try {
-			ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<>();
-			ListEmployeeInProject.setHead("ListEmployeeInProject");
-			ListEmployeeInProject.setPage(page);
-			ListEmployeeInProject.setSize(pageSize);
-			ListEmployeeInProject.setContent(employeeService.getListEmployeeInProject(project_id, page, pageSize));
-			Long count = employeeService.NumRecordsEmployeeInProject(project_id);
-			ListEmployeeInProject.setTotalElements(count);
-			// message.setPages(Business.getTotalsPages(count, pageSize));
-			ListEmployeeInProject.setTotalPages(Business.getTotalsPages(count, pageSize));
+			List<Employee> list = employeeService.getListEmployeeInProject(project_id, page, pageSize);
+			if (list != null) {
+				ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<>();
+				ListEmployeeInProject.setHead("ListEmployeeInProject");
+				ListEmployeeInProject.setPage(page);
+				ListEmployeeInProject.setSize(pageSize);
+				ListEmployeeInProject.setContent(list);
+				Long count = employeeService.NumRecordsEmployeeInProject(project_id);
+				ListEmployeeInProject.setTotalElements(count);
+				// message.setPages(Business.getTotalsPages(count, pageSize));
+				ListEmployeeInProject.setTotalPages(Business.getTotalsPages(count, pageSize));
+				data = ListEmployeeInProject;
+			}
 
-			ContentResponse<Employee> ListEmployeeNotInProject = new ContentResponse<>();
-			ListEmployeeNotInProject.setHead("ListEmployeeNotInProject");
-			ListEmployeeNotInProject.setPage(page);
-			ListEmployeeNotInProject.setSize(pageSize);
-			ListEmployeeNotInProject.setContent(
-					employeeService.getListEmployeeNotInProject(currentUser.getId(), project_id, page, pageSize));
-			Long count1 = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
-			ListEmployeeNotInProject.setTotalElements(count1);
-			ListEmployeeNotInProject.setTotalPages(Business.getTotalsPages(count1, pageSize));
-			data = ListEmployeeInProject;
-			Object data1 = ListEmployeeNotInProject;
-			message.setData1(data1);
+			List<Employee> list1 = employeeService.getListEmployeeNotInProject(currentUser.getId(), project_id, page,
+					pageSize);
+			if (list != null) {
+				ContentResponse<Employee> ListEmployeeNotInProject = new ContentResponse<>();
+				ListEmployeeNotInProject.setHead("ListEmployeeNotInProject");
+				ListEmployeeNotInProject.setPage(page);
+				ListEmployeeNotInProject.setSize(pageSize);
+				ListEmployeeNotInProject.setContent(list1);
+				Long count1 = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
+				ListEmployeeNotInProject.setTotalElements(count1);
+				ListEmployeeNotInProject.setTotalPages(Business.getTotalsPages(count1, pageSize));
+				Object data1 = "";
+				data1 = ListEmployeeNotInProject;
+				message.setData1(data1);
+			}
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);

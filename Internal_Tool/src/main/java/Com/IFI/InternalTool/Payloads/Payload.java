@@ -1,7 +1,8 @@
 package Com.IFI.InternalTool.Payloads;
 
-import Com.IFI.InternalTool.Utils.AppConstants;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import Com.IFI.InternalTool.Utils.AppConstants;
 public class Payload {
 	private String code;
 	private String status;

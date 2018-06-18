@@ -16,18 +16,16 @@ public interface AllocationService {
 	// find Allocation By Id
 	Allocation findById(final long allocation_id);
 
-	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	boolean createAllocation(final long currentUserID, final Allocation allocation);
+	
 
 	public Boolean updateAllocation(final long currentUserID,Allocation allocation);
 	
-	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	boolean deleteByID(final long allocation_id);
 
 	List<Allocation> getAllocations(final long employee_id, final int page, final int pageSize);
 
 	// get allocated of manager
-	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	List<Allocation> getAllocatedofManager(final long employee_id, final int page, final int pageSize);
 
 	Long NumRecordsAllocatedofManager(final long employee_id);

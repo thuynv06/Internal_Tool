@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,7 @@ public class AllocationController {
 	}
 
 	// get Allocated OF Manager
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	@GetMapping("/allocated")
 	public @ResponseBody Payload getAllocatedofManager(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
@@ -88,6 +90,7 @@ public class AllocationController {
 	}
 
 	// create Allocation
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	@PostMapping("/create")
 	public @ResponseBody Payload createAllocation(@CurrentUser UserPrincipal currentUser,
 			@Valid @RequestBody Allocation allocation) {
@@ -185,7 +188,8 @@ public class AllocationController {
 		return message;
 
 	}
-
+	
+	@PreAuthorize("hasRole('LEADER_A') OR hasRole('LEADER_B') OR hasRole('LEADER_C') OR hasRole('ADMIN')")
 	// delete Allocation - Only Leader or Admin has roles
 	@DeleteMapping(path = "deleteById/{allocation_id}")
 	public @ResponseBody Payload DeleteAllocationById(@PathVariable Long allocation_id) {

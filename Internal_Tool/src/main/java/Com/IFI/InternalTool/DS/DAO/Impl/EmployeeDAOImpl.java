@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
@@ -166,8 +167,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
+		if (listEmployeesID.size() == 0) {
+			return Collections.emptyList();
+		}
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ORDER BY role_id ";
+		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ORDER BY role_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("listEmployeesID", listEmployeesID);
 		query.setFirstResult((page - 1) * pageSize);
@@ -178,17 +182,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize) {
+	public List<Employee> getListEmployeeNotInProject(final long currentUserId, long project_id, int page,
+			int pageSize) {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
-		Employee emp = getEmployeeById(employee_id);
+		String hql = "FROM Employee";
+		if (listEmployeesID.size() == 0) {
+			hql += " where group_id = :group_id and type_id = :type_id " + "and role_id >= :role_id order by role_id";
+		} else {
+			hql += " where employee_id NOT IN (:listEmployeesID) " + "and group_id = :group_id and type_id = :type_id "
+					+ "and role_id >= :role_id order by role_id";
+		}
+		Employee currentUser = getEmployeeById(currentUserId);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID) "
-				+ "and group_id = :group_id and type_id = :type_id " + "and role_id >= :role_id order by role_id";
 		Query query = session.createQuery(hql);
-		query.setParameter("group_id", emp.getGroup_id());
-		query.setParameter("type_id", emp.getTypes().getType_id());
-		query.setParameter("role_id", emp.getRole().getRole_id());
-		query.setParameter("listEmployeesID", listEmployeesID);
+		if (listEmployeesID.size() != 0) {
+			query.setParameter("listEmployeesID", listEmployeesID);
+		}
+		query.setParameter("group_id", currentUser.getGroup_id());
+		query.setParameter("type_id", currentUser.getTypes().getType_id());
+		query.setParameter("role_id", currentUser.getRole().getRole_id());
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
 		List<Employee> list = query.getResultList();
@@ -221,6 +233,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Long NumRecordsEmployeeInProject(long project_id) {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
+		if (listEmployeesID.size() == 0) {
+			return (long) 0;
+		}
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT count(*) FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
 		Query query = session.createQuery(hql);
@@ -233,15 +248,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Long NumRecordsEmployeeNotInProject(final long employee_id, final long project_id) {
 		List<Long> listEmployeesID = projectMembersDAO.listEmPloyeesIdInProject(project_id);
+		String hql = " SELECT count(*) FROM Employee where  " + " group_id = :group_id and type_id = :type_id "
+				+ "and role_id >= :role_id ";
 		Employee emp = getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = " SELECT count(*) FROM Employee where employee_id NOT IN (:listEmployeesID) "
-				+ "and group_id = :group_id and type_id = :type_id " + "and role_id >= :role_id order by role_id";
+		if (listEmployeesID.size() != 0) {
+			hql += " and employee_id not in (:listEmployeesID)";
+		}
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", emp.getGroup_id());
 		query.setParameter("type_id", emp.getTypes().getType_id());
 		query.setParameter("role_id", emp.getRole().getRole_id());
-		query.setParameter("listEmployeesID", listEmployeesID);
+		if (listEmployeesID.size() != 0) {
+			query.setParameter("listEmployeesID", listEmployeesID);
+		}
 		Long count = (Long) query.uniqueResult();
 		session.close();
 		return count;

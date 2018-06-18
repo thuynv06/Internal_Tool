@@ -163,14 +163,14 @@ public class EmployeeController {
 		return message;
 	}
 
-	@GetMapping("/findEmployeeByGroupId/{group_id}")
-	public @ResponseBody Payload findEmployeeByGroupId(@PathVariable(value = "group_id") String group_id,
+	@GetMapping("/findEmployeeByGroupId")
+	public @ResponseBody Payload findEmployeeByGroupId(@RequestParam(value = "group_id") String groupId,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees By Group ID ... ");
 		try {
-			data = employeeService.findEmployeeByGroupId(group_id, page, pageSize);
-			Long count = employeeService.NumRecordsEmployeeInGroup(group_id);
+			data = employeeService.findEmployeeByGroupId(groupId, page, pageSize);
+			Long count = employeeService.NumRecordsEmployeeInGroup(groupId);
 			message.setPages(Business.getTotalsPages(count, pageSize));
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
@@ -277,12 +277,12 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/getListSubEmployee")
-	public @ResponseBody Payload getListSubEmployee(@RequestParam(value = "employee_id") long employee_id,
+	public @ResponseBody Payload getListSubEmployee(@CurrentUser UserPrincipal currentUser,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("getListSubEmployee ... ");
 		try {
-			data = employeeService.getListSubEmployee(employee_id);
+			data = employeeService.getListSubEmployee(currentUser.getId().longValue());
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

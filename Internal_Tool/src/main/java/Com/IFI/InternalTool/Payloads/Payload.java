@@ -7,6 +7,7 @@ public class Payload {
 	private String status;
 	private String message;
 	private Object data;
+	private Object data1;
 	private Boolean success;
 	private Integer pages;
 
@@ -52,6 +53,14 @@ public class Payload {
 		this.code = code;
 		this.message = message;
 		this.success = success;
+	}
+
+	public Object getData1() {
+		return data1;
+	}
+
+	public void setData1(Object data1) {
+		this.data1 = data1;
 	}
 
 	public void setSuccess(Boolean success) {

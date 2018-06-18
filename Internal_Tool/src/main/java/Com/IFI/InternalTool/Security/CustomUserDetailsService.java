@@ -15,7 +15,7 @@ import Com.IFI.InternalTool.DS.Model.Employee;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserDAO userDAO;
+	UserDAO userDAO;
 
     @Override
     @Transactional
@@ -26,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> 
                         new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
         );
-
         return UserPrincipal.create(user);
     }
 

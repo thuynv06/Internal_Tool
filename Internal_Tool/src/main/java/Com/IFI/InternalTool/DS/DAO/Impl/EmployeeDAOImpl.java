@@ -41,7 +41,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public List<Employee> getAllEmployees(int page,	int pageSize) {
+	public List<Employee> getAllEmployees(int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Employee";
 		Query query = session.createQuery(hql);
@@ -169,7 +169,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT emp FROM  Employee emp where emp.employee_id in (:listEmployeesID) ORDER BY role_id ";
 		Query query = session.createQuery(hql);
-		query.setParameter("project_id", project_id);
 		query.setParameter("listEmployeesID", listEmployeesID);
 		query.setFirstResult((page - 1) * pageSize);
 		query.setMaxResults(pageSize);
@@ -184,8 +183,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Employee emp = getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "FROM Employee where employee_id NOT IN (:listEmployeesID) "
-				+ "and emp.group_id = :group_id and emp.type_id = :type_id "
-				+ "and emp.role_id >= :role_id order by role_id\";";
+				+ "and group_id = :group_id and type_id = :type_id " + "and role_id >= :role_id order by role_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", emp.getGroup_id());
 		query.setParameter("type_id", emp.getTypes().getType_id());
@@ -226,7 +224,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = "SELECT count(*) FROM  Employee emp where emp.employee_id in (:listEmployeesID) ";
 		Query query = session.createQuery(hql);
-		query.setParameter("project_id", project_id);
 		query.setParameter("listEmployeesID", listEmployeesID);
 		Long count = (Long) query.uniqueResult();
 		session.close();
@@ -239,8 +236,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Employee emp = getEmployeeById(employee_id);
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		String hql = " SELECT count(*) FROM Employee where employee_id NOT IN (:listEmployeesID) "
-				+ "and emp.group_id = :group_id and emp.type_id = :type_id "
-				+ "and emp.role_id >= :role_id order by role_id\";";
+				+ "and group_id = :group_id and type_id = :type_id " + "and role_id >= :role_id order by role_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", emp.getGroup_id());
 		query.setParameter("type_id", emp.getTypes().getType_id());

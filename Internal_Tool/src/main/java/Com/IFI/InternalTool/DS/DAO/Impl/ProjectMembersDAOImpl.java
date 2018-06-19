@@ -29,27 +29,26 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 	@Override
 	public Boolean isMembersOfProject(long employee_id, final long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = " From ProjectMembers where employee_id=:employee_id and project_id=:project_id";
+		String hql = "From ProjectMembers where employee_id=:employee_id or leader_id = :leader_id and project_id=:project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setParameter("project_id", project_id);
-		try {
-			query.getSingleResult();
-			success = true;
-		} catch (Exception e) {
+		query.setParameter("leader_id", employee_id);
+		List<ProjectMembers> result = query.getResultList();
+		session.close();
+		if (result.size() > 0){
+			return true;
+		}else {
 			return false;
-		} finally {
-			session.close();
 		}
-		return success;
 	}
 
 	@Override
 	public Boolean addMemberToProject(ProjectMembers projectMember) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		if (isMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
-			return false;
-		}
+//		if (isMembersOfProject(projectMember.getEmployee_id(), projectMember.getProject_id())) {
+//			return false;
+//		}
 
 		// projectMember.setPriority(employeeDAO.getEmployeeById(projectMember.getEmployee_id()).getType_id());
 		try {

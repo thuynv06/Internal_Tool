@@ -81,6 +81,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			currentEmp.setIs_actice(employee.isIs_actice());
 			currentEmp.setPhone(employee.getPhone());
 			currentEmp.setType_id(employee.getType_id());
+			currentEmp.setPassword(employee.getPassword());
+			currentEmp.setRole_id(employee.getRole_id());
+			currentEmp.setType_id(employee.getType_id());			
+			currentEmp.setUsername(employee.getUsername());
 			tx.commit();
 			success = true;
 		} catch (Exception e) {

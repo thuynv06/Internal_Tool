@@ -76,7 +76,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			currentEmp.setFullname(employee.getFullname());
 			currentEmp.setAddress(employee.getAddress());
 			currentEmp.setAge(employee.getAge());
-			currentEmp.setEmail(employee.getAddress());
+			currentEmp.setEmail(employee.getEmail());
 			currentEmp.setGroup_id(employee.getGroup_id());
 			currentEmp.setIs_actice(employee.isIs_actice());
 			currentEmp.setPhone(employee.getPhone());

@@ -229,7 +229,7 @@ public class ProjectController {
 
 		try {
 			success = projectService.updateProject(project);
-			data = projectService.getAllProjects(page, pageSize, false);
+			data = project;
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

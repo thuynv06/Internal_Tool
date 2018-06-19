@@ -45,7 +45,7 @@ public interface EmployeeService {
 
 	// tim kiem danh sanh nhan vien chua duoc phan cong vao 1 project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize);
+	List<Employee> getListEmployeeNotInProject(final long currentEmployeeId,final long projectId, int page, int pageSize);
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Long NumRecordsEmployeeNotInProject(final long employee_id, final long project_id);
 

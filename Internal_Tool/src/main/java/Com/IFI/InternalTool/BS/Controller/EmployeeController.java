@@ -125,7 +125,7 @@ public class EmployeeController {
 		boolean success = false;
 		try {
 			success = employeeService.EditEmployee(emp);
-			data = employeeService.getAllEmployees(currentUser.getId(), page, pageSize);
+			data = emp;
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -143,7 +143,7 @@ public class EmployeeController {
 	}
 
 	// find employees with name likes
-	@GetMapping("/findEmployeeNameLike/")
+	@GetMapping("/findEmployeeNameLike")
 	public @ResponseBody Payload findEmployeeNameLike(@RequestParam("name") String nameLike,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
@@ -211,7 +211,7 @@ public class EmployeeController {
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees Not IN Project ... ");
 		try {
-			data = employeeService.getListEmployeeNotInProject(currentUser.getId(), project_id, page, pageSize);
+			data = employeeService.getListEmployeeNotInProject(currentUser.getId().longValue(), project_id, page, pageSize);
 			Long count = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
 			message.setPages(Business.getTotalsPages(count, pageSize));
 

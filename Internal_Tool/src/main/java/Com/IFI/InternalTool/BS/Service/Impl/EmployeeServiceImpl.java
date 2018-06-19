@@ -31,6 +31,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	TypeDAOImpl TypesDAO;
 	@Autowired
 	AllocationServiceImpl allocationServiceImpl;
+	@Autowired
+	EmployeeServiceImpl employeeServiceImpl;
+	@Autowired
+	ProjectServiceImpl projectServiceImpl;
 
 	@Override
 	public List<Employee> getAllEmployees(long employee_id, int page, int pageSize) {
@@ -101,8 +105,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeNotInProject(final long employee_id, long project_id, int page, int pageSize) {
-		return convertList(employeeDAO.getListEmployeeNotInProject(employee_id, project_id, page, pageSize));
+	public List<Employee> getListEmployeeNotInProject(long currentEmployeeId, long projectId, int page, int pageSize) {
+		List<Employee> listSubEmployee = employeeServiceImpl.getListSubEmployee(currentEmployeeId);
+		List<Employee> listEmployeeInProject = projectServiceImpl.getListEmployee(projectId, 1, Integer.MAX_VALUE);
+		List<Employee> listEmployeeNotInProject = new ArrayList<Employee>();
+		for (Employee employee : listSubEmployee) {
+			boolean notIn = true;
+			for (int i = 0; i < listEmployeeInProject.size(); i++) {
+				if (employee.getEmployee_id().longValue() == listEmployeeInProject.get(i).getEmployee_id().longValue()) {
+					notIn = false;
+					break;
+				}
+			}
+			if (notIn) {
+				listEmployeeNotInProject.add(employee);
+			}			
+		}
+		return listEmployeeNotInProject;
+		//return convertList(employeeDAO.getListEmployeeNotInProject(employee_id, project_id, page, pageSize));
 	}
 
 	@Override

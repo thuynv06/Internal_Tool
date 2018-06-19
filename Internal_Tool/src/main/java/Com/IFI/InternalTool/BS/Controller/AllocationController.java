@@ -249,7 +249,7 @@ public class AllocationController {
 	}
 
 	@GetMapping("/findAllocationByProjectID")
-	public @ResponseBody Payload findAllocationByProjectID(@RequestParam("projecct_id") int project_id,
+	public @ResponseBody Payload findAllocationByProjectID(@RequestParam("project_id") int project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("find Allcation By Project ID ... ");

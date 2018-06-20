@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.ProjectMembersDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 @Repository("ProjectMembersDAO")
@@ -146,6 +147,37 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public ProjectMembers getProjectMemberByProIdAndEmpId(long projectId, long employeeId) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "from ProjectMembers where project_id = :project_id and employee_id = :employee_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", projectId);
+		query.setParameter("employee_id", employeeId);
+		ProjectMembers result = (ProjectMembers) query.uniqueResult();
+		session.close();
+		return result;
+	}
+
+	@Override
+	public boolean updateTotalAllocationPlan(ProjectMembers projectMember) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		boolean success = false;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			ProjectMembers currentProjectMembers = session.get(ProjectMembers.class, projectMember.getProject_members_id());
+			currentProjectMembers.setTotal_allocation_plan(projectMember.getTotal_allocation_plan());
+			tx.commit();
+			success = true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		return success;
 	}
 
 }

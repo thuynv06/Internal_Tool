@@ -148,7 +148,7 @@ CREATE TABLE `employee` (
 -- Đang đổ dữ liệu cho bảng `employee`
 --
 
-INSERT INTO `employee` (`employee_id`, `username`, `email`, `password`, `code`, `group_id`, `is_active`, `fullname`, `age`, `address`, `phone`, `role_id`, `type_id`, `group_ifi`) VALUES
+INSERT INTO `employee` (`employee_id`, `username`, `email`, `password`, `code`, `group_id`, `is_active`, `address`, `age`, `fullname`, `phone`, `role_id`, `type_id`, `group_ifi`) VALUES
 (1, 'root', 'root@gmail.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'ROOT', 'N1', 1, 'IFISOLUTION', 21, 'root', '999999', 1, 1, NULL),
 (2, 'user2', 'Nguyen Van A', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N001', 'N1', 1, 'Nguyen Van A', 21, 'Nguyen Van A', 'Nguyen Van', 2, 2, NULL),
 (4, 'user3', 'ntuan90@saigonnet.com', '$2a$10$YkKKYBHGKGzAxClLDr7B5ugSAuD5z1kWoXWE4mgvxLeXRQRd.Ce4e', 'N003', 'N1', 1, '278 Nguyễn Văn Lượng,P16,Q.Gò Vấp ', 21, 'Nguyễn Tuấn ', '01648315306 ', 3, 2, NULL),

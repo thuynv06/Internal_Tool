@@ -19,8 +19,11 @@ import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.AllocationDetailDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.ProjectManagerDAOImpl;
+import Com.IFI.InternalTool.DS.DAO.Impl.ProjectMembersDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.Business;
 
@@ -38,6 +41,9 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Autowired
 	private ProjectDAOImpl projectDAO;
+	
+	@Autowired
+	private ProjectMembersDAOImpl projectMembersDAOImpl;
 
 	private static final Logger logger = LoggerFactory.getLogger(AllocationServiceImpl.class);
 
@@ -87,6 +93,11 @@ public class AllocationServiceImpl implements AllocationService {
 		allocation.setMonth(start_date.getMonthValue());
 		allocation.setYear(start_date.getYear());
 		if (allocationDAO.saveAllocation(allocation)) {
+			//neu save thanh cong thi tinh lai total allocation plan
+			ProjectMembers projectMember = projectMembersDAOImpl.getProjectMemberByProIdAndEmpId(allocation.getProject_id(), allocation.getEmployee_id());
+			double currentTotalAllocationPlan = projectMember.getTotal_allocation_plan();
+			projectMember.setTotal_allocation_plan(currentTotalAllocationPlan + allocation_plan);
+			projectMembersDAOImpl.updateTotalAllocationPlan(projectMember);
 			return true;
 		} else {
 

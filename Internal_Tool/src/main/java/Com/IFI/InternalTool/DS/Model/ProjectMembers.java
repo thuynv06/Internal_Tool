@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.CodePointLength;
+
 @Entity
 @Table(name = "project_members")
 public class ProjectMembers {
@@ -22,16 +25,23 @@ public class ProjectMembers {
 
 	@Column(name = "priority")
 	private int priority;
+	
 	@Column(name = "leader_id")
 	private long leader_id;
+	
+	@Column(name = "total_allocation_plan")
+	@ColumnDefault("0.0")
+	private double total_allocation_plan;
 
-	public ProjectMembers(long project_members_id, long employee_id, long project_id, int priority, long leader_id) {
+
+	public ProjectMembers(long project_members_id, long employee_id, long project_id, int priority, long leader_id, double total_allocation_plan) {
 		super();
 		this.project_members_id = project_members_id;
 		this.employee_id = employee_id;
 		this.project_id = project_id;
 		this.priority = priority;
 		this.leader_id = leader_id;
+		this.total_allocation_plan = total_allocation_plan;
 	}
 
 	public long getLeader_id() {
@@ -75,7 +85,17 @@ public class ProjectMembers {
 	}
 
 	public ProjectMembers() {
-		super();
+		total_allocation_plan = 0.0;
 	}
+
+	public double getTotal_allocation_plan() {
+		return total_allocation_plan;
+	}
+
+	public void setTotal_allocation_plan(double total_allocation_plan) {
+		this.total_allocation_plan = total_allocation_plan;
+	}	
+
+	
 
 }

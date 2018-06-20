@@ -22,4 +22,11 @@ public interface ProjectMembersDAO {
 	
 	// xoa project member theo employee id
 	boolean deleteProjectMemberByEmployeeId(final long employeeId);
+	
+	//tim kiem ProjectMember theo project_id va employee
+	ProjectMembers getProjectMemberByProIdAndEmpId(final long projectId, final long employeeId);
+	
+	//update total allocation plan
+	boolean updateTotalAllocationPlan(final ProjectMembers projectMember);
+	
 }

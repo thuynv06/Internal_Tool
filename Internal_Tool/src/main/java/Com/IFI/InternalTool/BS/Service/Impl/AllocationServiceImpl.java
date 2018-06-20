@@ -156,7 +156,12 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public List<Allocation> findAllocationByProjectID(long project_id, int page, int pageSize, boolean isDESC) {
-		return allocationDAO.findAllocationByProjectID(project_id, page, pageSize, isDESC);
+		List<Allocation> resultList = allocationDAO.findAllocationByProjectID(project_id, page, pageSize, isDESC);
+		for (Allocation allocation : resultList) {
+			allocation.setEmployee_Name(employeeDAO.getEmployeeById(allocation.getEmployee_id()).getFullname());
+			allocation.setProject_Name(employeeDAO.getEmployeeById(allocation.getProject_id()).getFullname());
+		}
+		return resultList;
 	}
 
 	@Override

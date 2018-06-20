@@ -98,6 +98,7 @@ public class AllocationController {
 
 		try {
 			if (allocationService.createAllocation(currentUser.getId(), allocation)) {
+				data = allocation;
 				message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
 						"Create Allocation By ID Successfull", true);
 			} else {

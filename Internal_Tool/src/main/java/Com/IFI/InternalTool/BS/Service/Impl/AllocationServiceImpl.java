@@ -159,7 +159,7 @@ public class AllocationServiceImpl implements AllocationService {
 		List<Allocation> resultList = allocationDAO.findAllocationByProjectID(project_id, page, pageSize, isDESC);
 		for (Allocation allocation : resultList) {
 			allocation.setEmployee_Name(employeeDAO.getEmployeeById(allocation.getEmployee_id()).getFullname());
-			allocation.setProject_Name(employeeDAO.getEmployeeById(allocation.getProject_id()).getFullname());
+			allocation.setProject_Name(projectDAO.getProjectById(allocation.getProject_id()).getName());
 		}
 		return resultList;
 	}

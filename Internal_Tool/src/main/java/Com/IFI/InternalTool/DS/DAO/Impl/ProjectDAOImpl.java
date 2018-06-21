@@ -125,7 +125,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectsOfGroup(String group_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where group_id = :group_id";
+		String hql = "FROM Project where group_id = :group_id order by project_id desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
 		query.setFirstResult((page - 1) * pageSize);

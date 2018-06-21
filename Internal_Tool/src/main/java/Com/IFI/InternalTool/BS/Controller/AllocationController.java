@@ -116,6 +116,34 @@ public class AllocationController {
 		return message;
 
 	}
+	
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	@PostMapping("/update")
+	public @ResponseBody Payload updateAllocation(@CurrentUser UserPrincipal currentUser,
+			@Valid @RequestBody Allocation allocation) {
+		logger.info("Update allocation ... ");
+
+		try {
+			if (allocationService.updateAllocation(currentUser.getId().longValue(), allocation)) {
+				data = allocation;
+				message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,
+						"Update Allocation By ID Successfull", true);
+			} else {
+				message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE,
+						"ERROR: Something wrong", false);
+			}
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e.getMessage());
+			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR:" + e.getMessage(),
+					false);
+			return message;
+		}
+
+		return message;
+
+	}
+
 
 	// get AllocationPlan
 	@GetMapping("/getAllocationPlan")

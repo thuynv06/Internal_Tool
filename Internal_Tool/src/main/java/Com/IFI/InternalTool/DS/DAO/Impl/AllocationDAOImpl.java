@@ -20,6 +20,7 @@ import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.Utils.Business;
 
 @Repository("AllocationDAO")
 @Transactional
@@ -120,6 +121,19 @@ public class AllocationDAOImpl implements AllocationDAO {
 			currentAllocation.setProject_id(allocation.getProject_id());
 			currentAllocation.setStart_date(allocation.getStart_date());
 			currentAllocation.setYear(allocation.getYear());
+			//tinh lai allcation plan (copy code)		
+
+			// get distance Time between start_date vs end_date not set Weekends;
+			LocalDate start_date = currentAllocation.getStart_date().toLocalDate();
+			LocalDate end_date = currentAllocation.getEnd_date().toLocalDate();			
+			int distanceTime = Business.getDistanceTime(start_date, end_date);
+			// get number days of month // get nums days weekend of month
+			int numDaysOfMonth = currentAllocation.getStart_date().toLocalDate().lengthOfMonth();
+			int numDaysWeekOfMonth = Business.numberWeekendOfMonth(start_date.getMonthValue(), start_date.getYear());
+			// set allocation_plan
+			double allocation_plan = Business.getAllocation_Plan(numDaysOfMonth, numDaysWeekOfMonth, distanceTime);			
+			currentAllocation.setAllocation_plan(Business.getAllocation_Plan(numDaysOfMonth, numDaysWeekOfMonth, distanceTime));
+			
 			tx.commit();
 			success = true;
 		} catch (Exception e) {

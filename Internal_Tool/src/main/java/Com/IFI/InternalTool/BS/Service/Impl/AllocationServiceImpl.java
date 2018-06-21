@@ -115,7 +115,19 @@ public class AllocationServiceImpl implements AllocationService {
 		if (roleCurrentUser >= roleEmployeeInAllocated) {
 			return false;
 		}
-		return allocationDAO.updateAllocation(allocation);
+		double allocationPlanBeforeUpdate = allocationDAO.findById(allocation.getAllocation_id()).getAllocation_plan();
+		boolean successUpdate = allocationDAO.updateAllocation(allocation);
+		// neu update thanh cong thi tinh lai total allocation plan
+		if (successUpdate) {
+			double allocationPlanAfterUpdate = allocationDAO.findById(allocation.getAllocation_id()).getAllocation_plan();			
+			ProjectMembers projectMember = projectMembersDAOImpl.getProjectMemberByProIdAndEmpId(allocation.getProject_id(), allocation.getEmployee_id());
+			double currentTotalAllocationPlan = projectMember.getTotal_allocation_plan();
+			double newTotalAllocationPlan = currentTotalAllocationPlan + allocationPlanAfterUpdate - allocationPlanBeforeUpdate;
+			DecimalFormat df = new DecimalFormat("#.##");
+			projectMember.setTotal_allocation_plan(Double.valueOf(df.format(newTotalAllocationPlan)));
+			projectMembersDAOImpl.updateTotalAllocationPlan(projectMember);
+		}
+		return successUpdate;
 	}
 
 	@Override
@@ -144,7 +156,20 @@ public class AllocationServiceImpl implements AllocationService {
 
 	@Override
 	public boolean deleteByID(long allocation_id) {
-		return allocationDAO.deleteById(allocation_id);
+		//lay allocation plan truoc khi delete
+		Allocation allocation = allocationDAO.findById(allocation_id);
+		double allocationPlanDelete = allocation.getAllocation_plan();
+		boolean successDelete = allocationDAO.deleteById(allocation_id);
+		if (successDelete) {
+			ProjectMembers projectMember = projectMembersDAOImpl.getProjectMemberByProIdAndEmpId(allocation.getProject_id(), allocation.getEmployee_id());
+			double currentTotalAllocationPlan = projectMember.getTotal_allocation_plan();
+			double newTotalAllocationPlan = currentTotalAllocationPlan - allocationPlanDelete;
+			DecimalFormat df = new DecimalFormat("#.##");
+			projectMember.setTotal_allocation_plan(Double.valueOf(df.format(newTotalAllocationPlan)));
+			projectMembersDAOImpl.updateTotalAllocationPlan(projectMember);
+		}
+		
+		return successDelete;
 	}
 
 	@Override

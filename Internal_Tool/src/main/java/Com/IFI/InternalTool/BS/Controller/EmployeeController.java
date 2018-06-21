@@ -237,7 +237,7 @@ public class EmployeeController {
 		try {
 			List<Employee> list = employeeService.getListEmployeeInProject(project_id, page, pageSize);
 			if (list != null) {
-				ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<>();
+				ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<Employee>();
 				ListEmployeeInProject.setHead("ListEmployeeInProject");
 				ListEmployeeInProject.setPage(page);
 				ListEmployeeInProject.setSize(pageSize);
@@ -252,12 +252,13 @@ public class EmployeeController {
 			List<Employee> list1 = employeeService.getListEmployeeNotInProject(currentUser.getId(), project_id, page,
 					pageSize);
 			if (list != null) {
-				ContentResponse<Employee> ListEmployeeNotInProject = new ContentResponse<>();
+				ContentResponse<Employee> ListEmployeeNotInProject = new ContentResponse<Employee>();
 				ListEmployeeNotInProject.setHead("ListEmployeeNotInProject");
 				ListEmployeeNotInProject.setPage(page);
 				ListEmployeeNotInProject.setSize(pageSize);
 				ListEmployeeNotInProject.setContent(list1);
-				Long count1 = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
+				//Long count1 = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
+				Long count1 = (long) list1.size();
 				ListEmployeeNotInProject.setTotalElements(count1);
 				ListEmployeeNotInProject.setTotalPages(Business.getTotalsPages(count1, pageSize));
 				Object data1 = "";

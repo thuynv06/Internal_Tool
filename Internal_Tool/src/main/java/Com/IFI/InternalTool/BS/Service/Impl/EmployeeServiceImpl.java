@@ -100,8 +100,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
-
-		return convertList(employeeDAO.getListEmployeeInProject(project_id, page, pageSize));
+		return projectServiceImpl.getListEmployee(project_id, page, pageSize);
+		//return convertList(employeeDAO.getListEmployeeInProject(project_id, page, pageSize));
 	}
 
 	@Override

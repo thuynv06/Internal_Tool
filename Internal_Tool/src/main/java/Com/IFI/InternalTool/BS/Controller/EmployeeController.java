@@ -242,7 +242,8 @@ public class EmployeeController {
 				ListEmployeeInProject.setPage(page);
 				ListEmployeeInProject.setSize(pageSize);
 				ListEmployeeInProject.setContent(list);
-				Long count = employeeService.NumRecordsEmployeeInProject(project_id);
+				//Long count = employeeService.NumRecordsEmployeeInProject(project_id);
+				Long count = (long) list.size();
 				ListEmployeeInProject.setTotalElements(count);
 				// message.setPages(Business.getTotalsPages(count, pageSize));
 				ListEmployeeInProject.setTotalPages(Business.getTotalsPages(count, pageSize));

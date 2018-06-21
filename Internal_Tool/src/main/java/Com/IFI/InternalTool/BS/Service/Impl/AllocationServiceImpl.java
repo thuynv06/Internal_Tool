@@ -1,6 +1,7 @@
 package Com.IFI.InternalTool.BS.Service.Impl;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -96,7 +97,8 @@ public class AllocationServiceImpl implements AllocationService {
 			//neu save thanh cong thi tinh lai total allocation plan
 			ProjectMembers projectMember = projectMembersDAOImpl.getProjectMemberByProIdAndEmpId(allocation.getProject_id(), allocation.getEmployee_id());
 			double currentTotalAllocationPlan = projectMember.getTotal_allocation_plan();
-			projectMember.setTotal_allocation_plan(currentTotalAllocationPlan + allocation_plan);
+			DecimalFormat df = new DecimalFormat("#.##");
+			projectMember.setTotal_allocation_plan(Double.valueOf(df.format(currentTotalAllocationPlan + allocation_plan)));
 			projectMembersDAOImpl.updateTotalAllocationPlan(projectMember);
 			return true;
 		} else {

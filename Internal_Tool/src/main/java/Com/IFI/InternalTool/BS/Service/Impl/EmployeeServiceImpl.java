@@ -78,8 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmployeeById(long employee_id) {
 		Employee emp = employeeDAO.getEmployeeById(employee_id);
-		emp.setType_name(TypesDAO.getTypeByID(emp.getType_id()).getType_name().name());
-		emp.setRole_name(employeeDAO.getRolesByID(emp.getRole_id()).getName().name());
+		if (emp != null) {
+			emp.setType_name(emp.getTypes().getType_name().toString());
+			emp.setRole_name(emp.getRole().getName().toString());
+		}
+		
 		return emp;
 	}
 

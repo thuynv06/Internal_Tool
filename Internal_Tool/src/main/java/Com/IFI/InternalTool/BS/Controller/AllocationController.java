@@ -448,11 +448,10 @@ public class AllocationController {
 	
 	// getAllocatedInfo
 	@GetMapping(("/getAllocatedInfo"))
-	public @ResponseBody Payload getAllocatedInfo(@CurrentUser UserPrincipal currentUser, @RequestParam("employee_id") int employeeId,
-			@RequestParam(value = "year") int year,	@RequestParam("month") int month) {
+	public @ResponseBody Payload getAllocatedInfo(@CurrentUser UserPrincipal currentUser, @RequestParam("employee_id") int employeeId) {
 
 		try {
-			data = allocationService.getAllocatedInfo(employeeId, month, year);
+			data = allocationService.getAllocatedInfo(employeeId);
 
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);

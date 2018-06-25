@@ -72,7 +72,7 @@ public interface AllocationService {
 	
 	//lay thong tin phan cong cua mot nhan vien
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	SupportAllocateResponse getAllocatedInfo(final long employeeId, final int month, final int year);
+	SupportAllocateResponse getAllocatedInfo(final long employeeId);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 	

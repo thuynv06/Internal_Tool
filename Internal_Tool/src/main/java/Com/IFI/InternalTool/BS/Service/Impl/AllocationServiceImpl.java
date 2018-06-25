@@ -326,13 +326,14 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public SupportAllocateResponse getAllocatedInfo(long employeeId, int month, int year) {
+	public SupportAllocateResponse getAllocatedInfo(long employeeId) {
 		SupportAllocateResponse supportAllocateResponse = new SupportAllocateResponse();
 		Employee employee = employeeDAO.getEmployeeById(employeeId);
 		supportAllocateResponse.setEmployeeId(employeeId);
 		supportAllocateResponse.setEmployeeName(employee.getFullname());
 		supportAllocateResponse.setLastAllocatedDay(allocationDAO.findMaxEndDate(employeeId));
-		supportAllocateResponse.setTotalAllocationPlan(getTotalAllocationPlanByEmployeeId(employeeId, month, year));
+		//lay theo thang nam hien tai
+		supportAllocateResponse.setTotalAllocationPlan(getTotalAllocationPlanByEmployeeId(employeeId, Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR)));
 		return supportAllocateResponse;
 	}
 	

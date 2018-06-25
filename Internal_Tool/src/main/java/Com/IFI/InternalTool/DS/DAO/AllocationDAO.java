@@ -25,7 +25,7 @@ public interface AllocationDAO {
 
 	public Allocation findById(final long allocation_id);
 
-	public Date findMaxEndDate(final long employee_id);
+	public Date findMaxEndDate(final long employee_id, final int month, final int year);
 	
 	public Date findMaxEndDateInPoint(long employee_id, final Date datePoint);
 	public Date findMinStartDateInPoint(long employee_id, final Date datePoint);

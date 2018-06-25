@@ -25,7 +25,6 @@ public interface ProjectService {
 	boolean turnOffProject(long project_id);
 
 	// lay theo id
-	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Project getProjectById(Long project_id);
 
 	// lay danh sach project theo group
@@ -45,7 +44,7 @@ public interface ProjectService {
 
 	// tim kiem danh sach nhan vien trong project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	List<Employee> getListEmployee(long project_id, int page, int pageSize);
+	List<Employee> getListEmployee(final long leaderId, long projectId, int page, int pageSize);
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsListEmployee(long project_id, int pageSize);
 	

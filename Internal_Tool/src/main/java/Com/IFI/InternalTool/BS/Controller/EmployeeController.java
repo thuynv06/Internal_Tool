@@ -184,12 +184,12 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/getListEmployeeInProject")
-	public @ResponseBody Payload getListEmployeeInProject(@RequestParam(value = "project_id") long project_id,
+	public @ResponseBody Payload getListEmployeeInProject(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "project_id") long project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Find Employees IN Project ... ... ");
 		try {
-			data = employeeService.getListEmployeeInProject(project_id, page, pageSize);
+			data = employeeService.getListEmployeeInProject(currentUser.getId().longValue(), project_id, page, pageSize);
 			Long count = employeeService.NumRecordsEmployeeInProject(project_id);
 			message.setPages(Business.getTotalsPages(count, pageSize));
 
@@ -235,7 +235,7 @@ public class EmployeeController {
 		data = " ";
 		//
 		try {
-			List<Employee> list = employeeService.getListEmployeeInProject(project_id, page, pageSize);
+			List<Employee> list = employeeService.getListEmployeeInProject(currentUser.getId().longValue(), project_id, page, pageSize);
 			if (list != null) {
 				ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<Employee>();
 				ListEmployeeInProject.setHead("ListEmployeeInProject");
@@ -342,6 +342,24 @@ public class EmployeeController {
 		} else {
 			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.SUCCESS_CODE, "Get List Employee In Project Do Not Allocated Doesn't Success ... ", false);
 		}
+
+		return message;
+	}
+	
+	@GetMapping("/getAllTypes")
+	public @ResponseBody Payload getAllTypes() {
+		logger.info("Get All Types ... ");
+		try {
+			data = employeeService.getAllTypes();
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE,	"get All Types... ", true);
+		
 
 		return message;
 	}

@@ -184,10 +184,11 @@ public class AllocationController {
 	}
 
 	@GetMapping("/getMaxEndDate")
-	public @ResponseBody Payload getMaxEndDate(@RequestParam(value = "employee_id") long employee_id) {
+	public @ResponseBody Payload getMaxEndDate(@RequestParam(value = "employee_id") long employee_id,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month) {
 		logger.info("get Allocation Allcation Plan ... ");
 		try {
-			data = allocationService.findMaxEndDate(employee_id).toLocalDate().plusDays(1);
+			data = allocationService.findMaxEndDate(employee_id, month, year);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e.getMessage());
 			message.setPayLoad("false", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

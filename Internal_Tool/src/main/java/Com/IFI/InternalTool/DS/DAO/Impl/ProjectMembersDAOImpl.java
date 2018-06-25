@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import Com.IFI.InternalTool.DS.DAO.ProjectMembersDAO;
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.Project;
 import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
@@ -179,5 +180,22 @@ public class ProjectMembersDAOImpl implements ProjectMembersDAO {
 		}
 		return success;
 	}
+	
+	
+
+	@Override
+	public List<Long> getListEmployeeIdInProject(long leaderId, long projectId, int page, int pageSize) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "select employee_id FROM ProjectMembers where project_id = :project_id and leader_id = :leader_id";
+		Query query = session.createQuery(hql);
+		query.setParameter("project_id", projectId);
+		query.setParameter("leader_id", leaderId);
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		List<Long> list = query.getResultList();
+		session.close();
+		return list;
+	}
+	
 
 }

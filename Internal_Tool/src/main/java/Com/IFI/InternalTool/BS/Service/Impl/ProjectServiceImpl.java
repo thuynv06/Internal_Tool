@@ -124,9 +124,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Employee> getListEmployee(long project_id, int page, int pageSize) {
+	public List<Employee> getListEmployee(long leaderId, long projectId, int page, int pageSize) {
 		List<Employee> listEmployee = new ArrayList<Employee>();
-		for (Long employee_id : projectDAO.getListEmployeeId(project_id, page, pageSize)) {
+		for (Long employee_id : projectMemberDAO.getListEmployeeIdInProject(leaderId, projectId, page, pageSize)) {
 			listEmployee.add(employeeServiceImpl.getEmployeeById(employee_id));
 		}
 		return listEmployee;

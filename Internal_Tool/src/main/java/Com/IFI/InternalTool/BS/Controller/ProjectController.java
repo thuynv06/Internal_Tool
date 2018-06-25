@@ -199,13 +199,13 @@ public class ProjectController {
 
 	// lya danh sach nhan vien trong project
 	@GetMapping("/getListEmployee")
-	public @ResponseBody Payload getListEmployee(@RequestParam("project_id") long project_id,
+	public @ResponseBody Payload getListEmployee(@CurrentUser UserPrincipal currentUser, @RequestParam("project_id") long project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		logger.info("Get List Employee... ");
 
 		try {
-			data = projectService.getListEmployee(project_id, page, pageSize);
+			data = projectService.getListEmployee(currentUser.getId().longValue(), project_id, page, pageSize);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -352,7 +352,7 @@ public class ProjectController {
 		logger.info("Add Member To Project... ");
 		try {
 			success = projectService.addMemberToProject(currentUser.getId(), projectMember);
-			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);			
+			data = projectService.getListEmployee(currentUser.getId().longValue(), projectMember.getProject_id(), page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -368,14 +368,14 @@ public class ProjectController {
 	}
 	
 	@DeleteMapping("/RemoveMemberOfProject")
-	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser, @RequestParam long projectMemberId,
+	public @ResponseBody Payload RemoveMemberOfProject(@CurrentUser UserPrincipal currentUser, @RequestParam long project_id, @RequestParam long projectMemberId,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 		
 		logger.info("Remove Member in Project... ");
 		try {
 			success = projectService.removeMemberOfProject(currentUser.getId(), projectMemberId);
-			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);
+			data = projectService.getListEmployee(currentUser.getId().longValue(), project_id, page, pageSize);
 			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
@@ -399,7 +399,7 @@ public class ProjectController {
 		logger.info("Add List Member To Project... ");
 		try {
 			success = projectService.addListMemberToProject(currentUser.getId(), listProjectMember);
-			data = projectService.getListEmployee(currentUser.getId(), page, pageSize);			
+			data = projectService.getListEmployee(currentUser.getId().longValue(), listProjectMember.get(0).getProject_id(), page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),

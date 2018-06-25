@@ -65,8 +65,13 @@ public class AllocationServiceImpl implements AllocationService {
 		if (roleCurrentUser >= roleEmployeeInAllocated) {
 			return false;
 		}
+
+		// get month , get year
+		int month = start_date.getMonthValue();
+		int year = start_date.getYear();
+		
 		// get maxEndDate Allocation in History
-		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id());
+		Date maxEndDate = allocationDAO.findMaxEndDate(allocation.getEmployee_id(), month, year);
 		logger.info(maxEndDate + " max end_date in history");
 
 		if (maxEndDate != null) {
@@ -76,9 +81,6 @@ public class AllocationServiceImpl implements AllocationService {
 		}
 		// check start_date with maxEndDate
 
-		// get month , get year
-		int month = start_date.getMonthValue();
-		int year = start_date.getYear();
 
 		// get distance Time between start_date vs end_date not set Weekends;
 		int distanceTime = Business.getDistanceTime(start_date, end_date);
@@ -249,8 +251,8 @@ public class AllocationServiceImpl implements AllocationService {
 	}
 
 	@Override
-	public Date findMaxEndDate(long employee_id) {
-		return allocationDAO.findMaxEndDate(employee_id);
+	public Date findMaxEndDate(long employee_id, int month, int year) {
+		return allocationDAO.findMaxEndDate(employee_id, month, year);
 	}
 
 	@Override
@@ -331,9 +333,11 @@ public class AllocationServiceImpl implements AllocationService {
 		Employee employee = employeeDAO.getEmployeeById(employeeId);
 		supportAllocateResponse.setEmployeeId(employeeId);
 		supportAllocateResponse.setEmployeeName(employee.getFullname());
-		supportAllocateResponse.setLastAllocatedDay(allocationDAO.findMaxEndDate(employeeId));
+		int month = Calendar.getInstance().get(Calendar.MONTH);
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		supportAllocateResponse.setLastAllocatedDay(allocationDAO.findMaxEndDate(employeeId, month, year));
 		//lay theo thang nam hien tai
-		supportAllocateResponse.setTotalAllocationPlan(getTotalAllocationPlanByEmployeeId(employeeId, Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR)));
+		supportAllocateResponse.setTotalAllocationPlan(getTotalAllocationPlanByEmployeeId(employeeId, month, year));
 		return supportAllocateResponse;
 	}
 	

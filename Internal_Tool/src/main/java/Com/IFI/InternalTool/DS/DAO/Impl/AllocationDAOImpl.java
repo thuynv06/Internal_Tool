@@ -10,11 +10,15 @@ import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.jayway.jsonpath.Criteria;
 
 import Com.IFI.InternalTool.DS.DAO.AllocationDAO;
 import Com.IFI.InternalTool.DS.DAO.ProjectManagerDAO;
@@ -180,11 +184,29 @@ public class AllocationDAOImpl implements AllocationDAO {
 	}
 
 	@Override
-	public Date findMaxEndDate(long employee_id) {
+	public Date findMaxEndDate(long employee_id, int month, int year) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "SELECT MAX(a.end_date) FROM Allocation a where a.employee_id = :employee_id";
+		String hql = "SELECT end_date FROM Allocation a where a.employee_id = :employee_id";
+		if (year > 0) {
+			hql += " and year = :year";
+			if (month >= 1 && month <= 12) {
+				hql += " and month = :month";
+			}
+		}else {
+			if (month >= 1 && month <= 12) {
+				hql += "and month = :month ";
+			}
+		}
+		hql += " order by date(end_date) desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
+		if (year > 0) {
+			query.setParameter("year", year);	
+		}
+		if (month >= 1 && month <= 12) {
+			query.setParameter("month", month);
+		}
+		query.setMaxResults(1);
 		if (query.uniqueResult() != null) {
 			return (Date) query.uniqueResult();
 		}
@@ -197,13 +219,13 @@ public class AllocationDAOImpl implements AllocationDAO {
 		String hql = "select a FROM Allocation a where ";
 
 		if (year > 0) {
-			hql += "a.year = :year";
+			hql += " and year = :year";
 			if (month >= 1 && month <= 12) {
-				hql += " and a.month = :month ";
+				hql += " and month = :month";
 			}
-		} else {
+		}else {
 			if (month >= 1 && month <= 12) {
-				hql += "a.month = :month ";
+				hql += "and month = :month ";
 			}
 		}
 

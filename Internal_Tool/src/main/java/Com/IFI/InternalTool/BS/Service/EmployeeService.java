@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.TypeName;
+import Com.IFI.InternalTool.DS.Model.Types;
 
 public interface EmployeeService {
 	// get list employeess and paginations
@@ -12,7 +14,6 @@ public interface EmployeeService {
 	public List<Employee> getAllEmployees( final long employee_id, final int page, final int pageSize);
 
 	// get employss by ID
-	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	public Employee getEmployeeById(final long employee_id);
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -39,7 +40,7 @@ public interface EmployeeService {
 
 	// tim kiem danh sanh nhan vien duoc phan cong vao 1 project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize);
+	List<Employee> getListEmployeeInProject(final long leaderId, long projectId, int page, int pageSize);
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	Long NumRecordsEmployeeInProject(long project_id);
 
@@ -59,5 +60,7 @@ public interface EmployeeService {
 	
 	//lấy danh sách nhân viên trong project nhưng chưa được phân công
 	List<Employee> getListEmployeeInProjectDoNotAllocated(final long currentEmployeeId, final long projectId);
-
+	
+	//lay tat ca cac loai nhan vien
+	List<Types> getAllTypes();
 }

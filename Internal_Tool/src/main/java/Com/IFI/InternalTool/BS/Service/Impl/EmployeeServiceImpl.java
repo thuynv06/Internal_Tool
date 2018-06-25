@@ -19,6 +19,8 @@ import Com.IFI.InternalTool.DS.DAO.Impl.EmployeeDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.TypeDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.DS.Model.TypeName;
+import Com.IFI.InternalTool.DS.Model.Types;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 
 @Service("EmployeeService")
@@ -58,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Boolean deleteEmployee(long employee_id) {
 		//xoa cac allocation
+		
 		List<Allocation> listAllocationOfEmployee = allocationServiceImpl.findAllocationByEmployeeID(employee_id, 1, Integer.MAX_VALUE, false);
 		boolean success = true;
 		for (Allocation allocation : listAllocationOfEmployee) {
@@ -102,15 +105,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getListEmployeeInProject(long project_id, int page, int pageSize) {
-		return projectServiceImpl.getListEmployee(project_id, page, pageSize);
+	public List<Employee> getListEmployeeInProject(long leaderId, long projectId, int page, int pageSize) {
+		return projectServiceImpl.getListEmployee(leaderId, projectId, page, pageSize);
 		//return convertList(employeeDAO.getListEmployeeInProject(project_id, page, pageSize));
 	}
 
 	@Override
 	public List<Employee> getListEmployeeNotInProject(long currentEmployeeId, long projectId, int page, int pageSize) {
 		List<Employee> listSubEmployee = employeeServiceImpl.getListSubEmployee(currentEmployeeId);
-		List<Employee> listEmployeeInProject = projectServiceImpl.getListEmployee(projectId, 1, Integer.MAX_VALUE);
+		List<Employee> listEmployeeInProject = projectServiceImpl.getListEmployee(currentEmployeeId, projectId, 1, Integer.MAX_VALUE);
 		List<Employee> listEmployeeNotInProject = new ArrayList<Employee>();
 		for (Employee employee : listSubEmployee) {
 			boolean notIn = true;
@@ -173,7 +176,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getListEmployeeInProjectDoNotAllocated(long currentEmployeeId, long projectId) {
-		List<Employee>  listEmployeeInProject = getListEmployeeInProject(projectId, 1, Integer.MAX_VALUE);
+		List<Employee>  listEmployeeInProject = getListEmployeeInProject(currentEmployeeId, projectId, 1, Integer.MAX_VALUE);
 		List<Employee> listEmployeeInProjectDoNotAllocated = new ArrayList<Employee>();
 		for (Employee employee : listEmployeeInProject) {
 			if (allocationServiceImpl.findAllocationByEmpIdProId(employee.getEmployee_id().longValue(), projectId).size() == 0) {
@@ -181,6 +184,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		return listEmployeeInProjectDoNotAllocated;
+	}
+
+	@Override
+	public List<Types> getAllTypes() {
+		return TypesDAO.getAllTypes();
 	}
 
 }

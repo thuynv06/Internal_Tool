@@ -2,6 +2,7 @@ package Com.IFI.InternalTool.DS.DAO;
 
 import java.util.List;
 
+import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.ProjectMembers;
 
 public interface ProjectMembersDAO {
@@ -29,4 +30,6 @@ public interface ProjectMembersDAO {
 	//update total allocation plan
 	boolean updateTotalAllocationPlan(final ProjectMembers projectMember);
 	
+	// lay danh sach nhan vien trong mot project
+	List<Long> getListEmployeeIdInProject(long leaderId, long projectId, int page, int pageSize);
 }

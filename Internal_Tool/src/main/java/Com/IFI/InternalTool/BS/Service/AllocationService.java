@@ -80,5 +80,5 @@ public interface AllocationService {
 			final int pageSize);
 	Long NumRecordssearchAllocation(final int year, final int month, final long project_id, final long employee_id);
 	
-	public Date findMaxEndDate(final long employee_id);
+	public Date findMaxEndDate(final long employee_id, final int month, final int year);
 }

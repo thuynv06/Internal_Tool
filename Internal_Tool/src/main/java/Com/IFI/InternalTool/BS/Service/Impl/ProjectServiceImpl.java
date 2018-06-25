@@ -53,6 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
 		//tu dong them manager vao bang
 		ProjectMembers projectMembers = new ProjectMembers();
 		projectMembers.setEmployee_id(managerId);
+		projectMembers.setLeader_id(managerId);
 		//da co ham get priority ben employee 
 		//can sua lai
 		projectMembers.setPriority(employeeServiceImpl.getEmployeeById(managerId).getRole_id());
@@ -62,11 +63,18 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public boolean deleteProject(long project_id) {
+	public boolean turnOffProject(long project_id) {
 		//co ham dem so allocation, can sua lai
 		//neu project co status la off hoac chua co allocation thi cho phep xoa
-		if (!projectDAO.getProjectById(project_id).isStatus() || allocationServiceImpl.findAllocationByProjectID(project_id, 1, 1, false).size() == 0) {
-			return projectDAO.deleteProject(project_id);
+		/*if (!projectDAO.getProjectById(project_id).isStatus() || allocationServiceImpl.findAllocationByProjectID(project_id, 1, 1, false).size() == 0) {
+			return projectDAO.turnOffProject(project_id);
+		}else {
+			return false;
+		}*/
+		Project project = projectDAO.getProjectById(project_id);
+		project.setStatus(false);
+		if (projectDAO.updateProject(project)) {
+			return true;
 		}else {
 			return false;
 		}
@@ -227,6 +235,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public Boolean addListMemberToProject(long currentEmployeeId, List<ProjectMembers> listProjectMember) {
 		boolean success = true;
 		for (ProjectMembers projectMembers : listProjectMember) {
+			//neu da co trong du an roi thi khong them vao lan nua
+			if (projectMemberDAO.isMembersOfProject(projectMembers.getEmployee_id(), projectMembers.getProject_id())) {
+				continue;
+			}
+			// neu them mot thanh vien khong thanh cong thi tra ve false
 			if (!addMemberToProject(currentEmployeeId, projectMembers)) {
 				success = false;
 			}

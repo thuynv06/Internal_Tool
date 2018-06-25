@@ -24,7 +24,9 @@ import Com.IFI.InternalTool.DS.DAO.Impl.ProjectManagerDAOImpl;
 import Com.IFI.InternalTool.DS.DAO.Impl.ProjectMembersDAOImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.DS.Model.Employee;
 import Com.IFI.InternalTool.DS.Model.ProjectMembers;
+import Com.IFI.InternalTool.Payloads.SupportAllocateResponse;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 import Com.IFI.InternalTool.Utils.Business;
 
@@ -297,11 +299,23 @@ public class AllocationServiceImpl implements AllocationService {
 	public Double getTotalAllocationPlanByEmployeeId(long employeeId, int month, int year) {
 		Double total = 0.0;
 		// tim kiem list allocation theo employee
-		List<Allocation> listDuplicateAllocation = findAllocationByEmployeeID(employeeId, 1, Integer.MAX_VALUE, false);
-		for (Allocation allocation : listDuplicateAllocation) {
-			if (allocation.getMonth() == month && allocation.getYear() == year) {
+		List<Allocation> listAllocation = findAllocationByEmployeeID(employeeId, 1, Integer.MAX_VALUE, false);
+		for (Allocation allocation : listAllocation) {
+			//tinh toan bo allocaion
+			if (month <= 0 && year <= 0) {
 				total += allocation.getAllocation_plan();
-			}
+				continue;
+			}else if (month <= 0 && year > 0) {		//tinh theo nam
+				if (allocation.getYear() == year) {
+					total += allocation.getAllocation_plan();
+				}
+				continue;
+			}else if (month > 0 && year > 0) {		//tinh theo ca nam va thang
+				if (allocation.getMonth() == month && allocation.getYear() == year) {
+					total += allocation.getAllocation_plan();
+				}
+				continue;
+			}			
 		}
 		return total;
 	}
@@ -309,6 +323,17 @@ public class AllocationServiceImpl implements AllocationService {
 	@Override
 	public List<Allocation> findAllocationByEmpIdProId(long employeeId, long projectId) {
 		return allocationDAO.findAllocationByEmpIdProId(employeeId, projectId);
+	}
+
+	@Override
+	public SupportAllocateResponse getAllocatedInfo(long employeeId, int month, int year) {
+		SupportAllocateResponse supportAllocateResponse = new SupportAllocateResponse();
+		Employee employee = employeeDAO.getEmployeeById(employeeId);
+		supportAllocateResponse.setEmployeeId(employeeId);
+		supportAllocateResponse.setEmployeeName(employee.getFullname());
+		supportAllocateResponse.setLastAllocatedDay(allocationDAO.findMaxEndDate(employeeId));
+		supportAllocateResponse.setTotalAllocationPlan(getTotalAllocationPlanByEmployeeId(employeeId, month, year));
+		return supportAllocateResponse;
 	}
 	
 	

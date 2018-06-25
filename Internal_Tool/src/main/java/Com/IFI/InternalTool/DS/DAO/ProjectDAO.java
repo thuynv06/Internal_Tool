@@ -15,7 +15,7 @@ public interface ProjectDAO {
 	boolean saveProject(Project project);
 
 	// xoa project
-	boolean deleteProject(long project_id);
+//	boolean turnOffProject(long project_id);
 
 	// tim kiem theo id
 	Project getProjectById(long project_id);

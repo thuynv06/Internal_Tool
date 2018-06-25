@@ -31,7 +31,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getAllProject() {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project";
+		String hql = "FROM Project where status = 1";
 		Query query = session.createQuery(hql);
 		List<Project> list = query.list();
 		session.close();
@@ -41,7 +41,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getAllProjects(int page, int pageSize, boolean isDESC) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project ORDER BY project_id ";
+		String hql = "FROM Project where status = 1 ORDER BY project_id ";
 		if (isDESC) {
 			hql += "DESC";
 		}else {
@@ -70,8 +70,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 		return success;
 	}
 
-	@Override
-	public boolean deleteProject(long project_id) {
+/*	@Override
+	public boolean turnOffProject(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 		Transaction tx = null;
 		tx = session.beginTransaction();		
@@ -88,12 +88,12 @@ public class ProjectDAOImpl implements ProjectDAO {
 		} else {
 			return false;
 		}
-	}
+	}*/
 
 	@Override
 	public Project getProjectById(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where project_id=:project_id";
+		String hql = "FROM Project where status = 1 and project_id=:project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		Project pro = (Project) query.uniqueResult();
@@ -125,7 +125,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectsOfGroup(String group_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where group_id = :group_id order by project_id desc";
+		String hql = "FROM Project where status = 1 and group_id = :group_id order by project_id desc";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
 		query.setFirstResult((page - 1) * pageSize);
@@ -138,7 +138,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectsOfGroup(String group_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) FROM Project where group_id = :group_id";
+		String hql = "select count(*) FROM Project where status = 1 and group_id = :group_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("group_id", group_id);
 		Long count = (Long) query.uniqueResult();
@@ -149,7 +149,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> findProjectNameLike(String projectName, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where name Like :projectName";
+		String hql = "FROM Project where status = 1 and name Like :projectName";
 		Query query = session.createQuery(hql);
 		query.setParameter("projectName", "%" + projectName + "%");
 		query.setFirstResult((page - 1) * pageSize);
@@ -162,7 +162,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectNameLike(String projectName) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) FROM Project where name Like :projectName";
+		String hql = "select count(*) FROM Project where status = 1 and name Like :projectName";
 		Query query = session.createQuery(hql);
 		query.setParameter("projectName", "%" + projectName + "%");
 		Long count = (Long) query.uniqueResult();
@@ -173,7 +173,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long getBigestManagerId(long project_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select manager_id FROM Project where project_id = :project_id";
+		String hql = "select manager_id FROM Project where status = 1 and project_id = :project_id";
 		Query query = session.createQuery(hql);
 		query.setParameter("project_id", project_id);
 		Long result = (Long) query.uniqueResult();
@@ -256,7 +256,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectByMonthYear(int month, int year, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "FROM Project where year = :year";
+		String hql = "FROM Project where status = 1 and year = :year";
 		if (month >= 1 && month <= 12) {
 			hql += " and month = :month";
 		}
@@ -275,7 +275,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectByMonthYear(int month, int year) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) FROM Project where year = :year";
+		String hql = "select count(*) FROM Project where status = 1 and year = :year";
 		if (month >= 1 && month <= 12) {
 			hql += " and month = :month";
 		}
@@ -292,7 +292,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectAllocatedIn(long employee_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "from Project where project_id in (select distinct project_id from ProjectMembers where employee_id = :employee_id)";
+		String hql = "from Project where status = 1 and project_id in (select distinct project_id from ProjectMembers where employee_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);
@@ -306,7 +306,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectAllocatedIn(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "Select Count(*) from Project where project_id in (select distinct project_id from ProjectMembers where employee_id = :employee_id)";
+		String hql = "Select Count(*) from Project where status = 1 and project_id in (select distinct project_id from ProjectMembers where employee_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		Long count = (Long) query.uniqueResult();
@@ -317,7 +317,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "from Project where project_id in (select distinct project_id from ProjectMembers where leader_id = :employee_id)";
+		String hql = "from Project where status = 1 and project_id in (select distinct project_id from ProjectMembers where leader_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		query.setFirstResult((page - 1) * pageSize);
@@ -330,7 +330,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public Long NumerRecordsProjectAllocateTo(long employee_id) {
 		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
-		String hql = "select count(*) from Project where project_id in (select project_id from ProjectMembers where leader_id = :employee_id)";
+		String hql = "select count(*) from Project where status = 1 and project_id in (select project_id from ProjectMembers where leader_id = :employee_id)";
 		Query query = session.createQuery(hql);
 		query.setParameter("employee_id", employee_id);
 		Long count = (Long) query.uniqueResult();

@@ -22,7 +22,7 @@ public interface ProjectService {
 
 	// xoa project
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	boolean deleteProject(long project_id);
+	boolean turnOffProject(long project_id);
 
 	// lay theo id
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")

@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import Com.IFI.InternalTool.DS.Model.Allocation;
 import Com.IFI.InternalTool.DS.Model.AllocationDetail;
+import Com.IFI.InternalTool.Payloads.SupportAllocateResponse;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
 
@@ -68,6 +69,10 @@ public interface AllocationService {
 	//tim kiem theo project id va employee id
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	List<Allocation> findAllocationByEmpIdProId(final long employeeId, final long projectId);
+	
+	//lay thong tin phan cong cua mot nhan vien
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	SupportAllocateResponse getAllocatedInfo(final long employeeId, final int month, final int year);
 
 	public Long NumRecordsllocationFromDateToDate(Date fromDate, Date toDate);
 	

@@ -139,7 +139,7 @@ public class ProjectController {
 		logger.info("Delete Project ... ");
 
 		try {
-			success = projectService.deleteProject(projectId);
+			success = projectService.turnOffProject(projectId);
 			data = projectService.getAllProjects(page, pageSize, false);
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);

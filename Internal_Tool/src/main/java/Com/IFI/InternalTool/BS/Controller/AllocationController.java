@@ -445,5 +445,24 @@ public class AllocationController {
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Total Allocation Plan By EmployeeId Successfull", true);
 		return message;
 	}
+	
+	// getAllocatedInfo
+	@GetMapping(("/getAllocatedInfo"))
+	public @ResponseBody Payload getAllocatedInfo(@CurrentUser UserPrincipal currentUser, @RequestParam("employee_id") int employeeId,
+			@RequestParam(value = "year") int year,	@RequestParam("month") int month) {
+
+		try {
+			data = allocationService.getAllocatedInfo(employeeId, month, year);
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocated Info Successfull", true);
+		return message;
+	}
 
 }

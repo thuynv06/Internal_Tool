@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.DS.DAO.Impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -336,6 +337,20 @@ public class ProjectDAOImpl implements ProjectDAO {
 		Long count = (Long) query.uniqueResult();
 		session.close();
 		return count;
+	}
+
+	@Override
+	public List<Project> searchMultipleValue(String groupId, String projectName, Date startDate, Date endDate) {
+		Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
+		String hql = "FROM Project where status = 1 and group_id = :group_id and name Like :project_name and start_date >= :start_date and (end_date <= :end_date or end_date = null)";
+		Query query = session.createQuery(hql);
+		query.setParameter("group_id", groupId);
+		query.setParameter("project_name", "%" + projectName + "%");
+		query.setParameter("start_date", startDate);
+		query.setParameter("end_date", endDate);
+		List<Project> list = query.getResultList();
+		session.close();
+		return list;
 	}
 
 }

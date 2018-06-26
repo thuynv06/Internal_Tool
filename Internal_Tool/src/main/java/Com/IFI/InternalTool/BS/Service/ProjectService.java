@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.BS.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,7 +58,7 @@ public interface ProjectService {
 	Boolean addMemberToProject(final long currentEmployeeId, final ProjectMembers projectMember);
 	// them nhieu nhan vien vao project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
-	Boolean addListMemberToProject(final long currentEmployeeId, final List<ProjectMembers> listProjectMember);
+	Boolean addListMemberToProject(final long currentEmployeeId, final long projectId, final List<Long> listEmployeeId);
 	
 	//xoa nhan vien khoi project
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
@@ -84,6 +85,11 @@ public interface ProjectService {
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
 	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
 	int NumerRecordsProjectAllocateTo(long employee_id, int pageSize);
+	
+	//tim kiem nhieu tieu chi
+	@PreAuthorize("hasRole('ROLE_LEADER_A') OR hasRole('ROLE_LEADER_B') OR hasRole('ROLE_LEADER_C') OR hasRole('ROLE_ADMIN')")
+	List<Project> searchMultipleValue(final String groupId, final String projectName, final Date startDate, final Date endDate);
+		
 
 	List<ProjectManager> getProjectManagerByEmp(long employee_id, long project_id);
 

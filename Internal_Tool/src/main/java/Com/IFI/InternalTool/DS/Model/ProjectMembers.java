@@ -43,6 +43,14 @@ public class ProjectMembers {
 		this.leader_id = leader_id;
 		this.total_allocation_plan = total_allocation_plan;
 	}
+	
+	public ProjectMembers(long employee_id, long project_id, int priority, long leader_id, double total_allocation_plan) {
+		this.employee_id = employee_id;
+		this.project_id = project_id;
+		this.priority = priority;
+		this.leader_id = leader_id;
+		this.total_allocation_plan = total_allocation_plan;
+	}
 
 	public long getLeader_id() {
 		return leader_id;

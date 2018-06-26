@@ -2,6 +2,7 @@ package Com.IFI.InternalTool.BS.Service.Impl;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -232,19 +233,27 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Boolean addListMemberToProject(long currentEmployeeId, List<ProjectMembers> listProjectMember) {
+	public Boolean addListMemberToProject(long currentEmployeeId, long projectId, List<Long> listEmployeeId) {
 		boolean success = true;
-		for (ProjectMembers projectMembers : listProjectMember) {
+		for (Long employeeId : listEmployeeId) {
 			//neu da co trong du an roi thi khong them vao lan nua
-			if (projectMemberDAO.isMembersOfProject(projectMembers.getEmployee_id(), projectMembers.getProject_id())) {
+			ProjectMembers projectMembers = projectMemberDAO.getProjectMemberByProIdAndEmpId(projectId, employeeId);
+			if (projectMembers != null) {
 				continue;
-			}
-			// neu them mot thanh vien khong thanh cong thi tra ve false
-			if (!addMemberToProject(currentEmployeeId, projectMembers)) {
-				success = false;
-			}
+			}else {
+				projectMembers = new ProjectMembers(employeeId, projectId, employeeServiceImpl.getEmployeeById(employeeId).getRole_id(), currentEmployeeId, 0.0);
+				// neu them mot thanh vien khong thanh cong thi tra ve false				
+				if (!addMemberToProject(currentEmployeeId, projectMembers)) {
+					success = false;
+				}
+			}			
 		}
 		return success;
+	}
+
+	@Override
+	public List<Project> searchMultipleValue(String groupId, String projectName, Date startDate, Date endDate) {
+		return projectDAO.searchMultipleValue(groupId, projectName, startDate, endDate);
 	}
 
 }

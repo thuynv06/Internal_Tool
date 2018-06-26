@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.DS.DAO;
 
+import java.sql.Date;
 import java.util.List;
 
 import Com.IFI.InternalTool.DS.Model.Project;
@@ -59,5 +60,8 @@ public interface ProjectDAO {
 	// lay cac project ma nhan vien do quan ly
 	List<Project> getProjectAllocateTo(long employee_id, int page, int pageSize);
 	Long NumerRecordsProjectAllocateTo(long employee_id);
+	
+	//tim kiem nhieu tieu chi
+	List<Project> searchMultipleValue(final String groupId, final String projectName, final Date startDate, final Date endDate);
 	
 }

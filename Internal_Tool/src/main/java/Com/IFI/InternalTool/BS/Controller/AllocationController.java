@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Com.IFI.InternalTool.BS.Service.Impl.AllocationServiceImpl;
+import Com.IFI.InternalTool.BS.Service.Impl.EmployeeServiceImpl;
 import Com.IFI.InternalTool.DS.Model.Allocation;
+import Com.IFI.InternalTool.DS.Model.Employee;
+import Com.IFI.InternalTool.Payloads.ContentResponse;
 import Com.IFI.InternalTool.Payloads.Payload;
 import Com.IFI.InternalTool.Security.CurrentUser;
 import Com.IFI.InternalTool.Security.UserPrincipal;
@@ -35,6 +38,8 @@ public class AllocationController {
 
 	@Autowired
 	private AllocationServiceImpl allocationService;
+	@Autowired
+	EmployeeServiceImpl employeeService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AllocationController.class);
 
@@ -462,6 +467,57 @@ public class AllocationController {
 		}
 		
 		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Get Allocated Info Successfull", true);
+		return message;
+	}
+	
+	@GetMapping("/ManageAllocation")
+	public @ResponseBody Payload ManageMembersProject(@CurrentUser UserPrincipal currentUser,
+			@RequestParam(value = "project_id") long project_id,
+			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
+		logger.info("<manage Employees Project ... ");
+		data = " ";
+		//
+		try {
+			List<Employee> list = employeeService.getListEmployeeInProject(currentUser.getId().longValue(), project_id, page, pageSize);
+			if (list != null) {
+				ContentResponse<Employee> ListEmployeeInProject = new ContentResponse<Employee>();
+				ListEmployeeInProject.setHead("ListEmployeeInProject");
+				ListEmployeeInProject.setPage(page);
+				ListEmployeeInProject.setSize(pageSize);
+				ListEmployeeInProject.setContent(list);
+				//Long count = employeeService.NumRecordsEmployeeInProject(project_id);
+				Long count = (long) list.size();
+				ListEmployeeInProject.setTotalElements(count);
+				// message.setPages(Business.getTotalsPages(count, pageSize));
+				ListEmployeeInProject.setTotalPages(Business.getTotalsPages(count, pageSize));
+				data = ListEmployeeInProject;
+			}
+
+			List<Allocation> list1 = allocationService.findAllocationByProjectID(project_id, page, pageSize, true);
+			if (list != null) {
+				ContentResponse<Allocation> listAllocationInProject = new ContentResponse<Allocation>();
+				listAllocationInProject.setHead("listAllocationInProject");
+				listAllocationInProject.setPage(page);
+				listAllocationInProject.setSize(pageSize);
+				listAllocationInProject.setContent(list1);
+				//Long count1 = employeeService.NumRecordsEmployeeNotInProject(currentUser.getId(), project_id);
+				Long count1 = (long) list1.size();
+				listAllocationInProject.setTotalElements(count1);
+				listAllocationInProject.setTotalPages(Business.getTotalsPages(count1, pageSize));
+				Object data1 = "";
+				data1 = listAllocationInProject;
+				message.setData1(data1);
+			}
+
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad(data, AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "Manage Allocation Project ... ",
+				true);
 		return message;
 	}
 

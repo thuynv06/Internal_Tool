@@ -1,5 +1,6 @@
 package Com.IFI.InternalTool.BS.Controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -392,14 +393,14 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/AddListMemberToProject")
-	public @ResponseBody Payload addListMemberToProject(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody List<ProjectMembers> listProjectMember,
+	public @ResponseBody Payload addListMemberToProject(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody List<Long> listEmployeeId, @RequestParam long project_id,
 			@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int pageSize) {
 
 		logger.info("Add List Member To Project... ");
 		try {
-			success = projectService.addListMemberToProject(currentUser.getId(), listProjectMember);
-			data = projectService.getListEmployee(currentUser.getId().longValue(), listProjectMember.get(0).getProject_id(), page, pageSize);			
+			success = projectService.addListMemberToProject(currentUser.getId().longValue(), project_id, listEmployeeId);
+			data = projectService.getListEmployee(currentUser.getId().longValue(), project_id, page, pageSize);			
 		} catch (Exception e) {
 			logger.error("ERROR: Get connection error", e);
 			message.setPayLoad("FAILED", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
@@ -412,5 +413,24 @@ public class ProjectController {
 			message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "All Member had been Add To Project", true);
 		}
 		return message;
+	}
+	
+	// tim kiem theo id
+	@GetMapping("/searchMultipleValue")
+	public @ResponseBody Payload searchMultipleValue(@RequestParam("group_id") String group_id, @RequestParam("name") String name,
+			@RequestParam("start_date") Date start_date, @RequestParam("end_date") Date end_date) {
+		logger.info("search Multiple Value ... ");
+		try {
+			data = projectService.searchMultipleValue(group_id, name, start_date, end_date);
+		} catch (Exception e) {
+			logger.error("ERROR: Get connection error", e);
+			message.setPayLoad("Failed", AppConstants.STATUS_KO, AppConstants.FAILED_CODE, "ERROR: " + e.getMessage(),
+					false);
+			return message;
+		}
+		message.setPayLoad(data, AppConstants.STATUS_OK, AppConstants.SUCCESS_CODE, "search Multiple Value Successfull",
+				true);
+		return message;
+
 	}
 }
